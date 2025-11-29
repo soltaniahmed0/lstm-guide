@@ -8,6 +8,8 @@ import LSTMCodeExamples from './LSTMCodeExamples'
 import LSTMTextExamples from './LSTMTextExamples'
 import LSTMFormulas from './LSTMFormulas'
 import Quiz from './Quiz'
+import RNNPlayground from './RNNPlayground'
+import LSTMPlayground from './LSTMPlayground'
 import { quizData } from '../data/quizData'
 import './Presentation.css'
 
@@ -92,6 +94,11 @@ function Presentation() {
       quizType: 'rnn'
     },
     {
+      id: 'rnn-playground',
+      title: '🧪 RNN Playground',
+      component: 'rnn-playground'
+    },
+    {
       id: 'rnn-vs-lstm',
       title: '7. RNN vs LSTM',
       component: 'rnn-vs-lstm',
@@ -125,6 +132,11 @@ function Presentation() {
       title: '📝 Quiz LSTM',
       component: 'quiz-lstm',
       quizType: 'lstm'
+    },
+    {
+      id: 'lstm-playground',
+      title: '🧪 LSTM Playground',
+      component: 'lstm-playground'
     },
     {
       id: 'real-examples',
@@ -287,6 +299,11 @@ function Presentation() {
           />
         )
 
+      case 'rnn-playground':
+        return (
+          <RNNPlayground presentationMode={true} />
+        )
+
       case 'rnn-vs-lstm':
         return (
           <LSTMvsRNN 
@@ -311,6 +328,11 @@ function Presentation() {
             presentationMode={true}
             onComplete={(score) => handleQuizComplete('lstm', score)}
           />
+        )
+
+      case 'lstm-playground':
+        return (
+          <LSTMPlayground presentationMode={true} />
         )
 
       case 'quiz-comparison':
