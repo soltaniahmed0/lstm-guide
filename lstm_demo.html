@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSTM Step-by-Step Calculation Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 120px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .step-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .step-info {
+            text-align: center;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .current-step {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .calculation-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            border: 3px solid #667eea;
+        }
+
+        .step-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .formula {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+
+        .calculation-detail {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+
+        .calculation-line {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #856404;
+            font-size: 1.1em;
+        }
+
+        .result-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2e7d32;
+            border: 3px solid #4caf50;
+        }
+
+        .input-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .input-box {
+            background: #e3f2fd;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #2196f3;
+            min-width: 150px;
+        }
+
+        .input-label {
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .input-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        .weights-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .math-operation {
+            font-size: 1.2em;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .intermediate-value {
+            background: #e1f5fe;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #0277bd;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .schema-container {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            overflow-x: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .schema-title {
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .lstm-schema {
+            width: 100%;
+            min-width: 1400px;
+            height: 900px;
+            position: relative;
+            background: #ffffff;
+            border: 4px solid #667eea;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+
+        .gate-box-schema {
+            position: absolute;
+            border: 4px dashed;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .forget-gate {
+            border-color: #2196f3;
+            background: rgba(33, 150, 243, 0.08);
+        }
+
+        .input-gate {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.08);
+        }
+
+        .output-gate {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.08);
+        }
+
+        .gate-label {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            font-size: 1.2em;
+            white-space: nowrap;
+        }
+
+        .forget-gate .gate-label {
+            color: #2196f3;
+        }
+
+        .input-gate .gate-label {
+            color: #f44336;
+        }
+
+        .output-gate .gate-label {
+            color: #4caf50;
+        }
+
+        .operation-box {
+            position: relative;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .sigmoid-box {
+            background: #c8e6c9;
+            border: 3px solid #4caf50;
+            color: #2e7d32;
+        }
+
+        .tanh-box {
+            background: #fff9c4;
+            border: 3px solid #fbc02d;
+            color: #f57f17;
+        }
+
+        .multiply-box {
+            background: #bbdefb;
+            border: 4px solid #2196f3;
+            color: #1565c0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        .add-box {
+            background: #ffccbc;
+            border: 4px solid #ff5722;
+            color: #bf360c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.4);
+        }
+
+        .value-box {
+            position: relative;
+            padding: 15px 20px;
+            background: #e3f2fd;
+            border: 3px solid #2196f3;
+            border-radius: 12px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+            transition: all 0.3s;
+        }
+
+        .value-box.highlight {
+            background: #fff3cd;
+            border-color: #ffc107;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.5);
+        }
+
+        .value-box.updated {
+            animation: pulse-update 0.5s;
+        }
+
+        @keyframes pulse-update {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); background: #c8e6c9; }
+            100% { transform: scale(1); }
+        }
+
+        .arrow {
+            position: absolute;
+            border: 2px solid #666;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -6px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #666;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .legend {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            width: 200px;
+        }
+
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .legend-symbol {
+            width: 40px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 LSTM Step-by-Step Calculation Demo</h1>
+        <p class="subtitle">Watch every single calculation step unfold in detail</p>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Short-Term Memory (hₜ₋₁):</label>
+                <input type="number" id="ht_prev" value="1" step="0.1">
+            </div>
+            <div class="control-group">
+                <label>Input (xₜ):</label>
+                <input type="number" id="xt" value="1" step="0.1">
+            </div>
+            <div class="control-group">
+                <label>Previous Cell State (Cₜ₋₁):</label>
+                <input type="number" id="ct_prev" value="2" step="0.1">
+            </div>
+            <button onclick="initializeCalculation()">Start Calculation</button>
+            <button onclick="resetValues()">Reset</button>
+        </div>
+
+        <div class="input-display">
+            <div class="input-box">
+                <div class="input-label">hₜ₋₁ (Previous Hidden State)</div>
+                <div class="input-value" id="display_ht_prev">1</div>
+            </div>
+            <div class="input-box">
+                <div class="input-label">xₜ (Current Input)</div>
+                <div class="input-value" id="display_xt">1</div>
+            </div>
+            <div class="input-box">
+                <div class="input-label">Cₜ₋₁ (Previous Cell State)</div>
+                <div class="input-value" id="display_ct_prev">2</div>
+            </div>
+        </div>
+
+        <div class="schema-container">
+            <div class="schema-title">📊 LSTM Cell Architecture (Live Values)</div>
+            <div class="lstm-schema" style="overflow: visible;">
+                <svg viewBox="0 0 1400 800" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+                        </marker>
+                        <filter id="softShadow">
+                            <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.1"/>
+                        </filter>
+                    </defs>
+
+                    <!-- Dashed boxes for gates -->
+                    <!-- Forget Gate (Blue) -->
+                    <rect x="240" y="60" width="320" height="240" rx="8" fill="none" stroke="#2196f3" stroke-width="3" stroke-dasharray="8 10" filter="url(#softShadow)"/>
+                    <text x="250" y="50" font-size="16" fill="#2196f3" font-weight="bold">Forget gate</text>
+
+                    <!-- Input Gate (Red) -->
+                    <rect x="600" y="60" width="320" height="320" rx="8" fill="none" stroke="#f44336" stroke-width="3" stroke-dasharray="8 10" filter="url(#softShadow)"/>
+                    <text x="610" y="50" font-size="16" fill="#f44336" font-weight="bold">Input Gate</text>
+
+                    <!-- Output Gate (Green) -->
+                    <rect x="600" y="480" width="320" height="280" rx="8" fill="none" stroke="#4caf50" stroke-width="3" stroke-dasharray="8 10" filter="url(#softShadow)"/>
+                    <text x="610" y="470" font-size="16" fill="#4caf50" font-weight="bold">Output Gate</text>
+
+                    <!-- Input Values (Left Side) -->
+                    <foreignObject x="40" y="140" width="140" height="80">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ct_prev" style="padding: 15px; font-size: 1.1em; min-width: 120px;">
+                            <div style="font-size: 0.9em; margin-bottom: 5px; color: #1976d2; font-weight: 600;">Cₜ₋₁</div>
+                            <div id="schema_ct_prev_val" style="font-size: 1.4em; font-weight: bold;">2.0000</div>
+                        </div>
+                    </foreignObject>
+                    <line x1="180" y1="180" x2="240" y2="180" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <foreignObject x="40" y="260" width="140" height="80">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ht_prev" style="padding: 15px; font-size: 1.1em; min-width: 120px;">
+                            <div style="font-size: 0.9em; margin-bottom: 5px; color: #1976d2; font-weight: 600;">hₜ₋₁</div>
+                            <div id="schema_ht_prev_val" style="font-size: 1.4em; font-weight: bold;">1.0000</div>
+                        </div>
+                    </foreignObject>
+                    <path d="M 180 300 Q 300 300, 400 200" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <foreignObject x="40" y="380" width="140" height="80">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_xt" style="padding: 15px; font-size: 1.1em; min-width: 120px;">
+                            <div style="font-size: 0.9em; margin-bottom: 5px; color: #1976d2; font-weight: 600;">Xₜ</div>
+                            <div id="schema_xt_val" style="font-size: 1.4em; font-weight: bold;">1.0000</div>
+                        </div>
+                    </foreignObject>
+                    <path d="M 180 420 Q 300 420, 400 200" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <!-- Forget Gate Components -->
+                    <rect x="360" y="140" width="80" height="45" rx="6" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                    <text x="380" y="170" font-size="14" fill="#2e7d32" font-weight="bold">Sig</text>
+                    
+                    <foreignObject x="340" y="210" width="120" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ft" style="padding: 12px; font-size: 1em; min-width: 100px;">
+                            <div style="font-size: 0.85em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">fₜ</div>
+                            <div id="schema_ft_val" style="font-size: 1.3em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Multiply f_t × C_t-1 -->
+                    <g transform="translate(580,180)">
+                        <circle r="25" fill="#bbdefb" stroke="#2196f3" stroke-width="3"/>
+                        <text x="-8" y="8" font-size="24" fill="#1565c0" font-weight="bold">×</text>
+                    </g>
+                    <path d="M 400 235 Q 480 235, 555 195" fill="none" stroke="#2196f3" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 240 180 Q 400 180, 555 180" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <foreignObject x="620" y="150" width="140" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ft_ct" style="padding: 12px; font-size: 1em; min-width: 120px;">
+                            <div style="font-size: 0.85em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">fₜ × Cₜ₋₁</div>
+                            <div id="schema_ft_ct_val" style="font-size: 1.2em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Input Gate Components -->
+                    <rect x="720" y="140" width="70" height="45" rx="6" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                    <text x="735" y="170" font-size="14" fill="#2e7d32" font-weight="bold">Sig</text>
+                    
+                    <foreignObject x="700" y="210" width="110" height="50">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_it" style="padding: 10px; font-size: 0.95em; min-width: 90px;">
+                            <div style="font-size: 0.8em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">iₜ</div>
+                            <div id="schema_it_val" style="font-size: 1.2em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <rect x="680" y="280" width="130" height="45" rx="6" fill="#fff9c4" stroke="#fbc02d" stroke-width="2"/>
+                    <text x="710" y="310" font-size="14" fill="#f57f17" font-weight="bold">tanh</text>
+                    
+                    <foreignObject x="700" y="340" width="110" height="50">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ctilde" style="padding: 10px; font-size: 0.95em; min-width: 90px;">
+                            <div style="font-size: 0.8em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">C̃ₜ</div>
+                            <div id="schema_ctilde_val" style="font-size: 1.2em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Multiply i_t × C̃_t -->
+                    <g transform="translate(980,260)">
+                        <circle r="25" fill="#ffccbc" stroke="#ff5722" stroke-width="3"/>
+                        <text x="-8" y="8" font-size="24" fill="#bf360c" font-weight="bold">×</text>
+                    </g>
+                    <path d="M 755 235 Q 850 235, 955 245" fill="none" stroke="#f44336" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 755 365 Q 850 365, 955 275" fill="none" stroke="#f44336" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <foreignObject x="1020" y="230" width="140" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_it_ctilde" style="padding: 12px; font-size: 1em; min-width: 120px;">
+                            <div style="font-size: 0.85em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">iₜ × C̃ₜ</div>
+                            <div id="schema_it_ctilde_val" style="font-size: 1.2em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Add Operation -->
+                    <g transform="translate(1200,180)">
+                        <circle r="22" fill="#ffccbc" stroke="#ff5722" stroke-width="3"/>
+                        <line x1="-12" y1="0" x2="12" y2="0" stroke="#ff5722" stroke-width="3"/>
+                        <line x1="0" y1="-12" x2="0" y2="12" stroke="#ff5722" stroke-width="3"/>
+                    </g>
+                    <path d="M 760 180 Q 950 180, 1175 180" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 1160 260 Q 1180 240, 1175 200" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <!-- C_t Output -->
+                    <foreignObject x="1240" y="150" width="130" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ct" style="padding: 15px; font-size: 1.1em; min-width: 100px; background: #fff9c4; border-color: #fbc02d; border-width: 3px;">
+                            <div style="font-size: 0.9em; margin-bottom: 5px; color: #f57f17; font-weight: 600;">Cₜ</div>
+                            <div id="schema_ct_val" style="font-size: 1.5em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Output Gate Components -->
+                    <rect x="720" y="540" width="70" height="45" rx="6" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                    <text x="735" y="570" font-size="14" fill="#2e7d32" font-weight="bold">Sig</text>
+                    
+                    <foreignObject x="700" y="610" width="110" height="50">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ot" style="padding: 10px; font-size: 0.95em; min-width: 90px;">
+                            <div style="font-size: 0.8em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">Oₜ</div>
+                            <div id="schema_ot_val" style="font-size: 1.2em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <rect x="900" y="540" width="100" height="45" rx="6" fill="#fff9c4" stroke="#fbc02d" stroke-width="2"/>
+                    <text x="920" y="570" font-size="14" fill="#f57f17" font-weight="bold">tanh</text>
+                    
+                    <foreignObject x="920" y="610" width="110" height="50">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_tanh_ct" style="padding: 10px; font-size: 0.95em; min-width: 90px;">
+                            <div style="font-size: 0.75em; margin-bottom: 3px; color: #1976d2; font-weight: 600;">tanh(Cₜ)</div>
+                            <div id="schema_tanh_ct_val" style="font-size: 1.2em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Connections to Output Gate -->
+                    <path d="M 180 300 Q 400 300, 600 580" fill="none" stroke="#4caf50" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 180 420 Q 400 420, 600 600" fill="none" stroke="#4caf50" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 1305 180 Q 1305 400, 950 540" fill="none" stroke="#4caf50" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <!-- Final Multiply -->
+                    <g transform="translate(1080,650)">
+                        <circle r="25" fill="#c8e6c9" stroke="#4caf50" stroke-width="3"/>
+                        <text x="-8" y="8" font-size="24" fill="#2e7d32" font-weight="bold">×</text>
+                    </g>
+                    <path d="M 755 635 Q 900 635, 1055 650" fill="none" stroke="#4caf50" stroke-width="2" marker-end="url(#arrow)"/>
+                    <path d="M 1030 635 Q 1050 640, 1055 650" fill="none" stroke="#4caf50" stroke-width="2" marker-end="url(#arrow)"/>
+
+                    <!-- h_t Output -->
+                    <foreignObject x="1120" y="630" width="130" height="60">
+                        <div xmlns="http://www.w3.org/1999/xhtml" class="value-box" id="schema_ht" style="padding: 15px; font-size: 1.1em; min-width: 100px; background: #c8e6c9; border-color: #4caf50; border-width: 3px;">
+                            <div style="font-size: 0.9em; margin-bottom: 5px; color: #2e7d32; font-weight: 600;">hₜ</div>
+                            <div id="schema_ht_val" style="font-size: 1.5em; font-weight: bold;">-</div>
+                        </div>
+                    </foreignObject>
+
+                    <!-- Legend -->
+                    <rect x="40" y="720" width="400" height="60" rx="8" fill="#fafafa" stroke="#ddd" stroke-width="2"/>
+                    <text x="50" y="740" font-size="13" fill="#666" font-weight="bold">Legend:</text>
+                    <rect x="50" y="750" width="50" height="25" rx="4" fill="#c8e6c9" stroke="#4caf50" stroke-width="2"/>
+                    <text x="55" y="767" font-size="11" fill="#2e7d32" font-weight="bold">Sig</text>
+                    <text x="110" y="767" font-size="12" fill="#666">= Sigmoid</text>
+                    <rect x="200" y="750" width="50" height="25" rx="4" fill="#fff9c4" stroke="#fbc02d" stroke-width="2"/>
+                    <text x="205" y="767" font-size="11" fill="#f57f17" font-weight="bold">tanh</text>
+                    <text x="260" y="767" font-size="12" fill="#666">= Tanh</text>
+                    <circle cx="320" cy="762" r="12" fill="#bbdefb" stroke="#2196f3" stroke-width="2"/>
+                    <text x="315" y="768" font-size="16" fill="#1565c0" font-weight="bold">×</text>
+                    <text x="340" y="767" font-size="12" fill="#666">= Multiply</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress" style="width: 0%">Step 0 / 0</div>
+        </div>
+
+        <div class="step-controls">
+            <button onclick="previousStep()" id="prevBtn" disabled>◀ Previous Step</button>
+            <button onclick="nextStep()" id="nextBtn">Next Step ▶</button>
+            <button onclick="autoPlay()" id="autoBtn">Auto Play</button>
+        </div>
+
+        <div id="stepContainer"></div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let steps = [];
+        let autoPlayInterval = null;
+        let calculationData = {};
+
+        // Weight matrices
+        const weights = {
+            forget: { h: 2.70, x: 1.63, bias: 1.62 },
+            input: { h: 2.00, x: 1.65, bias: 0.62 },
+            candidate: { h: 1.41, x: 0.94, bias: -0.32 },
+            output: { h: 1.50, x: 1.20, bias: 0.50 }
+        };
+
+        function sigmoid(x) {
+            return 1 / (1 + Math.exp(-x));
+        }
+
+        function tanh(x) {
+            return Math.tanh(x);
+        }
+
+        function formatNum(num, decimals = 4) {
+            return num.toFixed(decimals);
+        }
+
+        // Schema values storage
+        let schemaValues = {
+            ct_prev: 0,
+            ht_prev: 0,
+            xt: 0,
+            ft: null,
+            it: null,
+            ctilde: null,
+            ot: null,
+            ft_ct: null,
+            it_ctilde: null,
+            ct: null,
+            tanh_ct: null,
+            ht: null
+        };
+
+        function updateSchema(values) {
+            // Update input values
+            if (values.ct_prev !== undefined) {
+                document.getElementById('schema_ct_prev_val').textContent = formatNum(values.ct_prev);
+                document.getElementById('schema_ct_prev').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ct_prev').classList.remove('updated'), 500);
+            }
+            if (values.ht_prev !== undefined) {
+                document.getElementById('schema_ht_prev_val').textContent = formatNum(values.ht_prev);
+                document.getElementById('schema_ht_prev').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ht_prev').classList.remove('updated'), 500);
+            }
+            if (values.xt !== undefined) {
+                document.getElementById('schema_xt_val').textContent = formatNum(values.xt);
+                document.getElementById('schema_xt').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_xt').classList.remove('updated'), 500);
+            }
+
+            // Update forget gate
+            if (values.ft !== null && values.ft !== undefined) {
+                document.getElementById('schema_ft_val').textContent = formatNum(values.ft);
+                document.getElementById('schema_ft').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ft').classList.remove('updated'), 500);
+            }
+
+            // Update input gate
+            if (values.it !== null && values.it !== undefined) {
+                document.getElementById('schema_it_val').textContent = formatNum(values.it);
+                document.getElementById('schema_it').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_it').classList.remove('updated'), 500);
+            }
+            if (values.ctilde !== null && values.ctilde !== undefined) {
+                document.getElementById('schema_ctilde_val').textContent = formatNum(values.ctilde);
+                document.getElementById('schema_ctilde').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ctilde').classList.remove('updated'), 500);
+            }
+
+            // Update output gate
+            if (values.ot !== null && values.ot !== undefined) {
+                document.getElementById('schema_ot_val').textContent = formatNum(values.ot);
+                document.getElementById('schema_ot').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ot').classList.remove('updated'), 500);
+            }
+
+            // Update cell state calculations
+            if (values.ft_ct !== null && values.ft_ct !== undefined) {
+                document.getElementById('schema_ft_ct_val').textContent = formatNum(values.ft_ct);
+                document.getElementById('schema_ft_ct').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ft_ct').classList.remove('updated'), 500);
+            }
+            if (values.it_ctilde !== null && values.it_ctilde !== undefined) {
+                document.getElementById('schema_it_ctilde_val').textContent = formatNum(values.it_ctilde);
+                document.getElementById('schema_it_ctilde').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_it_ctilde').classList.remove('updated'), 500);
+            }
+            if (values.ct !== null && values.ct !== undefined) {
+                document.getElementById('schema_ct_val').textContent = formatNum(values.ct);
+                document.getElementById('schema_ct').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ct').classList.remove('updated'), 500);
+            }
+
+            // Update hidden state
+            if (values.tanh_ct !== null && values.tanh_ct !== undefined) {
+                document.getElementById('schema_tanh_ct_val').textContent = formatNum(values.tanh_ct);
+                document.getElementById('schema_tanh_ct').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_tanh_ct').classList.remove('updated'), 500);
+            }
+            if (values.ht !== null && values.ht !== undefined) {
+                document.getElementById('schema_ht_val').textContent = formatNum(values.ht);
+                document.getElementById('schema_ht').classList.add('updated');
+                setTimeout(() => document.getElementById('schema_ht').classList.remove('updated'), 500);
+            }
+        }
+
+        function initializeCalculation() {
+            const ht_prev = parseFloat(document.getElementById('ht_prev').value);
+            const xt = parseFloat(document.getElementById('xt').value);
+            const ct_prev = parseFloat(document.getElementById('ct_prev').value);
+
+            document.getElementById('display_ht_prev').textContent = ht_prev;
+            document.getElementById('display_xt').textContent = xt;
+            document.getElementById('display_ct_prev').textContent = ct_prev;
+
+            calculationData = { ht_prev, xt, ct_prev };
+            buildSteps();
+            currentStep = 0;
+            showStep(0);
+        }
+
+        function buildSteps() {
+            steps = [];
+            const { ht_prev, xt, ct_prev } = calculationData;
+
+            // Initial step - show inputs
+            steps.push({
+                title: "📋 Starting LSTM Calculation",
+                content: `
+                    <div class="formula">Initializing LSTM with input values</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Input Values:</strong><br>
+                            Cₜ₋₁ = ${ct_prev}<br>
+                            hₜ₋₁ = ${ht_prev}<br>
+                            Xₜ = ${xt}
+                        </div>
+                    </div>
+                `,
+                intermediate: 0,
+                schemaValues: { ct_prev, ht_prev, xt }
+            });
+
+            // FORGET GATE - Step by step
+            steps.push({
+                title: "🚪 Forget Gate - Step 1: Multiply hₜ₋₁ by weight",
+                content: `
+                    <div class="formula">fₜ = σ(Wf · [hₜ₋₁, xₜ] + bf)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying hₜ₋₁ by forget gate weight:</strong><br>
+                            Wf[h] × hₜ₋₁ = ${weights.forget.h} × ${ht_prev}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.forget.h * ht_prev)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.forget.h * ht_prev
+            });
+
+            steps.push({
+                title: "🚪 Forget Gate - Step 2: Multiply xₜ by weight",
+                content: `
+                    <div class="formula">fₜ = σ(Wf · [hₜ₋₁, xₜ] + bf)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying xₜ by forget gate weight:</strong><br>
+                            Wf[x] × xₜ = ${weights.forget.x} × ${xt}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.forget.x * xt)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.forget.x * xt
+            });
+
+            const forget_weighted = (weights.forget.h * ht_prev) + (weights.forget.x * xt) + weights.forget.bias;
+            steps.push({
+                title: "🚪 Forget Gate - Step 3: Add all terms together",
+                content: `
+                    <div class="formula">fₜ = σ(Wf · [hₜ₋₁, xₜ] + bf)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Adding all terms:</strong><br>
+                            (Wf[h] × hₜ₋₁) + (Wf[x] × xₜ) + bf
+                        </div>
+                        <div class="math-operation">
+                            = (${formatNum(weights.forget.h * ht_prev)}) + (${formatNum(weights.forget.x * xt)}) + ${weights.forget.bias}
+                        </div>
+                        <div class="math-operation">
+                            = ${formatNum(weights.forget.h * ht_prev + weights.forget.x * xt)} + ${weights.forget.bias}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(forget_weighted)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: forget_weighted
+            });
+
+            const forget_gate = sigmoid(forget_weighted);
+            const e_neg_x = Math.exp(-forget_weighted);
+            steps.push({
+                title: "🚪 Forget Gate - Step 4: Apply Sigmoid Activation",
+                content: `
+                    <div class="formula">σ(x) = 1 / (1 + e^(-x))</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Calculating e^(-x):</strong><br>
+                            e^(-${formatNum(forget_weighted)}) = ${formatNum(e_neg_x)}
+                        </div>
+                        <div class="calculation-line">
+                            <strong>Calculating denominator:</strong><br>
+                            1 + e^(-${formatNum(forget_weighted)}) = 1 + ${formatNum(e_neg_x)} = ${formatNum(1 + e_neg_x)}
+                        </div>
+                        <div class="math-operation">
+                            <strong>Final sigmoid:</strong><br>
+                            σ(${formatNum(forget_weighted)}) = 1 / ${formatNum(1 + e_neg_x)}
+                        </div>
+                        <div class="result-box">
+                            fₜ = <span class="highlight">${formatNum(forget_gate)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: forget_gate,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate }
+            });
+
+            // INPUT GATE
+            steps.push({
+                title: "📥 Input Gate - Step 1: Multiply hₜ₋₁ by weight",
+                content: `
+                    <div class="formula">iₜ = σ(Wi · [hₜ₋₁, xₜ] + bi)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying hₜ₋₁ by input gate weight:</strong><br>
+                            Wi[h] × hₜ₋₁ = ${weights.input.h} × ${ht_prev}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.input.h * ht_prev)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.input.h * ht_prev
+            });
+
+            steps.push({
+                title: "📥 Input Gate - Step 2: Multiply xₜ by weight",
+                content: `
+                    <div class="formula">iₜ = σ(Wi · [hₜ₋₁, xₜ] + bi)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying xₜ by input gate weight:</strong><br>
+                            Wi[x] × xₜ = ${weights.input.x} × ${xt}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.input.x * xt)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.input.x * xt
+            });
+
+            const input_weighted = (weights.input.h * ht_prev) + (weights.input.x * xt) + weights.input.bias;
+            steps.push({
+                title: "📥 Input Gate - Step 3: Add all terms together",
+                content: `
+                    <div class="formula">iₜ = σ(Wi · [hₜ₋₁, xₜ] + bi)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Adding all terms:</strong><br>
+                            (Wi[h] × hₜ₋₁) + (Wi[x] × xₜ) + bi
+                        </div>
+                        <div class="math-operation">
+                            = (${formatNum(weights.input.h * ht_prev)}) + (${formatNum(weights.input.x * xt)}) + ${weights.input.bias}
+                        </div>
+                        <div class="math-operation">
+                            = ${formatNum(weights.input.h * ht_prev + weights.input.x * xt)} + ${weights.input.bias}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(input_weighted)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: input_weighted
+            });
+
+            const input_gate = sigmoid(input_weighted);
+            const e_neg_x_input = Math.exp(-input_weighted);
+            steps.push({
+                title: "📥 Input Gate - Step 4: Apply Sigmoid Activation",
+                content: `
+                    <div class="formula">σ(x) = 1 / (1 + e^(-x))</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Calculating e^(-x):</strong><br>
+                            e^(-${formatNum(input_weighted)}) = ${formatNum(e_neg_x_input)}
+                        </div>
+                        <div class="calculation-line">
+                            <strong>Calculating denominator:</strong><br>
+                            1 + e^(-${formatNum(input_weighted)}) = 1 + ${formatNum(e_neg_x_input)} = ${formatNum(1 + e_neg_x_input)}
+                        </div>
+                        <div class="math-operation">
+                            <strong>Final sigmoid:</strong><br>
+                            σ(${formatNum(input_weighted)}) = 1 / ${formatNum(1 + e_neg_x_input)}
+                        </div>
+                        <div class="result-box">
+                            iₜ = <span class="highlight">${formatNum(input_gate)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: input_gate,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate }
+            });
+
+            // CANDIDATE VALUES
+            steps.push({
+                title: "🆕 Candidate Values - Step 1: Multiply hₜ₋₁ by weight",
+                content: `
+                    <div class="formula">C̃ₜ = tanh(WC · [hₜ₋₁, xₜ] + bC)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying hₜ₋₁ by candidate weight:</strong><br>
+                            WC[h] × hₜ₋₁ = ${weights.candidate.h} × ${ht_prev}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.candidate.h * ht_prev)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.candidate.h * ht_prev
+            });
+
+            steps.push({
+                title: "🆕 Candidate Values - Step 2: Multiply xₜ by weight",
+                content: `
+                    <div class="formula">C̃ₜ = tanh(WC · [hₜ₋₁, xₜ] + bC)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying xₜ by candidate weight:</strong><br>
+                            WC[x] × xₜ = ${weights.candidate.x} × ${xt}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.candidate.x * xt)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.candidate.x * xt
+            });
+
+            const candidate_weighted = (weights.candidate.h * ht_prev) + (weights.candidate.x * xt) + weights.candidate.bias;
+            steps.push({
+                title: "🆕 Candidate Values - Step 3: Add all terms together",
+                content: `
+                    <div class="formula">C̃ₜ = tanh(WC · [hₜ₋₁, xₜ] + bC)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Adding all terms:</strong><br>
+                            (WC[h] × hₜ₋₁) + (WC[x] × xₜ) + bC
+                        </div>
+                        <div class="math-operation">
+                            = (${formatNum(weights.candidate.h * ht_prev)}) + (${formatNum(weights.candidate.x * xt)}) + (${weights.candidate.bias})
+                        </div>
+                        <div class="math-operation">
+                            = ${formatNum(weights.candidate.h * ht_prev + weights.candidate.x * xt)} + (${weights.candidate.bias})
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(candidate_weighted)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: candidate_weighted
+            });
+
+            const candidate_gate = tanh(candidate_weighted);
+            steps.push({
+                title: "🆕 Candidate Values - Step 4: Apply Tanh Activation",
+                content: `
+                    <div class="formula">tanh(x) = (e^x - e^(-x)) / (e^x + e^(-x))</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Applying tanh function:</strong><br>
+                            tanh(${formatNum(candidate_weighted)})
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(candidate_gate)}</span>
+                        </div>
+                        <div class="result-box">
+                            C̃ₜ = <span class="highlight">${formatNum(candidate_gate)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: candidate_gate,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate }
+            });
+
+            // OUTPUT GATE
+            steps.push({
+                title: "📤 Output Gate - Step 1: Multiply hₜ₋₁ by weight",
+                content: `
+                    <div class="formula">oₜ = σ(Wo · [hₜ₋₁, xₜ] + bo)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying hₜ₋₁ by output gate weight:</strong><br>
+                            Wo[h] × hₜ₋₁ = ${weights.output.h} × ${ht_prev}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.output.h * ht_prev)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.output.h * ht_prev
+            });
+
+            steps.push({
+                title: "📤 Output Gate - Step 2: Multiply xₜ by weight",
+                content: `
+                    <div class="formula">oₜ = σ(Wo · [hₜ₋₁, xₜ] + bo)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying xₜ by output gate weight:</strong><br>
+                            Wo[x] × xₜ = ${weights.output.x} × ${xt}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(weights.output.x * xt)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: weights.output.x * xt
+            });
+
+            const output_weighted = (weights.output.h * ht_prev) + (weights.output.x * xt) + weights.output.bias;
+            steps.push({
+                title: "📤 Output Gate - Step 3: Add all terms together",
+                content: `
+                    <div class="formula">oₜ = σ(Wo · [hₜ₋₁, xₜ] + bo)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Adding all terms:</strong><br>
+                            (Wo[h] × hₜ₋₁) + (Wo[x] × xₜ) + bo
+                        </div>
+                        <div class="math-operation">
+                            = (${formatNum(weights.output.h * ht_prev)}) + (${formatNum(weights.output.x * xt)}) + ${weights.output.bias}
+                        </div>
+                        <div class="math-operation">
+                            = ${formatNum(weights.output.h * ht_prev + weights.output.x * xt)} + ${weights.output.bias}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(output_weighted)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: output_weighted
+            });
+
+            const output_gate = sigmoid(output_weighted);
+            const e_neg_x_output = Math.exp(-output_weighted);
+            steps.push({
+                title: "📤 Output Gate - Step 4: Apply Sigmoid Activation",
+                content: `
+                    <div class="formula">σ(x) = 1 / (1 + e^(-x))</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Calculating e^(-x):</strong><br>
+                            e^(-${formatNum(output_weighted)}) = ${formatNum(e_neg_x_output)}
+                        </div>
+                        <div class="calculation-line">
+                            <strong>Calculating denominator:</strong><br>
+                            1 + e^(-${formatNum(output_weighted)}) = 1 + ${formatNum(e_neg_x_output)} = ${formatNum(1 + e_neg_x_output)}
+                        </div>
+                        <div class="math-operation">
+                            <strong>Final sigmoid:</strong><br>
+                            σ(${formatNum(output_weighted)}) = 1 / ${formatNum(1 + e_neg_x_output)}
+                        </div>
+                        <div class="result-box">
+                            oₜ = <span class="highlight">${formatNum(output_gate)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: output_gate,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate, ot: output_gate }
+            });
+
+            // CELL STATE UPDATE
+            const cell_forget_part = forget_gate * ct_prev;
+            steps.push({
+                title: "🔄 Cell State - Step 1: Forget Previous State",
+                content: `
+                    <div class="formula">Cₜ = fₜ ⊙ Cₜ₋₁ + iₜ ⊙ C̃ₜ</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying forget gate by previous cell state:</strong><br>
+                            fₜ ⊙ Cₜ₋₁ = ${formatNum(forget_gate)} × ${ct_prev}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(cell_forget_part)}</span>
+                        </div>
+                        <div class="weights-info">
+                            This determines how much of the previous cell state we keep.
+                        </div>
+                    </div>
+                `,
+                intermediate: cell_forget_part,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate, ot: output_gate, ft_ct: cell_forget_part }
+            });
+
+            const cell_input_part = input_gate * candidate_gate;
+            steps.push({
+                title: "🔄 Cell State - Step 2: Add New Information",
+                content: `
+                    <div class="formula">Cₜ = fₜ ⊙ Cₜ₋₁ + iₜ ⊙ C̃ₜ</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying input gate by candidate values:</strong><br>
+                            iₜ ⊙ C̃ₜ = ${formatNum(input_gate)} × ${formatNum(candidate_gate)}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(cell_input_part)}</span>
+                        </div>
+                        <div class="weights-info">
+                            This determines how much new information we add to the cell state.
+                        </div>
+                    </div>
+                `,
+                intermediate: cell_input_part,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate, ot: output_gate, ft_ct: cell_forget_part, it_ctilde: cell_input_part }
+            });
+
+            const cell_state = cell_forget_part + cell_input_part;
+            steps.push({
+                title: "🔄 Cell State - Step 3: Combine Both Parts",
+                content: `
+                    <div class="formula">Cₜ = fₜ ⊙ Cₜ₋₁ + iₜ ⊙ C̃ₜ</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Adding both parts together:</strong><br>
+                            Cₜ = (fₜ ⊙ Cₜ₋₁) + (iₜ ⊙ C̃ₜ)
+                        </div>
+                        <div class="math-operation">
+                            = ${formatNum(cell_forget_part)} + ${formatNum(cell_input_part)}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(cell_state)}</span>
+                        </div>
+                        <div class="result-box">
+                            Cₜ = <span class="highlight">${formatNum(cell_state)}</span>
+                        </div>
+                    </div>
+                `,
+                intermediate: cell_state,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate, ot: output_gate, ft_ct: cell_forget_part, it_ctilde: cell_input_part, ct: cell_state }
+            });
+
+            // HIDDEN STATE UPDATE
+            const cell_tanh = tanh(cell_state);
+            steps.push({
+                title: "✨ Hidden State - Step 1: Apply Tanh to Cell State",
+                content: `
+                    <div class="formula">hₜ = oₜ ⊙ tanh(Cₜ)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Applying tanh to the new cell state:</strong><br>
+                            tanh(Cₜ) = tanh(${formatNum(cell_state)})
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(cell_tanh)}</span>
+                        </div>
+                        <div class="weights-info">
+                            This scales the cell state to values between -1 and 1.
+                        </div>
+                    </div>
+                `,
+                intermediate: cell_tanh,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate, ot: output_gate, ft_ct: cell_forget_part, it_ctilde: cell_input_part, ct: cell_state, tanh_ct: cell_tanh }
+            });
+
+            const hidden_state = output_gate * cell_tanh;
+            steps.push({
+                title: "✨ Hidden State - Step 2: Multiply by Output Gate",
+                content: `
+                    <div class="formula">hₜ = oₜ ⊙ tanh(Cₜ)</div>
+                    <div class="calculation-detail">
+                        <div class="calculation-line">
+                            <strong>Multiplying output gate by tanh(Cₜ):</strong><br>
+                            oₜ ⊙ tanh(Cₜ) = ${formatNum(output_gate)} × ${formatNum(cell_tanh)}
+                        </div>
+                        <div class="math-operation">
+                            = <span class="highlight">${formatNum(hidden_state)}</span>
+                        </div>
+                        <div class="result-box">
+                            hₜ = <span class="highlight">${formatNum(hidden_state)}</span>
+                        </div>
+                        <div class="weights-info" style="margin-top: 15px; background: #d4edda; border-left-color: #28a745;">
+                            <strong>🎉 Calculation Complete!</strong><br>
+                            The LSTM has processed the input and updated both the cell state (Cₜ) and hidden state (hₜ).
+                        </div>
+                    </div>
+                `,
+                intermediate: hidden_state,
+                schemaValues: { ct_prev, ht_prev, xt, ft: forget_gate, it: input_gate, ctilde: candidate_gate, ot: output_gate, ft_ct: cell_forget_part, it_ctilde: cell_input_part, ct: cell_state, tanh_ct: cell_tanh, ht: hidden_state }
+            });
+        }
+
+        function showStep(stepIndex) {
+            if (stepIndex < 0 || stepIndex >= steps.length) return;
+
+            currentStep = stepIndex;
+            const step = steps[stepIndex];
+
+            document.getElementById('stepContainer').innerHTML = `
+                <div class="current-step">
+                    <div class="step-title">${step.title}</div>
+                    ${step.content}
+                </div>
+            `;
+
+            // Update schema with values from this step
+            if (step.schemaValues) {
+                updateSchema(step.schemaValues);
+            }
+
+            // Update progress bar
+            const progress = ((stepIndex + 1) / steps.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            document.getElementById('progress').textContent = `Step ${stepIndex + 1} / ${steps.length}`;
+
+            // Update buttons
+            document.getElementById('prevBtn').disabled = (stepIndex === 0);
+            document.getElementById('nextBtn').disabled = (stepIndex === steps.length - 1);
+        }
+
+        function nextStep() {
+            if (currentStep < steps.length - 1) {
+                showStep(currentStep + 1);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 0) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        function autoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+                document.getElementById('autoBtn').textContent = 'Auto Play';
+                return;
+            }
+
+            document.getElementById('autoBtn').textContent = 'Stop Auto Play';
+            autoPlayInterval = setInterval(() => {
+                if (currentStep < steps.length - 1) {
+                    nextStep();
+                } else {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                    document.getElementById('autoBtn').textContent = 'Auto Play';
+                }
+            }, 3000); // 3 seconds per step
+        }
+
+        function resetValues() {
+            document.getElementById('ht_prev').value = 1;
+            document.getElementById('xt').value = 1;
+            document.getElementById('ct_prev').value = 2;
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
+            document.getElementById('stepContainer').innerHTML = '';
+            document.getElementById('progress').style.width = '0%';
+            document.getElementById('progress').textContent = 'Step 0 / 0';
+            currentStep = 0;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextStep();
+            if (e.key === 'ArrowLeft') previousStep();
+        });
+    </script>
+</body>
+</html>
