@@ -1,51 +1,278 @@
 /* Styles partagés pour tous les slides - Fond clair */
 
-/* Conteneurs de cartes */
+/* ============================================
+   STRUCTURE GLOBALE DES SLIDES
+   ============================================ */
+
+.slide {
+  min-height: calc(100vh - 200px);
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Titre principal du slide */
+.slide-title-main {
+  font-size: 2.5em;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 3px solid rgba(102, 126, 234, 0.3);
+  padding-bottom: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sous-titre */
+.subtitle {
+  font-size: 1.2em;
+  color: #64748b;
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+/* ============================================
+   CONTENEURS ET SECTIONS
+   ============================================ */
+
+.container,
+.info-panel,
+.definition-container,
+.cases-grid,
+.formulas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Sections avec espacement cohérent */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 20px;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+}
+
+/* ============================================
+   CARTES ET BOXES
+   ============================================ */
+
 .card-container,
 .definition-card,
 .case-card,
-.feature-card {
+.feature-card,
+.formula-card,
+.info-box {
   background: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   color: #1e293b;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  transition: all 0.3s ease;
 }
 
 .card-container:hover,
 .definition-card:hover,
 .case-card:hover,
-.feature-card:hover {
-  border-color: rgba(102, 126, 234, 0.3);
+.feature-card:hover,
+.formula-card:hover,
+.info-box:hover {
+  border-color: rgba(102, 126, 234, 0.4);
   box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+  transform: translateY(-2px);
 }
 
-/* Titres */
-h1, h2, h3, h4, h5, h6 {
+/* ============================================
+   HIÉRARCHIE DES TITRES
+   ============================================ */
+
+h1 {
+  font-size: 2.5em;
+  font-weight: 800;
   color: #1e293b;
+  margin-bottom: 20px;
 }
 
-/* Textes */
-p, li, span {
+h2 {
+  font-size: 2em;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+h4 {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+/* ============================================
+   TEXTES ET PARAGRAPHES
+   ============================================ */
+
+p {
   color: #475569;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  font-size: 1.05em;
 }
 
-/* Boutons */
-.btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+li {
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+strong {
   color: #1e293b;
+  font-weight: 600;
+}
+
+/* ============================================
+   FORMULES MATHÉMATIQUES
+   ============================================ */
+
+.formula-code {
+  background: #f8fafc;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 1.3em;
+  text-align: center;
+  color: #1e293b;
+  font-weight: 600;
+  overflow-x: auto;
+}
+
+.formula-code strong {
+  color: #667eea;
+  font-weight: 700;
+}
+
+/* ============================================
+   BOUTONS
+   ============================================ */
+
+.btn-primary,
+.nav-btn,
+.type-btn,
+.section-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1em;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.nav-btn:hover,
+.type-btn:hover,
+.section-btn:hover {
   box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
 }
 
-/* Bordures et accents */
+.btn-primary:active,
+.nav-btn:active,
+.type-btn:active,
+.section-btn:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   GRIDS ET LAYOUTS
+   ============================================ */
+
+.grid-2,
+.grid-3,
+.grid-4 {
+  display: grid;
+  gap: 25px;
+  margin: 20px 0;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ============================================
+   BORDRES ET ACCENTS
+   ============================================ */
+
 .border-primary {
   border-color: rgba(102, 126, 234, 0.3);
 }
 
 .accent-primary {
   color: #667eea;
+}
+
+.highlight-blue {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .slide {
+    padding: 20px 30px;
+  }
+  
+  .slide-title-main {
+    font-size: 1.8em;
+  }
+  
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
 }
 

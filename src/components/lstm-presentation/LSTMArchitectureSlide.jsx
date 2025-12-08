@@ -255,7 +255,7 @@ function LSTMArchitectureSlide() {
     valuesRef.current = resetValues
     setValues(resetValues)
 
-    document.querySelectorAll('.node, .gate-box, .activation, .operation, .candidate-gate, .cell-state-path').forEach(el => {
+    document.querySelectorAll('.node, .gate-box, .activation, .operation, .candidate-gate').forEach(el => {
       el.classList.remove('active')
     })
 
@@ -294,7 +294,6 @@ function LSTMArchitectureSlide() {
         break
       case 'forget-mult':
         document.getElementById('mult-f')?.classList.add('active')
-        document.getElementById('cell-path')?.classList.add('active')
         showConnection('conn-gate-f-to-mult')
         showConnection('conn-Cprev-to-mult-f')
         break
@@ -509,7 +508,6 @@ function LSTMArchitectureSlide() {
         break
       case 'forget-mult':
         document.getElementById('mult-f')?.classList.remove('active')
-        document.getElementById('cell-path')?.classList.remove('active')
         hideConnection('conn-gate-f-to-mult')
         hideConnection('conn-Cprev-to-mult-f')
         break
@@ -650,9 +648,6 @@ function LSTMArchitectureSlide() {
             <div style={{fontSize:'20px'}}>X<sub>t</sub></div>
             <div className="value">{values.X_t.toFixed(3)}</div>
           </div>
-
-          {/* Cell State Path */}
-          <div className="cell-state-path" id="cell-path" style={{left:'220px', top:'155px', width:'1000px'}}></div>
 
           {/* FORGET GATE */}
           <div className="gate-dashed-box" id="forget-box" style={{left:'220px', top:'350px', width:'250px', height:'280px'}}></div>
