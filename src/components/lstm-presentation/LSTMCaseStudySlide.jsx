@@ -28,7 +28,7 @@ prices = data['Price'].values.reshape(-1, 1)
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_prices = scaler.fit_transform(prices)`,
       explanation: 'Les données sont normalisées entre 0 et 1 pour améliorer la convergence du modèle et éviter les problèmes numériques.',
-      math: 'x_scaled = (x - x_min) / (x_max - x_min)',
+      math: 'x<sub>scaled</sub> = (x - x<sub>min</sub>) / (x<sub>max</sub> - x<sub>min</sub>)',
       mathExplanation: 'Normalisation Min-Max : transforme les valeurs dans l\'intervalle [0, 1]. Cela permet d\'éviter que certaines features dominent les autres et améliore la stabilité de l\'entraînement.'
     },
     {
@@ -44,7 +44,7 @@ scaled_prices = scaler.fit_transform(prices)`,
 seq_length = 60  # 60 jours de données
 X_train, y_train = create_sequences(scaled_prices, seq_length)`,
       explanation: 'Création de séquences de 60 jours pour prédire le jour suivant. Chaque séquence X contient 60 valeurs consécutives, y contient la valeur suivante.',
-      math: 'X[i] = [x_{i}, x_{i+1}, ..., x_{i+59}]\ny[i] = x_{i+60}',
+      math: 'X[i] = [x<sub>i</sub>, x<sub>i+1</sub>, ..., x<sub>i+59</sub>]\ny[i] = x<sub>i+60</sub>',
       mathExplanation: 'Pour chaque position i, on prend 60 valeurs consécutives comme entrée (X[i]) et la 61ème valeur comme sortie (y[i]). Cela crée un dataset supervisé pour l\'entraînement.'
     },
     {
@@ -60,7 +60,7 @@ X_train, y_train = create_sequences(scaled_prices, seq_length)`,
     Dense(1)
 ])`,
       explanation: 'Modèle avec 3 couches LSTM de 50 neurones chacune, avec Dropout pour éviter le surapprentissage. Chaque couche LSTM applique les formules vues précédemment.',
-      math: 'h_t^{(l)} = LSTM(h_{t-1}^{(l)}, x_t^{(l)}, C_{t-1}^{(l)})',
+      math: 'h<sub>t</sub><sup>(l)</sup> = LSTM(h<sub>t-1</sub><sup>(l)</sup>, x<sub>t</sub><sup>(l)</sup>, C<sub>t-1</sub><sup>(l)</sup>)',
       mathExplanation: 'Chaque couche LSTM applique les formules LSTM (Forget Gate, Input Gate, Cell State, Output Gate). Le Dropout désactive aléatoirement 20% des neurones pendant l\'entraînement pour réduire le surapprentissage.'
     },
     {
@@ -69,8 +69,8 @@ X_train, y_train = create_sequences(scaled_prices, seq_length)`,
       code: `model.compile(optimizer='adam', loss='mean_squared_error')
 model.fit(X_train, y_train, epochs=100, batch_size=32)`,
       explanation: 'Le modèle est entraîné avec l\'optimiseur Adam et la fonction de perte MSE. Adam adapte le taux d\'apprentissage pour chaque paramètre.',
-      math: 'Loss = (1/n) Σ(y_pred - y_true)²',
-      mathExplanation: 'Mean Squared Error : moyenne des carrés des différences entre prédictions et valeurs réelles. Adam optimise les poids (W_f, W_i, W_C, W_o) pour minimiser cette erreur via la rétropropagation.'
+      math: 'Loss = (1/n) Σ(y<sub>pred</sub> - y<sub>true</sub>)²',
+      mathExplanation: 'Mean Squared Error : moyenne des carrés des différences entre prédictions et valeurs réelles. Adam optimise les poids (W<sub>f</sub>, W<sub>i</sub>, W<sub>C</sub>, W<sub>o</sub>) pour minimiser cette erreur via la rétropropagation.'
     },
     {
       step: 5,
@@ -79,7 +79,7 @@ model.fit(X_train, y_train, epochs=100, batch_size=32)`,
 predictions = model.predict(X_test)
 predicted_prices = scaler.inverse_transform(predictions)`,
       explanation: 'Les prédictions sont faites sur les données de test, puis dénormalisées pour obtenir les prix réels en dollars.',
-      math: 'x_original = x_scaled × (x_max - x_min) + x_min',
+      math: 'x<sub>original</sub> = x<sub>scaled</sub> × (x<sub>max</sub> - x<sub>min</sub>) + x<sub>min</sub>',
       mathExplanation: 'Dénormalisation inverse : on revient aux valeurs originales des prix en multipliant par l\'amplitude et en ajoutant le minimum.'
     },
     {
@@ -91,7 +91,7 @@ mae = mean_absolute_error(y_true, predicted_prices)
 r2 = r2_score(y_true, predicted_prices)
 accuracy = (1 - mae/mean_price) * 100  # ~96%`,
       explanation: 'Calcul de la précision : 96% signifie que l\'erreur moyenne est de 4% par rapport au prix moyen. R² mesure la qualité de l\'ajustement.',
-      math: 'Accuracy = (1 - MAE / mean_price) × 100%\nMAE = (1/n) Σ|y_pred - y_true|',
+      math: 'Accuracy = (1 - MAE / mean_price) × 100%\nMAE = (1/n) Σ|y<sub>pred</sub> - y<sub>true</sub>|',
       mathExplanation: 'MAE (Mean Absolute Error) mesure l\'erreur moyenne absolue. L\'accuracy est calculée comme le complément de l\'erreur relative. R² mesure la proportion de variance expliquée (proche de 1 = excellent).'
     }
   ]
@@ -144,9 +144,9 @@ accuracy = (1 - mae/mean_price) * 100  # ~96%`,
           <div className="math-section">
             <h3>📐 Formules Mathématiques :</h3>
             <div className="math-box">
-              <p className="math-formula"><strong>{currentStepData.math}</strong></p>
+              <p className="math-formula" dangerouslySetInnerHTML={{ __html: `<strong>${currentStepData.math}</strong>` }}></p>
               {currentStepData.mathExplanation && (
-                <p className="math-explanation">{currentStepData.mathExplanation}</p>
+                <p className="math-explanation" dangerouslySetInnerHTML={{ __html: currentStepData.mathExplanation }}></p>
               )}
             </div>
           </div>

@@ -22,26 +22,30 @@
   border-radius: 30px;
   padding: 60px;
   position: relative;
-  min-height: 600px;
+  min-height: 650px;
   margin: 30px 0;
   box-shadow: inset 0 0 30px rgba(59, 130, 246, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .schema-wrapper {
   position: relative;
   width: 1000px;
   height: 100%;
-  min-height: 380px;
+  min-height: 650px;
   margin: 0 auto;
+  flex: 1;
 }
 
 .schema-label {
   position: absolute;
   left: 50px;
-  top: 30px;
+  top: 20px;
   font-weight: bold;
   color: #1e40af;
-  font-size: 18px;
+  font-size: 20px;
+  letter-spacing: 1px;
 }
 
 /* State Blocks */
@@ -50,8 +54,8 @@
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  width: 140px;
-  height: 90px;
+  width: 150px;
+  height: 95px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.4s;
   z-index: 10;
@@ -73,32 +77,67 @@
   border: 4px solid #7c3aed;
 }
 
+.state-block-weight {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border: 4px solid #d97706;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+}
+
+/* Left column - vertical stack */
 #input-block-h {
   left: 80px;
-  top: 100px;
+  top: 80px;
+}
+
+#weight-block-hh {
+  left: 80px;
+  top: 190px;
 }
 
 #input-block-x {
   left: 80px;
-  top: 220px;
+  top: 300px;
 }
 
+#weight-block-xh {
+  left: 80px;
+  top: 410px;
+}
+
+/* Right column - hₜ and Wₕᵧ on same line */
 #output-block-h {
-  left: 820px;
-  top: 100px;
+  left: 700px;
+  top: 80px;
 }
 
+#weight-block-hy {
+  left: 870px;
+  top: 80px;
+}
+
+/* Multiplication for hₜ * Wₕᵧ */
+#mult-y {
+  left: 785px;
+  top: 200px;
+}
+
+/* Yₜ under multiplication */
 #output-block-y {
-  left: 820px;
-  top: 220px;
+  left: 785px;
+  top: 300px;
+}
+
+/* Adjust schema wrapper width if needed */
+.schema-wrapper {
+  width: 1000px;
 }
 
 .state-item {
-  padding: 20px;
+  padding: 18px;
   text-align: center;
   color: #fff;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -118,27 +157,33 @@
   color: #000;
 }
 
-.value {
-  font-size: 18px;
+.state-item.weight {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1e293b;
   font-weight: 800;
-  margin-top: 5px;
-  padding: 3px 8px;
-  background: rgba(0, 0, 0, 0.15);
+}
+
+.value {
+  font-size: 19px;
+  font-weight: 800;
+  margin-top: 6px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   display: inline-block;
-  min-width: 70px;
+  min-width: 75px;
 }
 
 /* Operations */
 .operation {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
   color: #fff;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
@@ -172,26 +217,27 @@
   content: '+';
 }
 
+/* Multiplication operations - positioned between inputs/weights and add */
 #mult-h {
   left: 320px;
-  top: 100px;
+  top: 135px;
 }
 
 #mult-x {
   left: 320px;
-  top: 210px;
+  top: 355px;
 }
 
 #add {
-  left: 480px;
-  top: 155px;
+  left: 500px;
+  top: 245px;
 }
 
 /* Activation */
 .activation {
   position: absolute;
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -203,7 +249,7 @@
   transition: all 0.4s;
   z-index: 10;
   background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .activation::before {
@@ -219,37 +265,9 @@
 
 #tanh {
   left: 640px;
-  top: 145px;
+  top: 235px;
 }
 
-/* Weight Labels */
-.weight-label {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #1e40af;
-  border: 2px solid #3b82f6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 20;
-}
-
-#weight-hh {
-  left: 250px;
-  top: 80px;
-}
-
-#weight-xh {
-  left: 250px;
-  top: 190px;
-}
-
-#weight-hy {
-  left: 760px;
-  top: 200px;
-}
 
 /* SVG Connections */
 svg {
@@ -264,7 +282,7 @@ svg {
 }
 
 .flow-line {
-  stroke-width: 5;
+  stroke-width: 6;
   fill: none;
   marker-end: url(#arrowhead);
   opacity: 0;
@@ -360,6 +378,49 @@ svg {
   font-family: 'Courier New', monospace;
 }
 
+/* Formules Panel - Positioned under Wₓₕ */
+.formulas-panel {
+  position: absolute;
+  left: 80px;
+  top: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 600px;
+  z-index: 5;
+}
+
+.formula-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  background: rgba(239, 246, 255, 0.95);
+  border-radius: 12px;
+  border: 2px solid rgba(59, 130, 246, 0.2);
+}
+
+.formula-label {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e40af;
+  font-family: 'Courier New', monospace;
+  min-width: 45px;
+}
+
+.formula-content {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e3a8a;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
 @media (max-width: 1200px) {
   .schema-wrapper {
     width: 100%;
@@ -368,6 +429,16 @@ svg {
   
   .rnn-cell-container {
     padding: 30px;
+  }
+
+  .formulas-panel {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .formula-item {
+    width: 100%;
+    justify-content: center;
   }
 }
 

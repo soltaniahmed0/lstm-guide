@@ -607,14 +607,12 @@ function RNNArchitectureSlide() {
           <div className="problems-grid">
             <div className="problem-card vanishing">
               <h5>🔻 Le Vanishing Gradient</h5>
-              <p className="problem-subtitle">(Gradient qui disparaît ≈ 0.0001)</p>
               <p>Il se produit lorsque les gradients deviennent très petits pendant la rétro-propagation, presque nuls.</p>
               <p><strong>→</strong> Le réseau n'apprend plus, car les poids ne se mettent presque plus à jour.</p>
             </div>
             
             <div className="problem-card exploding">
               <h5>🚀 L'Exploding Gradient</h5>
-              <p className="problem-subtitle">(Gradient qui explose)</p>
               <p>Il se produit lorsque les gradients deviennent très grands pendant la rétro-propagation.</p>
               <p><strong>→</strong> Les mises à jour des poids deviennent instables, le modèle diverge, et la perte explose.</p>
             </div>
@@ -692,7 +690,7 @@ function RNNArchitectureSlide() {
               
               {/* Exploding Gradient Schema */}
               <div className="gradient-schema exploding">
-                <h4>🚀 L'Exploding Gradient<br/><span>(Gradient qui explose)</span></h4>
+                <h4>🚀 L'Exploding Gradient</h4>
                 <div className="icon">📈</div>
                 
                 <div className="rnn-unrolled">

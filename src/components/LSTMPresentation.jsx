@@ -13,7 +13,6 @@ import RNNFormulasSlide from './lstm-presentation/RNNFormulasSlide'
 import RNNVanishingSlide from './lstm-presentation/RNNVanishingSlide'
 import RNNExplodingSlide from './lstm-presentation/RNNExplodingSlide'
 import LSTMDefinitionSlide from './lstm-presentation/LSTMDefinitionSlide'
-import LSTMFormulasSlide from './lstm-presentation/LSTMFormulasSlide'
 import LSTMArchitectureSlide from './lstm-presentation/LSTMArchitectureSlide'
 import LSTMGatesSlide from './lstm-presentation/LSTMGatesSlide'
 import LSTMCaseStudySlide from './lstm-presentation/LSTMCaseStudySlide'
@@ -46,9 +45,8 @@ function LSTMPresentation() {
     { id: 'rnn-exploding', component: RNNExplodingSlide, title: 'RNN - Problème: Exploding Gradient' },
     // 5. LSTM Section
     { id: 'lstm-definition', component: LSTMDefinitionSlide, title: 'LSTM - Définition' },
-    { id: 'lstm-formulas', component: LSTMFormulasSlide, title: 'LSTM - Formules' },
-    { id: 'lstm-architecture', component: LSTMArchitectureSlide, title: 'LSTM - Architecture' },
     { id: 'lstm-gates', component: LSTMGatesSlide, title: 'LSTM - Gates (5 Neurones)' },
+    { id: 'lstm-architecture', component: LSTMArchitectureSlide, title: 'LSTM - Architecture' },
     // 6. Étude de Cas
     { id: 'case-study', component: LSTMCaseStudySlide, title: 'Étude de Cas - Prédiction Prix de l\'Or' },
     // 7. Conclusion

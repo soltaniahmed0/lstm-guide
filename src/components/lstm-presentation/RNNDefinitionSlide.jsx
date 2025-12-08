@@ -5,7 +5,6 @@ function RNNDefinitionSlide() {
   return (
     <div className="slide rnn-definition-slide">
       <h1 className="slide-title-main">RNN : Définition</h1>
-      <p className="subtitle">Réseau de Neurones Récurrent - Introduction aux concepts fondamentaux</p>
       
       <div className="definition-container">
         {/* Section 1: Définition principale */}
@@ -24,34 +23,7 @@ function RNNDefinitionSlide() {
           </div>
         </section>
 
-        {/* Section 2: Caractéristiques clés */}
-        <section className="section">
-          <h3 className="section-title">✨ Caractéristiques Clés</h3>
-          <div className="characteristics-grid grid-4">
-            <div className="characteristic-item feature-card">
-              <div className="char-icon">🧠</div>
-              <h4>Mémoire</h4>
-              <p>Les RNN ont une mémoire interne qui leur permet de se souvenir des informations précédentes</p>
-            </div>
-            <div className="characteristic-item feature-card">
-              <div className="char-icon">🔄</div>
-              <h4>Récurrence</h4>
-              <p>Les connexions forment des cycles, permettant à l'information de persister dans le temps</p>
-            </div>
-            <div className="characteristic-item feature-card">
-              <div className="char-icon">⏱️</div>
-              <h4>Séquentiel</h4>
-              <p>Traite les données étape par étape, en tenant compte du contexte précédent</p>
-            </div>
-            <div className="characteristic-item feature-card">
-              <div className="char-icon">⚖️</div>
-              <h4>Paramètres Partagés</h4>
-              <p>Les mêmes poids sont utilisés à chaque étape temporelle (efficacité computationnelle)</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 3: Analogie */}
+        {/* Section 2: Analogie */}
         <section className="section">
           <div className="analogy info-box">
             <h3 className="section-title">💡 Analogie</h3>

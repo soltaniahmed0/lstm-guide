@@ -64,17 +64,8 @@ function RNNVectorSlide() {
   return (
     <div className="slide rnn-vector-slide">
       <h1 className="slide-title-main">📊 RNN avec Vecteurs et Matrices</h1>
-      <p className="subtitle">Visualisation avec x représenté comme un vecteur (M=3) et les opérations matricielles explicites</p>
 
       <div className="container">
-        <div className="info-panel">
-          <p className="vector-intro">
-            Voici le même schéma mais avec x représenté comme un <strong>vecteur</strong> (M=3) et les opérations matricielles explicites
-          </p>
-          <p className="vector-hint">
-            💡 Utilisez les flèches <strong>→</strong> ou <strong>↓</strong> du clavier pour naviguer étape par étape
-          </p>
-        </div>
 
         <div className="rnn-cell-container vector-container" id="rnn-vector-cell">
           <div className="schema-wrapper vector-wrapper">

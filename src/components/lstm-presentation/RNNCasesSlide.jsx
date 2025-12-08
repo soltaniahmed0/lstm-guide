@@ -38,24 +38,35 @@ function RNNCasesSlide() {
   return (
     <div className="slide rnn-cases-slide">
       <h1 className="slide-title-main">Cas d'Usage des RNN</h1>
-      <div className="cases-grid">
-        {useCases.map((useCase, index) => (
-          <div key={index} className="case-card" style={{ animationDelay: `${index * 0.1}s` }}>
-            <div className="case-icon">{useCase.icon}</div>
-            <h3 className="case-title">{useCase.title}</h3>
-            <ul className="case-examples">
-              {useCase.examples.map((example, idx) => (
-                <li key={idx}>{example}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div className="cases-summary">
-        <p>
-          <strong>En résumé :</strong> Les RNN sont utilisés partout où les données ont un <strong>ordre temporel</strong> 
-          et où le <strong>contexte</strong> est crucial pour la compréhension et la prédiction.
-        </p>
+      
+      <div className="cases-wrapper">
+        <div className="cases-grid">
+          {useCases.map((useCase, index) => (
+            <div key={index} className="case-card">
+              <div className="case-icon-wrapper">
+                <div className="case-icon">{useCase.icon}</div>
+              </div>
+              <h3 className="case-title">{useCase.title}</h3>
+              <div className="case-examples-wrapper">
+                <ul className="case-examples">
+                  {useCase.examples.map((example, idx) => (
+                    <li key={idx}>
+                      <span className="example-bullet">•</span>
+                      <span className="example-text">{example}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="cases-summary">
+          <p>
+            <strong>En résumé :</strong> Les RNN sont utilisés partout où les données ont un <strong>ordre temporel</strong> 
+            et où le <strong>contexte</strong> est crucial.
+          </p>
+        </div>
       </div>
     </div>
   )

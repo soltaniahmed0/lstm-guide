@@ -15,32 +15,6 @@ function LSTMDefinitionSlide() {
           </p>
         </div>
 
-        <div className="key-features">
-          <h3>Caractéristiques Clés :</h3>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">🚪</div>
-              <h4>Gates (Portes)</h4>
-              <p>Contrôle explicite du flux d'information</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">💾</div>
-              <h4>Cell State</h4>
-              <p>Mémoire à long terme stable</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🧠</div>
-              <h4>Hidden State</h4>
-              <p>Mémoire à court terme pour les calculs</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">📏</div>
-              <h4>Séquences Longues</h4>
-              <p>Peut traiter des centaines de pas de temps</p>
-            </div>
-          </div>
-        </div>
-
         <div className="why-lstm">
           <h3>Pourquoi LSTM ?</h3>
           <div className="comparison-box">
@@ -61,14 +35,6 @@ function LSTMDefinitionSlide() {
               </ul>
             </div>
           </div>
-        </div>
-
-        <div className="invention">
-          <h3>📚 Historique</h3>
-          <p>
-            Inventé en <strong>1997</strong> par Sepp Hochreiter et Jürgen Schmidhuber, 
-            LSTM est devenu l'architecture standard pour les tâches de séquences longues.
-          </p>
         </div>
       </div>
     </div>

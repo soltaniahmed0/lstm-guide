@@ -35,7 +35,6 @@ function RNNVanishingSlide() {
   return (
     <div className="slide rnn-vanishing-slide">
       <h1 className="slide-title-main">🔻 Le Vanishing Gradient</h1>
-      <p className="subtitle">Gradient qui disparaît ≈ 0.0001</p>
 
       <div className="container">
         <div className="gradient-schema vanishing">

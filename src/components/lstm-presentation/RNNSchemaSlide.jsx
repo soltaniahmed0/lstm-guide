@@ -16,7 +16,7 @@ function RNNSchemaSlide() {
   const schemaWrapperRef = useRef(null)
   const svgRef = useRef(null)
 
-  const steps = ['input', 'mult-h', 'mult-x', 'add', 'tanh', 'output', 'complete']
+  const steps = ['input', 'mult-h', 'mult-x', 'add', 'tanh', 'output-h', 'mult-y', 'output-y', 'complete']
 
   function tanh(x) {
     return Math.tanh(x)
@@ -48,14 +48,18 @@ function RNNSchemaSlide() {
       case 'input':
         document.getElementById('input-block-h')?.classList.add('active')
         document.getElementById('input-block-x')?.classList.add('active')
+        document.getElementById('weight-block-hh')?.classList.add('active')
+        document.getElementById('weight-block-xh')?.classList.add('active')
         break
       case 'mult-h':
         document.getElementById('mult-h')?.classList.add('active')
         showConnection('conn-h-to-mult-h')
+        showConnection('conn-weight-hh-to-mult-h')
         break
       case 'mult-x':
         document.getElementById('mult-x')?.classList.add('active')
         showConnection('conn-x-to-mult-x')
+        showConnection('conn-weight-xh-to-mult-x')
         break
       case 'add':
         document.getElementById('add')?.classList.add('active')
@@ -66,15 +70,23 @@ function RNNSchemaSlide() {
         document.getElementById('tanh')?.classList.add('active')
         showConnection('conn-add-to-tanh')
         break
-      case 'output':
+      case 'output-h':
         document.getElementById('output-block-h')?.classList.add('active')
-        document.getElementById('output-block-y')?.classList.add('active')
+        document.getElementById('weight-block-hy')?.classList.add('active')
         const hTValue = document.getElementById('h-t-value')
-        const yTValue = document.getElementById('y-t-value')
         if (hTValue) hTValue.textContent = details.h_t.toFixed(3)
-        if (yTValue) yTValue.textContent = details.y_t.toFixed(3)
         showConnection('conn-tanh-to-ht')
-        showConnection('conn-ht-to-yt')
+        break
+      case 'mult-y':
+        document.getElementById('mult-y')?.classList.add('active')
+        showConnection('conn-ht-to-mult-y')
+        showConnection('conn-weight-hy-to-mult-y')
+        break
+      case 'output-y':
+        document.getElementById('output-block-y')?.classList.add('active')
+        const yTValue = document.getElementById('y-t-value')
+        if (yTValue) yTValue.textContent = details.y_t.toFixed(3)
+        showConnection('conn-mult-y-to-yt')
         break
       case 'complete':
         showConnection('conn-ht-to-hprev')
@@ -122,7 +134,7 @@ function RNNSchemaSlide() {
     line.setAttribute('x2', toPos.x)
     line.setAttribute('y2', toPos.y)
     line.setAttribute('stroke', color)
-    line.setAttribute('stroke-width', '5')
+    line.setAttribute('stroke-width', '6')
     line.setAttribute('stroke-dasharray', '12,6')
     line.setAttribute('class', 'flow-line')
     line.setAttribute('marker-end', `url(#${marker})`)
@@ -152,7 +164,7 @@ function RNNSchemaSlide() {
     path.setAttribute('id', id)
     path.setAttribute('d', d)
     path.setAttribute('stroke', color)
-    path.setAttribute('stroke-width', '5')
+    path.setAttribute('stroke-width', '6')
     path.setAttribute('stroke-dasharray', '12,6')
     path.setAttribute('fill', 'none')
     path.setAttribute('class', 'flow-line')
@@ -166,12 +178,16 @@ function RNNSchemaSlide() {
   function initializeConnections() {
     setTimeout(() => {
       drawConnection('conn-h-to-mult-h', 'input-block-h', 'mult-h', '#a855f7', 'arrowhead-purple')
+      drawConnection('conn-weight-hh-to-mult-h', 'weight-block-hh', 'mult-h', '#f59e0b', 'arrowhead-orange')
       drawConnection('conn-x-to-mult-x', 'input-block-x', 'mult-x', '#3b82f6', 'arrowhead')
+      drawConnection('conn-weight-xh-to-mult-x', 'weight-block-xh', 'mult-x', '#f59e0b', 'arrowhead-orange')
       drawConnection('conn-mult-h-to-add', 'mult-h', 'add', '#3b82f6', 'arrowhead')
       drawConnection('conn-mult-x-to-add', 'mult-x', 'add', '#3b82f6', 'arrowhead')
       drawConnection('conn-add-to-tanh', 'add', 'tanh', '#a855f7', 'arrowhead-purple')
       drawConnection('conn-tanh-to-ht', 'tanh', 'output-block-h', '#a855f7', 'arrowhead-purple')
-      drawConnection('conn-ht-to-yt', 'output-block-h', 'output-block-y', '#22c55e', 'arrowhead-green')
+      drawConnection('conn-ht-to-mult-y', 'output-block-h', 'mult-y', '#a855f7', 'arrowhead-purple')
+      drawConnection('conn-weight-hy-to-mult-y', 'weight-block-hy', 'mult-y', '#f59e0b', 'arrowhead-orange')
+      drawConnection('conn-mult-y-to-yt', 'mult-y', 'output-block-y', '#22c55e', 'arrowhead-green')
       drawCurvedConnection('conn-ht-to-hprev', 'output-block-h', 'input-block-h', '#ef4444', 'arrowhead-red', -250)
     }, 300)
   }
@@ -200,7 +216,6 @@ function RNNSchemaSlide() {
   return (
     <div className="slide rnn-schema-slide">
       <h1 className="slide-title-main">🧠 Architecture RNN — Visualisation Interactive</h1>
-      <p className="subtitle">Naviguez étape par étape pour comprendre le flux de données</p>
 
       <div className="container">
         <div className="rnn-cell-container" id="rnn-cell">
@@ -218,6 +233,9 @@ function RNNSchemaSlide() {
                 </marker>
                 <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
                   <polygon points="0 0, 10 3, 0 6" fill="#ef4444" />
+                </marker>
+                <marker id="arrowhead-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                  <polygon points="0 0, 10 3, 0 6" fill="#f59e0b" />
                 </marker>
               </defs>
             </svg>
@@ -238,13 +256,23 @@ function RNNSchemaSlide() {
               </div>
             </div>
 
+            {/* Weight Blocks */}
+            <div className="state-block state-block-weight" id="weight-block-hh">
+              <div className="state-item weight">
+                <div>Wₕₕ</div>
+                <div className="value">{W_hh.toFixed(1)}</div>
+              </div>
+            </div>
+            <div className="state-block state-block-weight" id="weight-block-xh">
+              <div className="state-item weight">
+                <div>Wₓₕ</div>
+                <div className="value">{W_xh.toFixed(1)}</div>
+              </div>
+            </div>
+
             {/* Weight Multiplications */}
             <div className="operation operation-mult" id="mult-h"></div>
             <div className="operation operation-mult" id="mult-x"></div>
-            
-            {/* Weight Labels */}
-            <div className="weight-label" id="weight-hh">Wₕₕ</div>
-            <div className="weight-label" id="weight-xh">Wₓₕ</div>
 
             {/* Addition */}
             <div className="operation operation-add" id="add"></div>
@@ -252,13 +280,24 @@ function RNNSchemaSlide() {
             {/* Activation */}
             <div className="activation" id="tanh"></div>
 
-            {/* Output/Current State Block */}
+            {/* Output/Current State Block - hₜ and Wₕᵧ on same line */}
             <div className="state-block state-block-output" id="output-block-h">
               <div className="state-item hidden">
                 <div>h<sub>t</sub></div>
                 <div className="value" id="h-t-value">{details.h_t.toFixed(3)}</div>
               </div>
             </div>
+            <div className="state-block state-block-weight" id="weight-block-hy">
+              <div className="state-item weight">
+                <div>Wₕᵧ</div>
+                <div className="value">{W_hy.toFixed(1)}</div>
+              </div>
+            </div>
+
+            {/* Output Multiplication - hₜ * Wₕᵧ */}
+            <div className="operation operation-mult" id="mult-y"></div>
+
+            {/* Output Yₜ - under multiplication */}
             <div className="state-block state-block-output" id="output-block-y">
               <div className="state-item output">
                 <div>Y<sub>t</sub></div>
@@ -266,8 +305,21 @@ function RNNSchemaSlide() {
               </div>
             </div>
 
-            {/* Output Weight Label */}
-            <div className="weight-label" id="weight-hy">Wₕᵧ</div>
+            {/* Formules sous Wₓₕ */}
+            <div className="formulas-panel">
+              <div className="formula-item">
+                <div className="formula-label">hₜ =</div>
+                <div className="formula-content">
+                  tanh(Wₕₕ · hₜ₋₁ + Wₓₕ · xₜ + bₕ)
+                </div>
+              </div>
+              <div className="formula-item">
+                <div className="formula-label">yₜ =</div>
+                <div className="formula-content">
+                  Wₕᵧ · hₜ + bᵧ
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

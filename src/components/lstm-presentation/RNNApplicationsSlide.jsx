@@ -90,39 +90,6 @@ function RNNApplicationsSlide() {
             </ul>
           </div>
         </div>
-
-        <div className="comparison-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Entrée</th>
-                <th>Sortie</th>
-                <th>Cas d'Usage Principal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className={selectedType === 'many-to-many' ? 'highlighted' : ''}>
-                <td><strong>Many-to-Many</strong></td>
-                <td>Séquence</td>
-                <td>Séquence</td>
-                <td>Traduction, Tagging</td>
-              </tr>
-              <tr className={selectedType === 'many-to-one' ? 'highlighted' : ''}>
-                <td><strong>Many-to-One</strong></td>
-                <td>Séquence</td>
-                <td>Valeur unique</td>
-                <td>Classification, Sentiment</td>
-              </tr>
-              <tr className={selectedType === 'one-to-many' ? 'highlighted' : ''}>
-                <td><strong>One-to-Many</strong></td>
-                <td>Valeur unique</td>
-                <td>Séquence</td>
-                <td>Génération de texte</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   )

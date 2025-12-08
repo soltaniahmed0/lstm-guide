@@ -258,16 +258,11 @@ function RNNWorkingSlide() {
           </div>
         </div>
 
-        <p className="instruction-text">
-          Cliquez étape par étape pour voir chaque calcul: <span className="highlight-red">Wₕₕ·hₜ₋₁</span> → <span className="highlight-cyan">Wₓₕ·xₜ</span> → <span className="highlight-purple">h</span> → <span className="highlight-green">y</span><br/>
-          <span className="keyboard-hint">💡 Utilisez les flèches <strong>→</strong> ou <strong>↓</strong> du clavier pour naviguer</span>
-        </p>
 
         <div className="rnn-visualization">
           {/* h0 */}
           <div className="block">
             <div className={`h0-box ${currentIndex === 1 && substep >= 1 ? 'prev-highlight' : ''}`}>
-              <div className="label">h₀</div>
               <div className="value">{hiddenStates[0].toFixed(3)}</div>
             </div>
           </div>
@@ -282,16 +277,13 @@ function RNNWorkingSlide() {
             return (
               <div key={index} className="block">
                 <div className={`y-circle ${values.y !== null ? 'active' : 'inactive'}`}>
-                  <div className="label">y<sub>{index}</sub></div>
                   <div className="value">{values.y !== null ? values.y.toFixed(3) : '-'}</div>
                 </div>
                 <div className={`h-box ${values.h !== null ? 'active' : 'inactive'}`}>
                   <div className={`recurrent-arrow ${showArrow ? 'active' : ''}`}></div>
-                  <div className="label">h<sub>{index}</sub></div>
                   <div className="value">{values.h !== null ? values.h.toFixed(3) : '-'}</div>
                 </div>
                 <div className={`x-circle ${values.x !== null ? 'active' : 'inactive'}`}>
-                  <div className="label">x<sub>{index}</sub></div>
                   <div className="value">{values.x !== null ? values.x.toFixed(3) : '-'}</div>
                 </div>
               </div>
