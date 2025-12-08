@@ -92,6 +92,8 @@ function LSTMArchitectureSlide() {
     line.setAttribute('stroke-width', '4')
     line.setAttribute('stroke-dasharray', '10,5')
     line.setAttribute('class', 'flow-line')
+    line.setAttribute('data-from', from)
+    line.setAttribute('data-to', to)
     if (marker && marker !== '') {
       line.setAttribute('marker-end', `url(#${marker})`)
     }
@@ -122,6 +124,8 @@ function LSTMArchitectureSlide() {
     path.setAttribute('stroke-dasharray', '10,5')
     path.setAttribute('fill', 'none')
     path.setAttribute('class', 'flow-line')
+    path.setAttribute('data-from', from)
+    path.setAttribute('data-to', to)
     if (marker && marker !== '') {
       path.setAttribute('marker-end', `url(#${marker})`)
     }
@@ -151,6 +155,7 @@ function LSTMArchitectureSlide() {
     const weight = document.getElementById(weightId)
     if (weight) {
       weight.style.opacity = '1'
+      weight.classList.add('active')
     }
   }
 
@@ -158,6 +163,7 @@ function LSTMArchitectureSlide() {
     const weight = document.getElementById(weightId)
     if (weight) {
       weight.style.opacity = '0'
+      weight.classList.remove('active')
     }
   }
 
@@ -172,11 +178,42 @@ function LSTMArchitectureSlide() {
     const path = document.getElementById(connectionId)
     if (!path) return
 
-    const fromPos = getElementCenter(path.getAttribute('x1') ? path.getAttribute('x1') : '0')
-    const toPos = getElementCenter(path.getAttribute('x2') ? path.getAttribute('x2') : '0')
+    let fromPos, toPos
 
-    const midX = (fromPos.x + toPos.x) / 2
-    const midY = (fromPos.y + toPos.y) / 2
+    // Try to get from data attributes first (most reliable)
+    const fromId = path.getAttribute('data-from')
+    const toId = path.getAttribute('data-to')
+    
+    if (fromId && toId) {
+      fromPos = getElementCenter(fromId)
+      toPos = getElementCenter(toId)
+    } else if (path.getAttribute('x1') && path.getAttribute('x2')) {
+      // It's a line - use x1, y1, x2, y2
+      fromPos = {
+        x: parseFloat(path.getAttribute('x1')),
+        y: parseFloat(path.getAttribute('y1'))
+      }
+      toPos = {
+        x: parseFloat(path.getAttribute('x2')),
+        y: parseFloat(path.getAttribute('y2'))
+      }
+    } else if (path.getAttribute('d')) {
+      // It's a curved path - extract start and end points from the path
+      const d = path.getAttribute('d')
+      const match = d.match(/M\s+(\d+\.?\d*)\s+(\d+\.?\d*).*?(\d+\.?\d*)\s+(\d+\.?\d*)\s*$/)
+      if (match) {
+        fromPos = { x: parseFloat(match[1]), y: parseFloat(match[2]) }
+        toPos = { x: parseFloat(match[3]), y: parseFloat(match[4]) }
+      } else {
+        return // Can't determine positions
+      }
+    } else {
+      return // Unknown connection type
+    }
+
+    // Calculate position along the connection
+    const midX = fromPos.x + (toPos.x - fromPos.x) * offset
+    const midY = fromPos.y + (toPos.y - fromPos.y) * offset
 
     const weightEl = document.getElementById(weightElementId)
     if (weightEl) {

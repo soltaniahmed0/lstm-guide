@@ -556,22 +556,39 @@
 /* Weight Labels */
 .weight-label {
   position: absolute;
-  background: rgba(255, 255, 255, 0.98);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
+  background: linear-gradient(135deg, #fff 0%, #f0f9ff 100%);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
   font-weight: bold;
   color: #1e40af;
-  border: 2px solid #3b82f6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 25;
+  border: 3px solid #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8);
+  z-index: 30;
   font-family: 'Courier New', monospace;
   text-align: center;
-  min-width: 50px;
+  min-width: 55px;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: all 0.4s ease;
   white-space: nowrap;
+  pointer-events: none;
+}
+
+.weight-label.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6), 0 0 0 3px rgba(59, 130, 246, 0.2);
+  animation: weightPulse 2s ease-in-out infinite;
+}
+
+@keyframes weightPulse {
+  0%, 100% {
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6), 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.8), 0 0 0 4px rgba(59, 130, 246, 0.3);
+  }
 }
 
 /* Controls */
