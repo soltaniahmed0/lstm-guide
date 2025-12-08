@@ -11,6 +11,14 @@
   right: 0;
   bottom: 0;
   z-index: 9999;
+  overflow: auto;
+  background: #f8fafc;
+}
+
+.lstm-presentation.fullscreen .slide-container {
+  overflow: visible;
+  min-height: 100vh;
+  padding: 60px;
 }
 
 .presentation-header {
@@ -177,6 +185,58 @@
   text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
 }
 
+/* Zoom Controls in Fullscreen */
+.zoom-controls {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.zoom-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+.zoom-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+}
+
+.zoom-btn.reset {
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+.zoom-level {
+  min-width: 50px;
+  text-align: center;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 14px;
+}
+
 @media (max-width: 768px) {
   .slide-title-main {
     font-size: 2em;
@@ -193,6 +253,18 @@
   
   .progress-bar {
     width: 200px;
+  }
+
+  .zoom-controls {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 12px;
+  }
+
+  .zoom-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
   }
 }
 

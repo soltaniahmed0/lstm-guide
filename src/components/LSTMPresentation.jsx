@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './LSTMPresentation.css'
 import TitleSlide from './lstm-presentation/TitleSlide'
 import PlanSlide from './lstm-presentation/PlanSlide'
@@ -24,6 +24,8 @@ import ThankYouSlide from './lstm-presentation/ThankYouSlide'
 function LSTMPresentation() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [zoomLevel, setZoomLevel] = useState(1)
+  const slideContainerRef = useRef(null)
 
   const slides = [
     // 1. Titre
@@ -71,6 +73,18 @@ function LSTMPresentation() {
     }
   }
 
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.1, 3)) // Max zoom 300%
+  }
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.1, 0.5)) // Min zoom 50%
+  }
+
+  const handleZoomReset = () => {
+    setZoomLevel(1)
+  }
+
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -89,12 +103,40 @@ function LSTMPresentation() {
           e.preventDefault()
           toggleFullscreen()
         }
+      } else if (isFullscreen && (e.key === '+' || e.key === '=')) {
+        e.preventDefault()
+        handleZoomIn()
+      } else if (isFullscreen && e.key === '-') {
+        e.preventDefault()
+        handleZoomOut()
+      } else if (isFullscreen && e.key === '0') {
+        e.preventDefault()
+        handleZoomReset()
       }
     }
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [currentSlide])
+  }, [currentSlide, isFullscreen])
+
+  // Handle mouse wheel zoom in fullscreen mode
+  useEffect(() => {
+    if (!isFullscreen) return
+
+    const handleWheel = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault()
+        if (e.deltaY < 0) {
+          setZoomLevel(prev => Math.min(prev + 0.1, 3))
+        } else {
+          setZoomLevel(prev => Math.max(prev - 0.1, 0.5))
+        }
+      }
+    }
+
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    return () => window.removeEventListener('wheel', handleWheel)
+  }, [isFullscreen])
 
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -131,9 +173,48 @@ function LSTMPresentation() {
         </div>
       )}
 
-      <div className="slide-container">
+      <div 
+        className="slide-container" 
+        ref={slideContainerRef}
+        style={isFullscreen ? {
+          transform: `scale(${zoomLevel})`,
+          transformOrigin: 'center center',
+          transition: 'transform 0.3s ease',
+          overflow: 'auto',
+          width: `${100 / zoomLevel}%`,
+          height: `${100 / zoomLevel}%`,
+          margin: 'auto'
+        } : {}}
+      >
         <CurrentSlideComponent />
       </div>
+
+      {isFullscreen && (
+        <div className="zoom-controls">
+          <button 
+            className="zoom-btn" 
+            onClick={handleZoomOut}
+            title="Zoom Out (-)"
+          >
+            −
+          </button>
+          <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+          <button 
+            className="zoom-btn" 
+            onClick={handleZoomIn}
+            title="Zoom In (+)"
+          >
+            +
+          </button>
+          <button 
+            className="zoom-btn reset" 
+            onClick={handleZoomReset}
+            title="Reset Zoom (0)"
+          >
+            ⟲
+          </button>
+        </div>
+      )}
 
       {!isFullscreen && (
         <div className="presentation-nav">
