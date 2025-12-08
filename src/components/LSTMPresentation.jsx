@@ -5,14 +5,13 @@ import PlanSlide from './lstm-presentation/PlanSlide'
 import IntroductionSlide from './lstm-presentation/IntroductionSlide'
 import RNNDefinitionSlide from './lstm-presentation/RNNDefinitionSlide'
 import RNNCasesSlide from './lstm-presentation/RNNCasesSlide'
-import RNNConceptsSlide from './lstm-presentation/RNNConceptsSlide'
-import RNNFormulasSlide from './lstm-presentation/RNNFormulasSlide'
 import RNNSchemaSlide from './lstm-presentation/RNNSchemaSlide'
-import RNNVanishingSlide from './lstm-presentation/RNNVanishingSlide'
 import RNNVectorSlide from './lstm-presentation/RNNVectorSlide'
 import RNNWorkingSlide from './lstm-presentation/RNNWorkingSlide'
 import RNNApplicationsSlide from './lstm-presentation/RNNApplicationsSlide'
-import RNNProblemsSlide from './lstm-presentation/RNNProblemsSlide'
+import RNNFormulasSlide from './lstm-presentation/RNNFormulasSlide'
+import RNNVanishingSlide from './lstm-presentation/RNNVanishingSlide'
+import RNNExplodingSlide from './lstm-presentation/RNNExplodingSlide'
 import LSTMDefinitionSlide from './lstm-presentation/LSTMDefinitionSlide'
 import LSTMFormulasSlide from './lstm-presentation/LSTMFormulasSlide'
 import LSTMArchitectureSlide from './lstm-presentation/LSTMArchitectureSlide'
@@ -27,27 +26,35 @@ function LSTMPresentation() {
   const [isFullscreen, setIsFullscreen] = useState(false)
 
   const slides = [
+    // 1. Titre
     { id: 'title', component: TitleSlide, title: 'Titre' },
+    // 2. Plan
     { id: 'plan', component: PlanSlide, title: 'Plan' },
+    // 3. Introduction (user story LSTM)
     { id: 'introduction', component: IntroductionSlide, title: 'Introduction' },
+    // 4. RNN Section
     { id: 'rnn-definition', component: RNNDefinitionSlide, title: 'RNN - Définition' },
     { id: 'rnn-cases', component: RNNCasesSlide, title: 'RNN - Cas d\'Usage' },
-    { id: 'rnn-concepts', component: RNNConceptsSlide, title: 'RNN - Concepts Fondamentaux' },
-    { id: 'rnn-formulas', component: RNNFormulasSlide, title: 'RNN - Formules' },
-    { id: 'rnn-schema', component: RNNSchemaSlide, title: 'RNN - Schéma Interactif' },
-    { id: 'rnn-vanishing', component: RNNVanishingSlide, title: 'RNN - Vanishing Gradient' },
-    { id: 'rnn-vector', component: RNNVectorSlide, title: 'RNN - Vecteurs et Matrices' },
-    { id: 'rnn-working', component: RNNWorkingSlide, title: 'RNN - Fonctionnement' },
-    { id: 'rnn-applications', component: RNNApplicationsSlide, title: 'RNN - Applications' },
-    { id: 'rnn-problems', component: RNNProblemsSlide, title: 'RNN - Problèmes' },
+    { id: 'rnn-applications', component: RNNApplicationsSlide, title: 'RNN - Applications (Many-to-Many, Many-to-One, One-to-Many)' },
+    { id: 'rnn-formulas', component: RNNFormulasSlide, title: 'RNN - Architecture (Formules et Description)' },
+    { id: 'rnn-schema', component: RNNSchemaSlide, title: 'RNN - Architecture (Schéma Animé)' },
+    { id: 'rnn-vector', component: RNNVectorSlide, title: 'RNN - Architecture (Schéma avec Vecteurs)' },
+    { id: 'rnn-working', component: RNNWorkingSlide, title: 'RNN - Comment Fonctionne (Calculs avec Valeurs Réelles)' },
+    { id: 'rnn-vanishing', component: RNNVanishingSlide, title: 'RNN - Problème: Vanishing Gradient' },
+    { id: 'rnn-exploding', component: RNNExplodingSlide, title: 'RNN - Problème: Exploding Gradient' },
+    // 5. LSTM Section
     { id: 'lstm-definition', component: LSTMDefinitionSlide, title: 'LSTM - Définition' },
     { id: 'lstm-formulas', component: LSTMFormulasSlide, title: 'LSTM - Formules' },
     { id: 'lstm-architecture', component: LSTMArchitectureSlide, title: 'LSTM - Architecture' },
-    { id: 'lstm-gates', component: LSTMGatesSlide, title: 'LSTM - Gates' },
-    { id: 'case-study', component: LSTMCaseStudySlide, title: 'Étude de Cas' },
-    { id: 'conclusion', component: ConclusionSlide, title: 'Conclusion' },
+    { id: 'lstm-gates', component: LSTMGatesSlide, title: 'LSTM - Gates (5 Neurones)' },
+    // 6. Étude de Cas
+    { id: 'case-study', component: LSTMCaseStudySlide, title: 'Étude de Cas - Prédiction Prix de l\'Or' },
+    // 7. Conclusion
+    { id: 'conclusion', component: ConclusionSlide, title: 'Conclusion et Perspectives' },
+    // 8. Webographie
     { id: 'webography', component: WebographySlide, title: 'Webographie' },
-    { id: 'thank-you', component: ThankYouSlide, title: 'Merci' }
+    // 9. Merci
+    { id: 'thank-you', component: ThankYouSlide, title: 'Merci pour votre attention' }
   ]
 
   const handleNext = () => {
