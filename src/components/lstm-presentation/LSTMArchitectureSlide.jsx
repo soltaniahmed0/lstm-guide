@@ -690,7 +690,7 @@ function LSTMArchitectureSlide() {
           <div className="gate-dashed-box" id="forget-box" style={{left:'220px', top:'350px', width:'250px', height:'280px'}}></div>
           <div className="section-label" style={{left:'270px', top:'370px', fontSize:'12px', fontWeight:'bold'}}>FORGET GATE</div>
           <div className="weight-label" id="weight-W-f" dangerouslySetInnerHTML={{ __html: 'W<sub>f</sub>' }}></div>
-          <div className="weight-label" id="weight-U-f" dangerouslySetInnerHTML={{ __html: 'U<sub>f</sub>' }}></div>
+          <div className="weight-label" id="weight-U-f" dangerouslySetInnerHTML={{ __html: 'W<sub>f</sub>' }}></div>
           <div className="gate-box gate-forget" id="gate-f" style={{left:'300px', top:'410px'}}>
             <div style={{fontSize:'16px'}}>f<sub>t</sub></div>
             <div className="value" style={{fontSize:'16px', marginTop:'5px'}}>
@@ -704,7 +704,7 @@ function LSTMArchitectureSlide() {
           <div className="gate-dashed-box" id="input-box" style={{left:'500px', top:'350px', width:'350px', height:'420px'}}></div>
           <div className="section-label" style={{left:'675px', top:'370px', fontSize:'12px', fontWeight:'bold', transform:'translateX(-50%)'}}>INPUT GATE</div>
           <div className="weight-label" id="weight-W-i" dangerouslySetInnerHTML={{ __html: 'W<sub>i</sub>' }}></div>
-          <div className="weight-label" id="weight-U-i" dangerouslySetInnerHTML={{ __html: 'U<sub>i</sub>' }}></div>
+          <div className="weight-label" id="weight-U-i" dangerouslySetInnerHTML={{ __html: 'W<sub>i</sub>' }}></div>
           <div className="operation operation-multiply" id="mult-i" style={{left:'675px', top:'320px'}}></div>
           <div className="gate-box gate-input" id="gate-i" style={{left:'555px', top:'480px'}}>
             <div style={{fontSize:'16px'}}>i<sub>t</sub></div>
@@ -716,7 +716,7 @@ function LSTMArchitectureSlide() {
 
           {/* Candidate */}
           <div className="weight-label" id="weight-W-c" dangerouslySetInnerHTML={{ __html: 'W<sub>c</sub>' }}></div>
-          <div className="weight-label" id="weight-U-c" dangerouslySetInnerHTML={{ __html: 'U<sub>c</sub>' }}></div>
+          <div className="weight-label" id="weight-U-c" dangerouslySetInnerHTML={{ __html: 'W<sub>c</sub>' }}></div>
           <div className="candidate-gate" id="gate-c" style={{left:'685px', top:'480px'}}>
             <div style={{fontSize:'16px'}}>ĉ<sub>t</sub></div>
             <div className="value" style={{fontSize:'16px', marginTop:'5px'}}>
@@ -729,7 +729,7 @@ function LSTMArchitectureSlide() {
           <div className="gate-dashed-box" id="output-box" style={{left:'890px', top:'350px', width:'250px', height:'280px'}}></div>
           <div className="section-label" style={{left:'940px', top:'370px', fontSize:'12px', fontWeight:'bold'}}>OUTPUT GATE</div>
           <div className="weight-label" id="weight-W-o" dangerouslySetInnerHTML={{ __html: 'W<sub>o</sub>' }}></div>
-          <div className="weight-label" id="weight-U-o" dangerouslySetInnerHTML={{ __html: 'U<sub>o</sub>' }}></div>
+          <div className="weight-label" id="weight-U-o" dangerouslySetInnerHTML={{ __html: 'W<sub>o</sub>' }}></div>
           <div className="gate-box gate-output" id="gate-o" style={{left:'970px', top:'410px'}}>
             <div style={{fontSize:'16px'}}>o<sub>t</sub></div>
             <div className="value" style={{fontSize:'16px', marginTop:'5px'}}>
