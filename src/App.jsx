@@ -1,10 +1,9 @@
 import React from 'react'
-import Presentation from './components/Presentation'
+import LSTMPresentation from './components/LSTMPresentation'
 import './App.css'
 
 function App() {
-  return <Presentation />
+  return <LSTMPresentation />
 }
 
 export default App
-

@@ -1,0 +1,51 @@
+/* Styles partagés pour tous les slides - Fond clair */
+
+/* Conteneurs de cartes */
+.card-container,
+.definition-card,
+.case-card,
+.feature-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card-container:hover,
+.definition-card:hover,
+.case-card:hover,
+.feature-card:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+}
+
+/* Titres */
+h1, h2, h3, h4, h5, h6 {
+  color: #1e293b;
+}
+
+/* Textes */
+p, li, span {
+  color: #475569;
+}
+
+/* Boutons */
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #1e293b;
+  border: none;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Bordures et accents */
+.border-primary {
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.accent-primary {
+  color: #667eea;
+}
+

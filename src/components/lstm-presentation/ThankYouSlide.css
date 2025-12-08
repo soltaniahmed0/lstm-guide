@@ -1,0 +1,125 @@
+.thank-you-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: transparent;
+  color: #1e293b;
+  padding: 40px;
+}
+
+.thank-you-content {
+  text-align: center;
+  max-width: 900px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.thank-you-title {
+  font-size: 4.5em;
+  font-weight: 800;
+  margin-bottom: 50px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 30px rgba(102, 126, 234, 0.5);
+  animation: slideInDown 1s ease-out;
+}
+
+.thank-you-subtitle {
+  font-size: 2.2em;
+  margin-bottom: 70px;
+  opacity: 0.9;
+  color: #475569;
+}
+
+.presenters-final {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+.presenter-final {
+  padding: 25px;
+}
+
+.presenter-name {
+  font-size: 2em;
+  font-weight: 700;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.supervisor-final {
+  margin-bottom: 40px;
+}
+
+.supervisor-final p {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+  opacity: 0.9;
+  color: #475569;
+}
+
+.supervisor-name-final {
+  font-size: 1.8em;
+  font-weight: 700;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  display: inline-block;
+}
+
+.year-final {
+  margin-top: 50px;
+}
+
+.year-final p {
+  font-size: 1.3em;
+  margin: 12px 0;
+  opacity: 0.9;
+  color: #475569;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .thank-you-title {
+    font-size: 3em;
+  }
+  
+  .presenter-name {
+    font-size: 1.5em;
+  }
+  
+  .supervisor-name-final {
+    font-size: 1.3em;
+  }
+}
+

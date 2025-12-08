@@ -1,0 +1,265 @@
+.rnn-concepts-slide {
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.subtitle {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 25px;
+  font-size: 17px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.concept-box {
+  padding: 30px;
+  border-radius: 20px;
+  margin: 30px 0;
+  border: 4px solid;
+}
+
+.gradient-concept {
+  background: rgba(240, 249, 255, 0.95);
+  border-color: #0ea5e9;
+}
+
+.weights-concept {
+  background: rgba(254, 243, 199, 0.95);
+  border-color: #f59e0b;
+}
+
+.vector-concept {
+  background: rgba(243, 232, 255, 0.95);
+  border-color: #a855f7;
+}
+
+.concept-box h4 {
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.gradient-concept h4 {
+  color: #0c4a6e;
+}
+
+.weights-concept h4 {
+  color: #92400e;
+}
+
+.vector-concept h4 {
+  color: #6b21a8;
+}
+
+.concept-content {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+  border-left: 5px solid;
+}
+
+.gradient-concept .concept-content {
+  border-left-color: #0ea5e9;
+}
+
+.weights-concept .concept-content {
+  border-left-color: #f59e0b;
+}
+
+.vector-concept .concept-content {
+  border-left-color: #a855f7;
+}
+
+.concept-content h5 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: inherit;
+}
+
+.concept-content ul, .concept-content ol {
+  margin-left: 30px;
+  line-height: 2.2;
+  font-size: 16px;
+  color: #1e3a8a;
+}
+
+.formula-box {
+  background: rgba(219, 234, 254, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.formula-box h6 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #1e40af;
+}
+
+.formula-code {
+  font-family: 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  margin: 10px 0;
+  text-align: center;
+  color: #1e40af;
+}
+
+.example-box {
+  background: rgba(220, 252, 231, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.example-box h6 {
+  color: #166534;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.example-box p {
+  color: #166534;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.example-list {
+  font-family: 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.highlight-box {
+  background: rgba(250, 245, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border: 3px solid #c084fc;
+  text-align: center;
+}
+
+.highlight-box p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6b21a8;
+  margin: 0;
+}
+
+.examples-box {
+  background: rgba(250, 245, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.examples-box h6 {
+  color: #6b21a8;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.example-item {
+  margin: 20px 0;
+}
+
+.example-item p {
+  font-size: 16px;
+  color: #6b21a8;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.code-example {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  margin: 10px 0;
+  color: #1e40af;
+}
+
+.example-note {
+  font-size: 14px;
+  color: #78350f;
+  margin-top: 8px;
+}
+
+.dimensions-table {
+  background: rgba(233, 213, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.dimensions-table h6 {
+  color: #6b21a8;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.dimensions-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dimensions-table th {
+  background: rgba(192, 132, 252, 0.3);
+  padding: 12px;
+  text-align: left;
+  border: 2px solid #a855f7;
+  color: #6b21a8;
+  font-weight: bold;
+}
+
+.dimensions-table td {
+  padding: 12px;
+  border: 2px solid rgba(233, 213, 255, 0.95);
+  font-family: 'Courier New', monospace;
+  color: #6b21a8;
+}
+
+.dimensions-table tr:nth-child(even) {
+  background: rgba(250, 245, 255, 0.95);
+}
+
+.dimension-note {
+  font-size: 14px;
+  color: #6b21a8;
+  margin-top: 15px;
+  line-height: 1.8;
+}
+
+.summary-box {
+  background: rgba(220, 252, 231, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.summary-box h6 {
+  color: #166534;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.summary-box ul {
+  font-size: 16px;
+  line-height: 2;
+  color: #166534;
+  margin-left: 25px;
+}
+

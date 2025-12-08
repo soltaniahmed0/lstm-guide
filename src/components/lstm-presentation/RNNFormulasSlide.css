@@ -1,0 +1,243 @@
+.rnn-formulas-slide {
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.info-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 30px;
+  margin: 25px 0;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+}
+
+.definition-box {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid #3b82f6;
+}
+
+.definition-box h4 {
+  color: #1e40af;
+  margin-bottom: 8px;
+  font-size: 22px;
+}
+
+.definition-box p {
+  color: #1e3a8a;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.formulas-section {
+  margin: 30px 0;
+}
+
+.formula-card {
+  background: rgba(239, 246, 255, 0.95);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+  border-left: 5px solid #3b82f6;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.formula-card.output-formula {
+  background: rgba(240, 253, 244, 0.95);
+  border-left-color: #22c55e;
+}
+
+.formula-card h5 {
+  color: #1e40af;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.formula-card.output-formula h5 {
+  color: #166534;
+}
+
+.formula-code {
+  font-family: 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+  font-size: 18px;
+  text-align: center;
+  color: #1e40af;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formula-card p {
+  color: #1e3a8a;
+  line-height: 1.8;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+.highlight-blue {
+  color: #1e40af;
+  font-weight: bold;
+}
+
+.parameters-section {
+  margin: 40px 0;
+  padding: 25px;
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.parameters-section h4 {
+  color: #1e40af;
+  font-size: 24px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.parameters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.parameter-item {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.parameter-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  border-color: #3b82f6;
+}
+
+.parameter-item strong {
+  display: block;
+  font-size: 24px;
+  color: #1e40af;
+  margin-bottom: 10px;
+  font-family: 'Courier New', monospace;
+}
+
+.parameter-item p {
+  color: #475569;
+  font-size: 14px;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.param-shape {
+  font-family: 'Courier New', monospace;
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: rgba(239, 246, 255, 0.95);
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.flow-explanation {
+  margin: 40px 0;
+  padding: 25px;
+  background: rgba(248, 250, 252, 0.95);
+  border-radius: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.flow-explanation h4 {
+  color: #1e40af;
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.flow-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.step-content {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  min-width: 150px;
+}
+
+.step-content strong {
+  display: block;
+  color: #1e40af;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  color: #64748b;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.flow-arrow {
+  font-size: 32px;
+  color: #3b82f6;
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .flow-steps {
+    flex-direction: column;
+  }
+  
+  .flow-arrow {
+    transform: rotate(90deg);
+    margin: 10px 0;
+  }
+  
+  .parameters-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

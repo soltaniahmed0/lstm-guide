@@ -1,0 +1,36 @@
+/* Système de couleurs cohérent pour la présentation LSTM */
+
+:root {
+  /* Couleurs principales */
+  --primary-color: #667eea;
+  --primary-dark: #764ba2;
+  --primary-light: rgba(102, 126, 234, 0.1);
+  
+  /* Couleurs de texte */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-light: #64748b;
+  
+  /* Couleurs de fond */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-hover: rgba(102, 126, 234, 0.05);
+  
+  /* Bordures */
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-medium: rgba(0, 0, 0, 0.15);
+  --border-primary: rgba(102, 126, 234, 0.3);
+  
+  /* Couleurs d'accent */
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-error: #ef4444;
+  --accent-info: #3b82f6;
+  
+  /* Ombres */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
