@@ -63,7 +63,7 @@ function RNNVectorSlide() {
 
   return (
     <div className="slide rnn-vector-slide">
-      <h1 className="slide-title-main">📊 RNN avec Vecteurs et Matrices</h1>
+      <h1 className="slide-title-main">RNN avec Vecteurs et Matrices</h1>
 
       <div className="container">
 

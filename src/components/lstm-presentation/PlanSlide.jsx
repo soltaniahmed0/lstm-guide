@@ -1,5 +1,6 @@
 import React from 'react'
 import './PlanSlide.css'
+import planImage from '../../img/110.png'
 
 function PlanSlide() {
   const planItems = [
@@ -13,7 +14,10 @@ function PlanSlide() {
 
   return (
     <div className="slide plan-slide">
-      <h1 className="slide-title-main">Plan de Présentation</h1>
+      <div className="plan-title-header">
+        <h1 className="slide-title-main">Plan de Présentation</h1>
+        <img src={planImage} alt="Plan" className="plan-image" />
+      </div>
       <div className="plan-container">
         {planItems.map((item, index) => (
           <div key={index} className="plan-item" style={{ animationDelay: `${index * 0.15}s` }}>

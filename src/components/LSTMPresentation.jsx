@@ -10,6 +10,8 @@ import RNNVectorSlide from './lstm-presentation/RNNVectorSlide'
 import RNNWorkingSlide from './lstm-presentation/RNNWorkingSlide'
 import RNNApplicationsSlide from './lstm-presentation/RNNApplicationsSlide'
 import RNNFormulasSlide from './lstm-presentation/RNNFormulasSlide'
+import RNNGeneralProblemSlide from './lstm-presentation/RNNGeneralProblemSlide'
+import RNNQuestionSlide from './lstm-presentation/RNNQuestionSlide'
 import RNNVanishingSlide from './lstm-presentation/RNNVanishingSlide'
 import RNNExplodingSlide from './lstm-presentation/RNNExplodingSlide'
 import LSTMDefinitionSlide from './lstm-presentation/LSTMDefinitionSlide'
@@ -41,6 +43,8 @@ function LSTMPresentation() {
     { id: 'rnn-schema', component: RNNSchemaSlide, title: 'RNN - Architecture (Schéma Animé)' },
     { id: 'rnn-vector', component: RNNVectorSlide, title: 'RNN - Architecture (Schéma avec Vecteurs)' },
     { id: 'rnn-working', component: RNNWorkingSlide, title: 'RNN - Comment Fonctionne (Calculs avec Valeurs Réelles)' },
+    { id: 'rnn-general-problem', component: RNNGeneralProblemSlide, title: 'RNN - Problème Général: Oubli sur Longues Séquences' },
+    { id: 'rnn-question', component: RNNQuestionSlide, title: 'RNN - Question : Pourquoi ?' },
     { id: 'rnn-vanishing', component: RNNVanishingSlide, title: 'RNN - Problème: Vanishing Gradient' },
     { id: 'rnn-exploding', component: RNNExplodingSlide, title: 'RNN - Problème: Exploding Gradient' },
     // 5. LSTM Section

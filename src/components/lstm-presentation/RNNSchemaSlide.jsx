@@ -215,7 +215,7 @@ function RNNSchemaSlide() {
 
   return (
     <div className="slide rnn-schema-slide">
-      <h1 className="slide-title-main">🧠 Architecture RNN — Visualisation Interactive</h1>
+      <h1 className="slide-title-main">Architecture RNN — Visualisation Interactive</h1>
 
       <div className="container">
         <div className="rnn-cell-container" id="rnn-cell">

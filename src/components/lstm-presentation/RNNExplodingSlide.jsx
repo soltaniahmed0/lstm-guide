@@ -34,7 +34,7 @@ function RNNExplodingSlide() {
 
   return (
     <div className="slide rnn-exploding-slide">
-      <h1 className="slide-title-main">🚀 L'Exploding Gradient</h1>
+      <h1 className="slide-title-main">L'Exploding Gradient</h1>
 
       <div className="container">
         <div className="gradient-schema exploding">

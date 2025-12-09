@@ -1,11 +1,15 @@
 import React from 'react'
 import './TitleSlide.css'
+import titleImage from '../../img/100.png'
 
 function TitleSlide() {
   return (
     <div className="slide title-slide">
       <div className="title-content">
-        <h1 className="main-title">Long Short-Term Memory</h1>
+        <div className="title-header">
+          <img src={titleImage} alt="LSTM" className="title-image" />
+          <h1 className="main-title">Long Short-Term Memory</h1>
+        </div>
         <div className="presenters-section">
           <div className="section">
             <h2 className="section-label">PRÉSENTÉE PAR :</h2>

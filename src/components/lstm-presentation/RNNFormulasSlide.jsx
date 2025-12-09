@@ -1,11 +1,11 @@
 import React from 'react'
 import './RNNFormulasSlide.css'
-import rnnDiagram from '../../a25d0295-2962-46b7-95d4-eeb7eb3403d8.jpeg'
+import rnnDiagram from '../../img/1.png'
 
 function RNNFormulasSlide() {
   return (
     <div className="slide rnn-formulas-slide">
-      <h1 className="slide-title-main">📖 Architecture RNN — Formules et Description</h1>
+      <h1 className="slide-title-main">Architecture RNN — Formules et Description</h1>
       
       <div className="formulas-content-wrapper">
         {/* Image RNN Rolled/Unrolled - Grand format */}
@@ -46,27 +46,22 @@ function RNNFormulasSlide() {
             <div className="parameter-item">
               <strong>Wₕₕ</strong>
               <p>Poids de la connexion récurrente (hₜ₋₁ → hₜ)</p>
-              <div className="param-shape">Forme: (R, R)</div>
             </div>
             <div className="parameter-item">
               <strong>Wₓₕ</strong>
               <p>Poids de l'entrée (xₜ → hₜ)</p>
-              <div className="param-shape">Forme: (R, M)</div>
             </div>
             <div className="parameter-item">
               <strong>Wₕᵧ</strong>
               <p>Poids de la sortie (hₜ → yₜ)</p>
-              <div className="param-shape">Forme: (O, R)</div>
             </div>
             <div className="parameter-item">
               <strong>bₕ</strong>
               <p>Biais pour l'état caché</p>
-              <div className="param-shape">Forme: (R,)</div>
             </div>
             <div className="parameter-item">
               <strong>bᵧ</strong>
               <p>Biais pour la sortie</p>
-              <div className="param-shape">Forme: (O,)</div>
             </div>
           </div>
         </section>

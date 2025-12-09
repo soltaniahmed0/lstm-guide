@@ -259,56 +259,60 @@ function RNNWorkingSlide() {
         </div>
 
 
-        <div className="rnn-visualization">
-          {/* h0 */}
-          <div className="block">
-            <div className={`h0-box ${currentIndex === 1 && substep >= 1 ? 'prev-highlight' : ''}`}>
-              <div className="value">{hiddenStates[0].toFixed(3)}</div>
-            </div>
-          </div>
-
-          {/* Timesteps 1-4 */}
-          {[1, 2, 3, 4].map(index => {
-            const values = getDisplayValues(index)
-            const isActive = currentIndex === index && step >= index - 1
-            const isComplete = step > index - 1
-            const showArrow = isActive && substep >= 1
-
-            return (
-              <div key={index} className="block">
-                <div className={`y-circle ${values.y !== null ? 'active' : 'inactive'}`}>
-                  <div className="value">{values.y !== null ? values.y.toFixed(3) : '-'}</div>
-                </div>
-                <div className={`h-box ${values.h !== null ? 'active' : 'inactive'}`}>
-                  <div className={`recurrent-arrow ${showArrow ? 'active' : ''}`}></div>
-                  <div className="value">{values.h !== null ? values.h.toFixed(3) : '-'}</div>
-                </div>
-                <div className={`x-circle ${values.x !== null ? 'active' : 'inactive'}`}>
-                  <div className="value">{values.x !== null ? values.x.toFixed(3) : '-'}</div>
-                </div>
+        <div className="visualization-formula-wrapper">
+          <div className="rnn-visualization">
+            {/* h0 */}
+            <div className="block">
+              <div className={`h0-box ${currentIndex === 1 && substep >= 1 ? 'prev-highlight' : ''}`}>
+                <div className="value">{hiddenStates[0].toFixed(3)}</div>
               </div>
-            )
-          })}
+            </div>
 
-          <div className="ellipsis">...</div>
-        </div>
+            {/* Timesteps 1-4 */}
+            {[1, 2, 3, 4].map(index => {
+              const values = getDisplayValues(index)
+              const isActive = currentIndex === index && step >= index - 1
+              const isComplete = step > index - 1
+              const showArrow = isActive && substep >= 1
 
-        <div className="formula-display">
-          <strong>Formule RNN:</strong><br/>
-          hₜ = tanh(<span style={{color:'#ff6b6b'}}>Wₕₕ·hₜ₋₁</span> + Wₓₕ·xₜ + bₕ)<br/>
-          yₜ = Wₕᵧ·hₜ + bᵧ<br/>
-          <span className="formula-params">(Poids: Wₕₕ={W_hh}, Wₓₕ={W_xh}, bₕ={b_h}, Wₕᵧ={W_hy}, bᵧ={b_y})</span>
-        </div>
+              return (
+                <div key={index} className="block">
+                  <div className={`y-circle ${values.y !== null ? 'active' : 'inactive'}`}>
+                    <div className="value">{values.y !== null ? values.y.toFixed(3) : '-'}</div>
+                  </div>
+                  <div className={`h-box ${values.h !== null ? 'active' : 'inactive'}`}>
+                    <div className={`recurrent-arrow ${showArrow ? 'active' : ''}`}></div>
+                    <div className="value">{values.h !== null ? values.h.toFixed(3) : '-'}</div>
+                  </div>
+                  <div className={`x-circle ${values.x !== null ? 'active' : 'inactive'}`}>
+                    <div className="value">{values.x !== null ? values.x.toFixed(3) : '-'}</div>
+                  </div>
+                </div>
+              )
+            })}
 
-        {showBreakdown && (
-          <div className="calculation-breakdown">
-            <h4>📊 Détail du Calcul Étape par Étape</h4>
-            <div 
-              className="breakdown-content"
-              dangerouslySetInnerHTML={{ __html: getBreakdownContent() }}
-            />
+            <div className="ellipsis">...</div>
           </div>
-        )}
+
+          <div className="formula-right-column">
+            <div className="formula-display">
+              <strong>Formule RNN:</strong><br/>
+              hₜ = tanh(<span style={{color:'#ff6b6b'}}>Wₕₕ·hₜ₋₁</span> + Wₓₕ·xₜ + bₕ)<br/>
+              yₜ = Wₕᵧ·hₜ + bᵧ<br/>
+              <span className="formula-params">(Poids: Wₕₕ={W_hh}, Wₓₕ={W_xh}, bₕ={b_h}, Wₕᵧ={W_hy}, bᵧ={b_y})</span>
+            </div>
+
+            {showBreakdown && (
+              <div className="calculation-breakdown">
+                <h4>📊 Détail du Calcul Étape par Étape</h4>
+                <div 
+                  className="breakdown-content"
+                  dangerouslySetInnerHTML={{ __html: getBreakdownContent() }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

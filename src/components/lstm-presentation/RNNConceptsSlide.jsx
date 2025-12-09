@@ -4,7 +4,7 @@ import './RNNConceptsSlide.css'
 function RNNConceptsSlide() {
   return (
     <div className="slide rnn-concepts-slide">
-      <h1 className="slide-title-main">📚 Concepts Fondamentaux</h1>
+      <h1 className="slide-title-main">Concepts Fondamentaux</h1>
       <p className="subtitle">Gradient, Poids W, et Forme des Données</p>
 
       <div className="container">

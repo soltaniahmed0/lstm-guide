@@ -414,7 +414,7 @@ function RNNArchitectureSlide() {
 
   return (
     <div className="slide rnn-architecture-slide">
-      <h1 className="slide-title-main">🧠 Architecture RNN — Disparition du Gradient</h1>
+      <h1 className="slide-title-main">Architecture RNN — Disparition du Gradient</h1>
       <p className="subtitle">Visualisation de l'architecture RNN et du problème de disparition du gradient</p>
 
       <div className="container">
