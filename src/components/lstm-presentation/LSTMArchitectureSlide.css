@@ -230,9 +230,9 @@
   background: transparent;
   border: none;
   border-radius: 0;
-  padding: 40px;
+  padding: 28px;
   position: relative;
-  min-height: 1100px;
+  min-height: 770px;
   margin: 0;
   box-shadow: none;
   overflow: visible;
@@ -242,14 +242,14 @@
 /* Input/Output Nodes */
 .node {
   position: absolute;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  font-size: 11px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
   transition: all 0.4s;
   z-index: 10;
 }
@@ -264,46 +264,46 @@
 .node-input {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: #fff;
-  border: 4px solid #1e40af;
-  padding: 20px 30px;
-  min-width: 140px;
-  font-size: 18px;
+  border: 3px solid #1e40af;
+  padding: 14px 21px;
+  min-width: 98px;
+  font-size: 12px;
 }
 
 .node-cell-prev {
   background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
   color: #fff;
-  border: 4px solid #c2410c;
-  padding: 20px 30px;
-  min-width: 140px;
-  font-size: 18px;
+  border: 3px solid #c2410c;
+  padding: 14px 21px;
+  min-width: 98px;
+  font-size: 12px;
 }
 
 .node-hidden-prev {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #fff;
-  border: 4px solid #b45309;
-  padding: 20px 30px;
-  min-width: 140px;
-  font-size: 18px;
+  border: 3px solid #b45309;
+  padding: 14px 21px;
+  min-width: 98px;
+  font-size: 12px;
 }
 
 .node-output {
   background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
   color: #fff;
-  border: 4px solid #c2410c;
-  padding: 20px 30px;
-  min-width: 140px;
-  font-size: 18px;
+  border: 3px solid #c2410c;
+  padding: 14px 21px;
+  min-width: 98px;
+  font-size: 12px;
 }
 
 .node-hidden-out {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #fff;
-  border: 4px solid #b45309;
-  padding: 20px 30px;
-  min-width: 140px;
-  font-size: 18px;
+  border: 3px solid #b45309;
+  padding: 14px 21px;
+  min-width: 98px;
+  font-size: 12px;
 }
 
 /* Cell State Path */
@@ -337,19 +337,19 @@
 /* Gate Boxes */
 .gate-box {
   position: absolute;
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px;
-  min-width: 110px;
-  min-height: 110px;
+  padding: 10px;
+  min-width: 77px;
+  min-height: 77px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 10px;
   color: #000;
-  border: 4px solid transparent;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  border: 3px solid transparent;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   transition: all 0.4s;
   z-index: 10;
 }
@@ -379,16 +379,16 @@
 /* Activation Functions */
 .activation {
   position: absolute;
-  width: 85px;
-  height: 85px;
-  border-radius: 12px;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   color: #fff;
-  border: 4px solid #000;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border: 3px solid #000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   transition: all 0.4s;
   z-index: 10;
 }
@@ -406,7 +406,7 @@
 
 .activation-sigmoid::before {
   content: 'σ';
-  font-size: 42px;
+  font-size: 29px;
   font-weight: bold;
 }
 
@@ -417,25 +417,25 @@
 
 .activation-tanh::before {
   content: 'tanh';
-  font-size: 16px;
+  font-size: 11px;
   font-weight: bold;
 }
 
 /* Operation Nodes */
 .operation {
   position: absolute;
-  width: 65px;
-  height: 65px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  font-size: 25px;
   font-weight: bold;
   color: #fff;
   background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
-  border: 4px solid #c2410c;
-  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
+  border: 3px solid #c2410c;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.5);
   transition: all 0.4s;
   z-index: 10;
 }
@@ -462,26 +462,26 @@
 
 .operation-add::before {
   content: '+';
-  font-size: 40px;
+  font-size: 28px;
 }
 
 /* Candidate Gate */
 .candidate-gate {
   position: absolute;
   background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
-  border: 4px solid #f59e0b;
-  border-radius: 12px;
-  padding: 15px;
-  min-width: 110px;
-  min-height: 110px;
+  border: 3px solid #f59e0b;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 77px;
+  min-height: 77px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 10px;
   color: #000;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   transition: all 0.4s;
   z-index: 10;
 }
@@ -506,48 +506,86 @@
 }
 
 .flow-line {
-  stroke-width: 4;
+  stroke-width: 3;
   fill: none;
   opacity: 0;
-  transition: opacity 0.5s;
+  transition: none !important;
+  animation: none !important;
 }
 
-.flow-line.active {
-  opacity: 1;
-  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8));
-  stroke: #3b82f6;
-  stroke-width: 5;
-  animation: drawLine 1s ease-in-out;
+.flow-line-parallel {
+  stroke-width: 3 !important;
+  stroke: #000000 !important;
+  z-index: 1;
 }
 
-@keyframes drawLine {
-  0% {
-    stroke-dasharray: 0 1000;
-  }
-  100% {
-    stroke-dasharray: 1000 0;
-  }
+.flow-line-parallel.active {
+  opacity: 1 !important;
+  stroke: #000000 !important;
+  stroke-width: 3 !important;
+  transition: none !important;
+  animation: none !important;
+  z-index: 2;
+}
+
+/* Force markers to appear instantly without transition */
+.flow-line-parallel.active marker-end,
+.flow-line-parallel.active[marker-end] {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure arrowheads have no animation - comprehensive rules */
+svg marker,
+svg marker *,
+svg marker polygon,
+svg marker path,
+svg marker circle,
+svg marker rect,
+svg marker g {
+  animation: none !important;
+  transition: none !important;
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Prevent markers from inheriting transitions from parent lines */
+.flow-line-parallel[marker-end],
+.flow-line[marker-end],
+line[marker-end],
+path[marker-end] {
+  --marker-opacity: 1;
+}
+
+/* Force immediate appearance of markers */
+.flow-line-parallel.active[marker-end] marker,
+.flow-line.active[marker-end] marker {
+  opacity: 1 !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Section Labels */
 .section-label {
   position: absolute;
   background: rgba(255, 255, 255, 0.95);
-  padding: 8px 15px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 9px;
   font-weight: bold;
   color: #7c2d12;
-  border: 2px solid #ea580c;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ea580c;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
   z-index: 20;
 }
 
 /* Dashed Box around Gates */
 .gate-dashed-box {
   position: absolute;
-  border: 3px dashed #f97316;
-  border-radius: 12px;
+  border: 2px dashed #f97316;
+  border-radius: 8px;
   background: rgba(254, 243, 199, 0.3);
   z-index: 2;
   pointer-events: none;
@@ -557,17 +595,17 @@
 .weight-label {
   position: absolute;
   background: linear-gradient(135deg, #fff 0%, #f0f9ff 100%);
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 14px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 10px;
   font-weight: bold;
   color: #1e40af;
-  border: 3px solid #3b82f6;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8);
+  border: 2px solid #3b82f6;
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.8);
   z-index: 30;
   font-family: 'Courier New', monospace;
   text-align: center;
-  min-width: 55px;
+  min-width: 38px;
   transform: translate(-50%, -50%);
   opacity: 0;
   transition: all 0.4s ease;
@@ -662,12 +700,12 @@
 
 /* Value Display */
 .value {
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 800;
-  margin-top: 8px;
-  padding: 5px 10px;
+  margin-top: 5px;
+  padding: 3px 7px;
   background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  min-width: 80px;
+  border-radius: 3px;
+  min-width: 56px;
   text-align: center;
 }
