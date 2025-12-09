@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './LSTMGatesSlide.css'
+import gatesImage from '../../img/6.png'
 
 function LSTMGatesSlide() {
   const [selectedGate, setSelectedGate] = useState('forget')
@@ -104,35 +105,41 @@ function LSTMGatesSlide() {
       <h1 className="slide-title-main">Les Gates de LSTM</h1>
       
       <div className="gates-container">
-        <div className="gates-selector">
-          {Object.keys(gates).map((gateKey) => (
-            <button
-              key={gateKey}
-              className={`gate-btn ${selectedGate === gateKey ? 'active' : ''}`}
-              onClick={() => setSelectedGate(gateKey)}
-              style={{ borderColor: gates[gateKey].color }}
-            >
-              <div className="gate-btn-color" style={{ backgroundColor: gates[gateKey].color }}></div>
-              <span>{gates[gateKey].symbol}</span>
-            </button>
-          ))}
+        <div className="gates-image-section">
+          <img src={gatesImage} alt="LSTM Gates" className="gates-image" />
         </div>
 
-        <div className="gate-details">
-          <div className="gate-header" style={{ borderLeftColor: currentGate.color }}>
-            <h2>{currentGate.name}</h2>
-            <p className="gate-purpose">{currentGate.purpose}</p>
+        <div className="gates-content-wrapper">
+          <div className="gates-selector">
+            {Object.keys(gates).map((gateKey) => (
+              <button
+                key={gateKey}
+                className={`gate-btn ${selectedGate === gateKey ? 'active' : ''}`}
+                onClick={() => setSelectedGate(gateKey)}
+                style={{ borderColor: gates[gateKey].color }}
+              >
+                <div className="gate-btn-color" style={{ backgroundColor: gates[gateKey].color }}></div>
+                <span>{gates[gateKey].symbol}</span>
+              </button>
+            ))}
           </div>
 
-          <div className="gate-content">
-            <div className="formula-section">
-              <h3>📐 Formule Mathématique :</h3>
-              <div className="formula-box" style={{ borderColor: currentGate.color }}>
-                <p className="main-formula" dangerouslySetInnerHTML={{ __html: currentGate.formula }}></p>
-                <div className="formula-breakdown">
-                  {currentGate.detailed.map((detail, index) => (
-                    <p key={index} className="formula-detail" dangerouslySetInnerHTML={{ __html: `• ${detail}` }}></p>
-                  ))}
+          <div className="gate-details">
+            <div className="gate-header" style={{ borderLeftColor: currentGate.color }}>
+              <h2>{currentGate.name}</h2>
+              <p className="gate-purpose">{currentGate.purpose}</p>
+            </div>
+
+            <div className="gate-content">
+              <div className="formula-section">
+                <h3>📐 Formule Mathématique :</h3>
+                <div className="formula-box" style={{ borderColor: currentGate.color }}>
+                  <p className="main-formula" dangerouslySetInnerHTML={{ __html: currentGate.formula }}></p>
+                  <div className="formula-breakdown">
+                    {currentGate.detailed.map((detail, index) => (
+                      <p key={index} className="formula-detail" dangerouslySetInnerHTML={{ __html: `• ${detail}` }}></p>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

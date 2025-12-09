@@ -1,104 +1,139 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './RNNVanishingSlide.css'
+import vanishingImage from '../../img/u.png'
 
 function RNNVanishingSlide() {
-  const [animated, setAnimated] = useState(false)
-
-  useEffect(() => {
-    setAnimated(true)
-    // Animate vanishing gradient
-    const timesteps = [4, 3, 2, 1, 0]
-    timesteps.forEach((t, idx) => {
-      setTimeout(() => {
-        const gradEl = document.getElementById(`van-grad-${t}`)
-        const arrowEl = document.getElementById(`van-arrow-${t}`)
-        if (gradEl) {
-          gradEl.style.transform = 'scale(1.3)'
-          gradEl.style.transition = 'all 0.3s'
-          setTimeout(() => {
-            gradEl.style.transform = 'scale(1)'
-          }, 300)
-        }
-        if (arrowEl) {
-          arrowEl.style.width = '40px'
-          arrowEl.style.opacity = '1'
-          arrowEl.style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.5)'
-          setTimeout(() => {
-            arrowEl.style.opacity = '0.6'
-            arrowEl.style.boxShadow = 'none'
-          }, 500)
-        }
-      }, idx * 400)
-    })
-  }, [])
-
   return (
     <div className="slide rnn-vanishing-slide">
       <h1 className="slide-title-main">Le Vanishing Gradient</h1>
 
-      <div className="container">
-        <div className="gradient-schema vanishing">
-          <h4>🔻 Le Vanishing Gradient<br/><span>(Gradient qui disparaît ≈ 0.0001)</span></h4>
-          <div className="icon">📉</div>
-          
-          <div className="rnn-unrolled">
-            {[4, 3, 2, 1, 0].map((t, idx) => (
-              <React.Fragment key={t}>
-                <div className="rnn-timestep">
-                  <div className="timestep-label">t={t}</div>
-                  <div className="rnn-node output">
-                    <div>y<sub>{t}</sub></div>
-                    <div className="gradient-value" id={`van-grad-${t}`}>
-                      {[1.000, 0.250, 0.063, 0.016, 0.004][idx]}
-                    </div>
-                  </div>
-                  <div className="rnn-node hidden">
-                    <div>h<sub>{t}</sub></div>
-                  </div>
+      <div className="vanishing-container">
+        {/* Introduction au gradient */}
+        <div className="gradient-intro-section">
+          <h2>Qu'est-ce qu'un Gradient ?</h2>
+          <p className="intro-text">
+            Quand le réseau fait une erreur (par exemple, il prédit <strong>"étaient"</strong> au lieu de <strong>"était"</strong>), 
+            il doit ajuster ses poids pour s'améliorer. Pour cela, il calcule le <strong>gradient</strong> - 
+            une mesure de <em>"combien changer chaque poids"</em>.
+          </p>
+        </div>
+
+        {/* Le problème */}
+        <div className="problem-section">
+          <h2>Voici le Problème</h2>
+          <div className="sentence-flow">
+            <div className="word-box start">
+              <span className="word">"Le <strong>chat</strong>"</span>
+              <span className="word-label">Sujet (singulier)</span>
+            </div>
+            <div className="arrow">→</div>
+            <div className="word-box middle">
+              <span className="word">"...qui aime..."</span>
+              <span className="word-label">Milieu</span>
+            </div>
+            <div className="arrow">→</div>
+            <div className="word-box end">
+              <span className="word">"...<strong>était</strong> heureux"</span>
+              <span className="word-label">Verbe (doit être singulier)</span>
+            </div>
+          </div>
+          <p className="problem-statement">
+            <strong>Pour savoir comment ajuster les poids au niveau du mot "était",</strong> le réseau doit 
+            remonter jusqu'au mot <strong>"chat"</strong> (le sujet) pour comprendre qu'il fallait du singulier.
+          </p>
+        </div>
+
+        {/* Comment le gradient disparaît */}
+        <div className="gradient-multiplication-section">
+          <h2>Comment le Gradient Disparaît</h2>
+          <p className="explanation-text">
+            À chaque étape en arrière, le gradient est multiplié par la dérivée de la fonction d'activation 
+            et par la matrice de poids.
+          </p>
+          <p className="explanation-text">
+            Si ces valeurs sont &lt; 1 (ce qui est souvent le cas), regarde ce qui se passe :
+          </p>
+
+          <div className="gradient-steps">
+            <div className="step-item">
+              <span className="step-number">Étape 1</span>
+              <div className="step-formula">
+                gradient × 0.5 = <span className="result">gradient/2</span>
+              </div>
+            </div>
+            <div className="step-item">
+              <span className="step-number">Étape 2</span>
+              <div className="step-formula">
+                gradient/2 × 0.5 = <span className="result">gradient/4</span>
+              </div>
+            </div>
+            <div className="step-item">
+              <span className="step-number">Étape 3</span>
+              <div className="step-formula">
+                gradient/4 × 0.5 = <span className="result">gradient/8</span>
+              </div>
+            </div>
+            <div className="step-item highlight">
+              <span className="step-number">Après 10 étapes</span>
+              <div className="step-formula">
+                gradient/(2<sup>10</sup>) ≈ <span className="result">gradient/1024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Exemple numérique */}
+        <div className="numeric-example-section">
+          <h2>Exemple Numérique</h2>
+          <p className="example-intro">Disons que ton gradient initial = <strong>1.0</strong></p>
+          <p className="example-intro">Après 10 multiplications par 0.3 :</p>
+          <div className="calculation-box">
+            <div className="formula-display">
+              1.0 × 0.3<sup>10</sup> = <span className="result">0.0000059</span>
+            </div>
+            <p className="conclusion-text">
+              Le gradient est devenu <strong>quasi nul</strong> ! Le réseau ne peut presque plus apprendre 
+              la connexion entre <strong>"chat"</strong> et <strong>"était"</strong> car le signal d'erreur 
+              a <strong>"disparu"</strong> en remontant.
+            </p>
+          </div>
+        </div>
+
+        {/* Conséquence pratique */}
+        <div className="consequence-section">
+          <h2>Conséquence Pratique</h2>
+          <div className="consequence-box">
+            <p>
+              Le RNN peut apprendre des dépendances <strong>courtes</strong> (2-3 mots), mais échoue sur des 
+              dépendances <strong>longues</strong> (10+ mots) car le gradient devient trop faible pour modifier 
+              significativement les poids.
+            </p>
+          </div>
+        </div>
+
+        {/* Pourquoi cela arrive ? */}
+        <div className="why-section">
+          <div className="why-content-wrapper">
+            <div className="why-text">
+              <h2>Pourquoi cela arrive ?</h2>
+              <p className="why-intro">
+                Pendant la rétropropagation à travers le temps (BPTT), le gradient doit être multiplié par la dérivée 
+                de la fonction d'activation à chaque timestep. Si Wₕₕ &lt; 1 et tanh'(z) ≤ 1, chaque multiplication réduit le gradient :
+              </p>
+              <div className="formula-box">
+                <div className="main-formula">
+                  ∂L/∂h₀ = (∂L/∂hₜ) × (∂hₜ/∂hₜ₋₁) × ... × (∂h₁/∂h₀)
                 </div>
-                {idx < 4 && <div className="gradient-arrow" id={`van-arrow-${t}`}></div>}
-              </React.Fragment>
-            ))}
+                <p className="formula-explanation">
+                  Chaque terme (∂hₜ/∂hₜ₋₁) = tanh'(z) × Wₕₕ où tanh'(z) ≤ 1. 
+                  Si Wₕₕ &lt; 1, le produit devient <strong>exponentiellement petit</strong> après plusieurs timesteps.
+                </p>
+              </div>
+            </div>
+            <div className="why-image">
+              <img src={vanishingImage} alt="Vanishing Gradient" className="vanishing-diagram" />
+            </div>
           </div>
-          
-          <div className="gradient-explanation">
-            <p><strong>🔍 Explication :</strong></p>
-            <p>Il se produit lorsque les gradients deviennent très petits pendant la rétro-propagation, presque nuls.</p>
-            <p><strong>→</strong> Le réseau n'apprend plus, car les poids ne se mettent presque plus à jour.</p>
-            <p><strong>Cause :</strong> Wₕₕ &lt; 1 et tanh'(z) ≤ 1, donc chaque multiplication réduit le gradient.</p>
-          </div>
-        </div>
-
-        <div className="info-panel">
-          <h4>📉 Exemple Numérique</h4>
-          <p>Supposons Wₕₕ = 0.5 et tanh' ≈ 0.5, alors chaque terme ≈ 0.25 :</p>
-          <ul className="example-list">
-            <li><strong>Timestep 1:</strong> Gradient ≈ 0.25 (25%)</li>
-            <li><strong>Timestep 2:</strong> Gradient ≈ 0.25 × 0.25 = 0.0625 (6.25%)</li>
-            <li><strong>Timestep 3:</strong> Gradient ≈ 0.0625 × 0.25 = 0.0156 (1.56%)</li>
-            <li><strong>Timestep 4:</strong> Gradient ≈ 0.0156 × 0.25 = 0.0039 (<span className="highlight-red">0.39%</span>!)</li>
-            <li><strong>Timestep 10:</strong> Gradient ≈ 0.0000001 (<span className="highlight-red">~0%</span>!)</li>
-          </ul>
-          <p className="warning-text">Après seulement 4 timesteps, le gradient n'est plus que <strong>0.39%</strong> de sa valeur initiale !</p>
-        </div>
-
-        <div className="info-panel">
-          <h4>💡 Conséquences</h4>
-          <ul>
-            <li><strong>Les poids ne s'updatent plus :</strong> Le gradient est trop petit pour modifier les poids efficacement</li>
-            <li><strong>Pas de mémoire à long terme :</strong> Le réseau ne peut pas apprendre des dépendances distantes (plus de 5-10 timesteps)</li>
-            <li><strong>Performance limitée :</strong> Seules les dépendances à court terme peuvent être capturées</li>
-          </ul>
-        </div>
-
-        <div className="info-panel solution-panel">
-          <h4>✅ Solutions</h4>
-          <ul>
-            <li><strong>LSTM :</strong> Utilise un Cell State qui permet au gradient de circuler sans disparaître grâce à des portes</li>
-            <li><strong>GRU :</strong> Variante simplifiée de LSTM avec moins de paramètres</li>
-            <li><strong>Gradient Clipping :</strong> Limite la valeur du gradient pour éviter aussi l'explosion</li>
-            <li><strong>Initialisation des poids :</strong> Initialiser Wₕₕ proche de 1 (matrice d'identité) aide à préserver le gradient</li>
-          </ul>
         </div>
       </div>
     </div>
@@ -106,4 +141,3 @@ function RNNVanishingSlide() {
 }
 
 export default RNNVanishingSlide
-

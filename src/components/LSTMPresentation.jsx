@@ -12,8 +12,8 @@ import RNNApplicationsSlide from './lstm-presentation/RNNApplicationsSlide'
 import RNNFormulasSlide from './lstm-presentation/RNNFormulasSlide'
 import RNNGeneralProblemSlide from './lstm-presentation/RNNGeneralProblemSlide'
 import RNNQuestionSlide from './lstm-presentation/RNNQuestionSlide'
-import RNNVanishingSlide from './lstm-presentation/RNNVanishingSlide'
-import RNNExplodingSlide from './lstm-presentation/RNNExplodingSlide'
+import RNNProblemsCombinedSlide from './lstm-presentation/RNNProblemsCombinedSlide'
+import LSTMSolutionQuestionSlide from './lstm-presentation/LSTMSolutionQuestionSlide'
 import LSTMDefinitionSlide from './lstm-presentation/LSTMDefinitionSlide'
 import LSTMArchitectureSlide from './lstm-presentation/LSTMArchitectureSlide'
 import LSTMGatesSlide from './lstm-presentation/LSTMGatesSlide'
@@ -45,8 +45,8 @@ function LSTMPresentation() {
     { id: 'rnn-working', component: RNNWorkingSlide, title: 'RNN - Comment Fonctionne (Calculs avec Valeurs Réelles)' },
     { id: 'rnn-general-problem', component: RNNGeneralProblemSlide, title: 'RNN - Problème Général: Oubli sur Longues Séquences' },
     { id: 'rnn-question', component: RNNQuestionSlide, title: 'RNN - Question : Pourquoi ?' },
-    { id: 'rnn-vanishing', component: RNNVanishingSlide, title: 'RNN - Problème: Vanishing Gradient' },
-    { id: 'rnn-exploding', component: RNNExplodingSlide, title: 'RNN - Problème: Exploding Gradient' },
+    { id: 'rnn-problems-combined', component: RNNProblemsCombinedSlide, title: 'RNN - Problèmes: Vanishing & Exploding Gradient' },
+    { id: 'lstm-solution-question', component: LSTMSolutionQuestionSlide, title: 'LSTM - Question : Quelle est la solution ?' },
     // 5. LSTM Section
     { id: 'lstm-definition', component: LSTMDefinitionSlide, title: 'LSTM - Définition' },
     { id: 'lstm-gates', component: LSTMGatesSlide, title: 'LSTM - Gates (5 Neurones)' },

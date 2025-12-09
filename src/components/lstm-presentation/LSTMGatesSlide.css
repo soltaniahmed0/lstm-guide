@@ -3,11 +3,33 @@
 }
 
 .gates-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.gates-image-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.gates-image {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 700px;
+  object-fit: contain;
+}
+
+.gates-content-wrapper {
   display: flex;
   flex-direction: column;
   gap: 35px;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .gates-selector {
@@ -275,6 +297,13 @@
 .formula-sequence strong {
   color: #667eea;
   font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+  .gates-image {
+    max-width: 95%;
+    max-height: 500px;
+  }
 }
 
 @media (max-width: 768px) {
