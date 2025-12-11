@@ -185,6 +185,29 @@
   text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
 }
 
+/* Page Number in Fullscreen */
+.page-number-fullscreen {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  border: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.page-number-text {
+  font-size: 1.2em;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Zoom Controls in Fullscreen */
 .zoom-controls {
   position: fixed;
@@ -253,6 +276,16 @@
   
   .progress-bar {
     width: 200px;
+  }
+
+  .page-number-fullscreen {
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 16px;
+  }
+
+  .page-number-text {
+    font-size: 1em;
   }
 
   .zoom-controls {

@@ -54,9 +54,10 @@ function LSTMPresentation() {
     { id: 'lstm-architecture', component: LSTMArchitectureSlide, title: 'LSTM - Architecture' },
     // 6. Étude de Cas
     { id: 'case-study', component: LSTMCaseStudySlide, title: 'Étude de Cas - Prédiction Prix de l\'Or' },
-    // 7. Conclusion
-    { id: 'conclusion', component: ConclusionSlide, title: 'Conclusion et Perspectives' },
+    // 7. Avantages et Désavantages
     { id: 'lstm-advantages-disadvantages', component: LSTMAdvantagesDisadvantagesSlide, title: 'LSTM - Avantages et Désavantages' },
+    // 8. Conclusion
+    { id: 'conclusion', component: ConclusionSlide, title: 'Conclusion et Perspectives' },
     // 8. Webographie
     { id: 'webography', component: WebographySlide, title: 'Webographie' },
     // 9. Merci
@@ -194,30 +195,35 @@ function LSTMPresentation() {
       </div>
 
       {isFullscreen && (
-        <div className="zoom-controls">
-          <button 
-            className="zoom-btn" 
-            onClick={handleZoomOut}
-            title="Zoom Out (-)"
-          >
-            −
-          </button>
-          <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
-          <button 
-            className="zoom-btn" 
-            onClick={handleZoomIn}
-            title="Zoom In (+)"
-          >
-            +
-          </button>
-          <button 
-            className="zoom-btn reset" 
-            onClick={handleZoomReset}
-            title="Reset Zoom (0)"
-          >
-            ⟲
-          </button>
-        </div>
+        <>
+          <div className="page-number-fullscreen">
+            <span className="page-number-text">{currentSlide + 1} / {slides.length}</span>
+          </div>
+          <div className="zoom-controls">
+            <button 
+              className="zoom-btn" 
+              onClick={handleZoomOut}
+              title="Zoom Out (-)"
+            >
+              −
+            </button>
+            <span className="zoom-level">{Math.round(zoomLevel * 100)}%</span>
+            <button 
+              className="zoom-btn" 
+              onClick={handleZoomIn}
+              title="Zoom In (+)"
+            >
+              +
+            </button>
+            <button 
+              className="zoom-btn reset" 
+              onClick={handleZoomReset}
+              title="Reset Zoom (0)"
+            >
+              ⟲
+            </button>
+          </div>
+        </>
       )}
 
       {!isFullscreen && (
