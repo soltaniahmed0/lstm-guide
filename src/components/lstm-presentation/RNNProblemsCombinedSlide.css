@@ -65,9 +65,34 @@
   margin-bottom: 20px;
 }
 
-.problem-diagram.additional-image {
-  margin-bottom: 0;
-  margin-top: 20px;
+.problem-description-box {
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.95) 100%);
+  padding: 40px;
+  border-radius: 20px;
+  border-left: 6px solid #3b82f6;
+  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.2);
+}
+
+.problem-description-box.exploding {
+  background: linear-gradient(135deg, rgba(255, 251, 235, 0.95) 0%, rgba(254, 243, 199, 0.95) 100%);
+  border-left-color: #f59e0b;
+  box-shadow: 0 6px 25px rgba(245, 158, 11, 0.2);
+}
+
+.description-text {
+  font-size: 1.4em;
+  line-height: 1.9;
+  color: #1e293b;
+  margin: 0;
+}
+
+.description-text strong {
+  color: #1e40af;
+  font-weight: 700;
+}
+
+.problem-description-box.exploding .description-text strong {
+  color: #d97706;
 }
 
 .text-section {

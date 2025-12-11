@@ -49,12 +49,10 @@ function RNNCasesSlide() {
               <h3 className="case-title">{useCase.title}</h3>
               <div className="case-examples-wrapper">
                 <ul className="case-examples">
-                  {useCase.examples.map((example, idx) => (
-                    <li key={idx}>
-                      <span className="example-bullet">•</span>
-                      <span className="example-text">{example}</span>
-                    </li>
-                  ))}
+                  <li>
+                    <span className="example-bullet">•</span>
+                    <span className="example-text">{useCase.examples[0]}</span>
+                  </li>
                 </ul>
               </div>
             </div>

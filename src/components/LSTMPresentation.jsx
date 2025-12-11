@@ -17,6 +17,7 @@ import LSTMSolutionQuestionSlide from './lstm-presentation/LSTMSolutionQuestionS
 import LSTMDefinitionSlide from './lstm-presentation/LSTMDefinitionSlide'
 import LSTMArchitectureSlide from './lstm-presentation/LSTMArchitectureSlide'
 import LSTMGatesSlide from './lstm-presentation/LSTMGatesSlide'
+import LSTMAdvantagesDisadvantagesSlide from './lstm-presentation/LSTMAdvantagesDisadvantagesSlide'
 import LSTMCaseStudySlide from './lstm-presentation/LSTMCaseStudySlide'
 import ConclusionSlide from './lstm-presentation/ConclusionSlide'
 import WebographySlide from './lstm-presentation/WebographySlide'
@@ -55,6 +56,7 @@ function LSTMPresentation() {
     { id: 'case-study', component: LSTMCaseStudySlide, title: 'Étude de Cas - Prédiction Prix de l\'Or' },
     // 7. Conclusion
     { id: 'conclusion', component: ConclusionSlide, title: 'Conclusion et Perspectives' },
+    { id: 'lstm-advantages-disadvantages', component: LSTMAdvantagesDisadvantagesSlide, title: 'LSTM - Avantages et Désavantages' },
     // 8. Webographie
     { id: 'webography', component: WebographySlide, title: 'Webographie' },
     // 9. Merci

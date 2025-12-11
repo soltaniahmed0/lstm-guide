@@ -22,18 +22,31 @@
   gap: 25px;
 }
 
+.problem-main-section > div:first-of-type {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 25px;
+}
+
 .problem-description-card {
-  background: linear-gradient(135deg, rgba(255, 245, 245, 0.98) 0%, rgba(255, 255, 255, 0.98) 100%);
-  padding: 30px;
-  border-radius: 16px;
-  border-left: 6px solid #ef4444;
-  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.95) 100%);
+  padding: 40px;
+  border-radius: 20px;
+  border-left: 6px solid #3b82f6;
+  box-shadow: 0 6px 25px rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.problem-description-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(59, 130, 246, 0.25);
 }
 
 .problem-description-card h2 {
-  color: #dc2626;
-  font-size: 2em;
-  margin-bottom: 20px;
+  color: #1e40af;
+  font-size: 2.2em;
+  margin-bottom: 25px;
   font-weight: 700;
 }
 
@@ -45,133 +58,39 @@
 }
 
 .example-text {
-  font-size: 1.15em;
-  line-height: 1.7;
+  font-size: 1.2em;
+  line-height: 1.8;
   color: #475569;
   font-style: italic;
-  padding: 15px;
-  background: rgba(239, 68, 68, 0.05);
-  border-radius: 8px;
-  border-left: 4px solid #ef4444;
+  padding: 20px;
+  background: rgba(59, 130, 246, 0.08);
+  border-radius: 12px;
+  border-left: 4px solid #3b82f6;
 }
 
 /* Visualisation avec image et exemple */
 .example-visualization {
   display: flex;
-  gap: 30px;
+  justify-content: flex-start;
   align-items: flex-start;
-  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .problem-image {
-  max-width: 400px;
-  width: 100%;
+  max-width: 300px;
+  width: auto;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border: 3px solid rgba(239, 68, 68, 0.2);
-}
-
-.example-box {
-  flex: 1;
-  min-width: 300px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%);
-  padding: 25px;
-  border-radius: 12px;
-  border: 2px solid rgba(239, 68, 68, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
-.example-box h3 {
-  color: #dc2626;
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  text-align: center;
-  font-weight: 700;
-}
-
-.sentence-example {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.sentence-part {
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+  border: 3px solid rgba(239, 68, 68, 0.3);
   transition: all 0.3s ease;
 }
 
-.sentence-part.start {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
-  border: 2px solid rgba(34, 197, 94, 0.3);
+.problem-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
 }
 
-.sentence-part.middle {
-  background: linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(234, 179, 8, 0.05) 100%);
-  border: 2px solid rgba(234, 179, 8, 0.3);
-}
-
-.sentence-part.end {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
-  border: 2px solid rgba(239, 68, 68, 0.3);
-}
-
-.part-label {
-  font-size: 0.9em;
-  font-weight: 600;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.sentence-text {
-  font-size: 1.2em;
-  line-height: 1.6;
-  color: #1e293b;
-}
-
-.sentence-text strong {
-  color: #dc2626;
-  font-weight: 700;
-  background: rgba(239, 68, 68, 0.1);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.memory-indicator {
-  font-size: 1em;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 6px;
-  display: inline-block;
-  width: fit-content;
-}
-
-.memory-indicator.high {
-  background: rgba(34, 197, 94, 0.15);
-  color: #16a34a;
-}
-
-.memory-indicator.medium {
-  background: rgba(234, 179, 8, 0.15);
-  color: #ca8a04;
-}
-
-.memory-indicator.low {
-  background: rgba(239, 68, 68, 0.15);
-  color: #dc2626;
-}
-
-.arrow-down {
-  text-align: center;
-  font-size: 1.5em;
-  color: #64748b;
-  font-weight: bold;
-}
 
 /* Section explicative */
 .explanation-section {
@@ -290,24 +209,12 @@
     font-size: 1em;
   }
 
-  .example-visualization {
-    flex-direction: column;
-  }
-
   .problem-image {
     max-width: 100%;
   }
 
-  .example-box {
-    min-width: 100%;
-  }
-
   .consequences-grid {
     grid-template-columns: 1fr;
-  }
-
-  .sentence-text {
-    font-size: 1em;
   }
 }
 

@@ -60,22 +60,35 @@
 }
 
 .formula-card {
-  background: rgba(239, 246, 255, 0.95);
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.8) 0%, rgba(219, 234, 254, 0.8) 100%);
   padding: 25px;
-  border-radius: 12px;
-  border-left: 4px solid #3b82f6;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  border: 2px solid rgba(147, 197, 253, 0.4);
+  box-shadow: 0 4px 15px rgba(147, 197, 253, 0.2);
+  transition: all 0.3s ease;
+}
+
+.formula-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(147, 197, 253, 0.3);
+  border-color: rgba(147, 197, 253, 0.6);
 }
 
 .formula-card.output-formula {
-  background: rgba(240, 253, 244, 0.95);
-  border-left-color: #22c55e;
+  background: linear-gradient(135deg, rgba(240, 253, 244, 0.8) 0%, rgba(209, 250, 229, 0.8) 100%);
+  border: 2px solid rgba(134, 239, 172, 0.4);
+  box-shadow: 0 4px 15px rgba(134, 239, 172, 0.2);
+}
+
+.formula-card.output-formula:hover {
+  box-shadow: 0 6px 20px rgba(134, 239, 172, 0.3);
+  border-color: rgba(134, 239, 172, 0.6);
 }
 
 .formula-card h4 {
   color: #1e40af;
   margin-bottom: 15px;
-  font-size: 1.3em;
+  font-size: 2em !important;
   font-weight: 700;
 }
 
@@ -85,28 +98,28 @@
 
 .formula-code {
   font-family: 'Courier New', monospace;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 18px;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9) !important;
+  padding: 18px 25px !important;
+  border-radius: 12px !important;
   margin: 15px 0;
-  font-size: 1.3em;
+  font-size: 2em !important;
   text-align: center;
   color: #1e40af;
-  border: 2px solid rgba(59, 130, 246, 0.3);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(147, 197, 253, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(147, 197, 253, 0.15) !important;
 }
 
 .formula-explanation {
   margin-top: 15px;
-  padding-top: 15px;
-  border-top: 2px solid rgba(59, 130, 246, 0.2);
+  padding-top: 0;
+  border-top: none;
 }
 
 .formula-card p {
   color: #1e3a8a;
   line-height: 1.7;
   margin: 0;
-  font-size: 1.05em;
+  font-size: 1em !important;
 }
 
 .highlight-blue {
@@ -205,12 +218,20 @@
   }
   
   .formula-card {
-    padding: 15px;
+    padding: 20px;
+  }
+
+  .formula-card h4 {
+    font-size: 1.8em;
   }
   
   .formula-code {
-    font-size: 1em;
-    padding: 10px;
+    font-size: 1.8em;
+    padding: 15px 20px !important;
+  }
+
+  .formula-card p {
+    font-size: 1em !important;
   }
   
   .parameters-grid {

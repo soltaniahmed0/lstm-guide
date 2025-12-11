@@ -86,103 +86,35 @@ function ConclusionSlide() {
               <h2>⚖️ LSTM vs Transformers</h2>
               <p className="section-subtitle">Comparaison des architectures pour choisir la meilleure solution</p>
             </div>
-            <div className="comparison-container">
-              <div className="comparison-cards">
-                <div className="comparison-card lstm-comparison">
-                  <div className="comparison-header">
-                    <div className="comparison-icon">🧠</div>
-                    <h3>LSTM</h3>
-                  </div>
-                  <div className="comparison-features">
-                    <div className="feature-item">
-                      <span className="feature-label">Architecture</span>
-                      <span className="feature-value">Récurrente (séquentielle)</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Traitement</span>
-                      <span className="feature-value">Séquentiel (pas par pas)</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Mémoire</span>
-                      <span className="feature-value">Cell State + Hidden State</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Longueur</span>
-                      <span className="feature-value">Quelques centaines</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Vitesse</span>
-                      <span className="feature-value">Lente (séquentielle)</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Complexité</span>
-                      <span className="feature-value">Modérée</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="comparison-card transformer-comparison">
-                  <div className="comparison-header">
-                    <div className="comparison-icon">🤖</div>
-                    <h3>Transformers</h3>
-                  </div>
-                  <div className="comparison-features">
-                    <div className="feature-item">
-                      <span className="feature-label">Architecture</span>
-                      <span className="feature-value">Attention (parallèle)</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Traitement</span>
-                      <span className="feature-value">Parallèle (tous les tokens)</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Mémoire</span>
-                      <span className="feature-value">Attention Mechanism</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Longueur</span>
-                      <span className="feature-value">Plusieurs milliers</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Vitesse</span>
-                      <span className="feature-value">Rapide (parallèle)</span>
-                    </div>
-                    <div className="feature-item">
-                      <span className="feature-label">Complexité</span>
-                      <span className="feature-value">Élevée</span>
-                    </div>
-                  </div>
-                </div>
+            <div className="comparison-simple">
+              <div className="comparison-column">
+                <h3 className="comparison-subtitle">🧠 LSTM</h3>
+                <ul className="simple-list">
+                  <li><strong>Architecture :</strong> Récurrente (séquentielle)</li>
+                  <li><strong>Traitement :</strong> Séquentiel (pas par pas)</li>
+                  <li><strong>Mémoire :</strong> Cell State + Hidden State</li>
+                  <li><strong>Longueur :</strong> Quelques centaines</li>
+                  <li><strong>Vitesse :</strong> Lente (séquentielle)</li>
+                  <li><strong>Complexité :</strong> Modérée</li>
+                </ul>
+              </div>
+              <div className="comparison-column">
+                <h3 className="comparison-subtitle">🤖 Transformers</h3>
+                <ul className="simple-list">
+                  <li><strong>Architecture :</strong> Attention (parallèle)</li>
+                  <li><strong>Traitement :</strong> Parallèle (tous les tokens)</li>
+                  <li><strong>Mémoire :</strong> Attention Mechanism</li>
+                  <li><strong>Longueur :</strong> Plusieurs milliers</li>
+                  <li><strong>Vitesse :</strong> Rapide (parallèle)</li>
+                  <li><strong>Complexité :</strong> Élevée</li>
+                </ul>
               </div>
             </div>
-            <div className="when-to-use">
-              <h3>💡 Quand utiliser quoi ?</h3>
-              <div className="use-cases">
-                <div className="use-case lstm-use">
-                  <div className="use-header">
-                    <div className="use-icon">✅</div>
-                    <h4>Utilisez LSTM pour :</h4>
-                  </div>
-                  <ul>
-                    <li><span className="check">✓</span> Séries temporelles univariées</li>
-                    <li><span className="check">✓</span> Données séquentielles courtes à moyennes</li>
-                    <li><span className="check">✓</span> Ressources limitées</li>
-                    <li><span className="check">✓</span> Modèles plus simples à comprendre</li>
-                    <li><span className="check">✓</span> Applications temps réel</li>
-                  </ul>
-                </div>
-                <div className="use-case transformer-use">
-                  <div className="use-header">
-                    <div className="use-icon">✅</div>
-                    <h4>Utilisez Transformers pour :</h4>
-                  </div>
-                  <ul>
-                    <li><span className="check">✓</span> NLP avancé (traduction, génération)</li>
-                    <li><span className="check">✓</span> Très longues séquences</li>
-                    <li><span className="check">✓</span> Ressources computationnelles importantes</li>
-                    <li><span className="check">✓</span> Modèles de pointe (GPT, BERT)</li>
-                    <li><span className="check">✓</span> Attention explicite nécessaire</li>
-                  </ul>
-                </div>
+            <div className="when-to-use-simple">
+              <h3 className="when-title">💡 Quand utiliser quoi ?</h3>
+              <div className="use-simple">
+                <p className="use-paragraph"><strong>Utilisez LSTM pour :</strong> Séries temporelles univariées, données séquentielles courtes à moyennes, ressources limitées, modèles plus simples à comprendre, applications temps réel.</p>
+                <p className="use-paragraph"><strong>Utilisez Transformers pour :</strong> NLP avancé (traduction, génération), très longues séquences, ressources computationnelles importantes, modèles de pointe (GPT, BERT), attention explicite nécessaire.</p>
               </div>
             </div>
           </div>
@@ -194,53 +126,32 @@ function ConclusionSlide() {
               <h2>🔮 Perspectives Futures</h2>
               <p className="section-subtitle">Tendances et défis à venir dans le domaine des réseaux de neurones récurrents</p>
             </div>
-            <div className="future-trends">
-              <div className="trend-card evolution-card">
-                <div className="trend-header">
-                  <div className="trend-icon">🔮</div>
-                  <h3>Évolutions</h3>
-                </div>
-                <ul>
-                  <li>
-                    <span className="trend-badge">Hybridation</span>
-                    <span className="trend-text">Combinaison LSTM + Transformers</span>
-                  </li>
-                  <li>
-                    <span className="trend-badge">Efficacité</span>
-                    <span className="trend-text">Modèles plus légers et rapides</span>
-                  </li>
-                  <li>
-                    <span className="trend-badge">Domaines</span>
-                    <span className="trend-text">Expansion vers nouveaux domaines</span>
-                  </li>
-                  <li>
-                    <span className="trend-badge">Hardware</span>
-                    <span className="trend-text">Optimisation pour GPU/TPU</span>
-                  </li>
+            <div className="future-simple">
+              <div className="future-section-item">
+                <h3 className="future-subtitle">🔮 Évolutions</h3>
+                <ul className="simple-list">
+                  <li><strong>Hybridation :</strong> Combinaison LSTM + Transformers</li>
+                  <li><strong>Efficacité :</strong> Modèles plus légers et rapides</li>
+                  <li><strong>Domaines :</strong> Expansion vers nouveaux domaines</li>
+                  <li><strong>Hardware :</strong> Optimisation pour GPU/TPU</li>
                 </ul>
               </div>
-              <div className="trend-card application-card">
-                <div className="trend-header">
-                  <div className="trend-icon">📈</div>
-                  <h3>Applications Émergentes</h3>
-                </div>
-                <ul>
-                  <li><span className="app-dot"></span> Médecine prédictive</li>
-                  <li><span className="app-dot"></span> Finance algorithmique</li>
-                  <li><span className="app-dot"></span> IoT et capteurs</li>
-                  <li><span className="app-dot"></span> Reconnaissance vocale avancée</li>
+              <div className="future-section-item">
+                <h3 className="future-subtitle">📈 Applications Émergentes</h3>
+                <ul className="simple-list">
+                  <li>Médecine prédictive</li>
+                  <li>Finance algorithmique</li>
+                  <li>IoT et capteurs</li>
+                  <li>Reconnaissance vocale avancée</li>
                 </ul>
               </div>
-              <div className="trend-card challenge-card">
-                <div className="trend-header">
-                  <div className="trend-icon">🎯</div>
-                  <h3>Défis</h3>
-                </div>
-                <ul>
-                  <li><span className="challenge-icon">⚠️</span> Interprétabilité des modèles</li>
-                  <li><span className="challenge-icon">⚠️</span> Consommation énergétique</li>
-                  <li><span className="challenge-icon">⚠️</span> Biais et éthique</li>
-                  <li><span className="challenge-icon">⚠️</span> Généralisation</li>
+              <div className="future-section-item">
+                <h3 className="future-subtitle">🎯 Défis</h3>
+                <ul className="simple-list">
+                  <li>Interprétabilité des modèles</li>
+                  <li>Consommation énergétique</li>
+                  <li>Biais et éthique</li>
+                  <li>Généralisation</li>
                 </ul>
               </div>
             </div>

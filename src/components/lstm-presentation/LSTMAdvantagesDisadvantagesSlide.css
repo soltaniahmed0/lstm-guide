@@ -1,0 +1,140 @@
+.lstm-advantages-disadvantages-slide {
+  padding: 40px;
+  overflow-y: auto;
+  min-height: calc(100vh - 200px);
+}
+
+.comparison-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.advantages-section,
+.disadvantages-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.section-title {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 4px solid;
+}
+
+.advantages-title {
+  color: #16a34a;
+  border-bottom-color: #16a34a;
+}
+
+.disadvantages-title {
+  color: #dc2626;
+  border-bottom-color: #dc2626;
+}
+
+.title-icon {
+  font-size: 1.2em;
+}
+
+.items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.item-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 25px;
+  border-left: 5px solid;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.advantage-card {
+  border-left-color: #16a34a;
+  background: linear-gradient(135deg, rgba(240, 253, 244, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.advantage-card:hover {
+  box-shadow: 0 6px 25px rgba(22, 163, 74, 0.2);
+}
+
+.disadvantage-card {
+  border-left-color: #dc2626;
+  background: linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.disadvantage-card:hover {
+  box-shadow: 0 6px 25px rgba(220, 38, 38, 0.2);
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.item-icon {
+  font-size: 1.5em;
+  flex-shrink: 0;
+}
+
+.item-title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.item-description {
+  font-size: 1.1em;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+}
+
+@media (max-width: 1200px) {
+  .comparison-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .section-title {
+    font-size: 1.8em;
+  }
+}
+
+@media (max-width: 768px) {
+  .lstm-advantages-disadvantages-slide {
+    padding: 20px;
+  }
+
+  .item-card {
+    padding: 20px;
+  }
+
+  .item-title {
+    font-size: 1.2em;
+  }
+
+  .item-description {
+    font-size: 1em;
+  }
+}
+
