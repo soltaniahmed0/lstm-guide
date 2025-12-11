@@ -194,24 +194,6 @@ accuracy = (1 - mae/mean_price) * 100  # ~96%`,
           </div>
         </div>
       </div>
-
-      <div className="results-summary">
-        <h3>📊 Résultats :</h3>
-        <div className="results-grid">
-          <div className="result-item">
-            <div className="result-label">Précision</div>
-            <div className="result-value">96%</div>
-          </div>
-          <div className="result-item">
-            <div className="result-label">MAE</div>
-            <div className="result-value">~4%</div>
-          </div>
-            <div className="result-item">
-              <div className="result-label">R² Score</div>
-              <div className="result-value">&gt; 0.95</div>
-            </div>
-        </div>
-      </div>
     </div>
   )
 }

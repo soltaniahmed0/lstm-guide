@@ -11,10 +11,10 @@ function LSTMGatesSlide() {
       symbol: 'fₜ',
       color: '#FFE66D',
       purpose: 'Décide quelle information oublier de l\'état précédent Cₜ₋₁. Contrôle la rétention de la mémoire à long terme.',
-      formula: 'f<sub>t</sub> = σ(W<sub>hf</sub>h<sub>t-1</sub> + W<sub>xf</sub>x<sub>t</sub> + b<sub>f</sub>)',
+      formula: 'f<sub>t</sub> = σ(W<sub>f</sub> · [h<sub>t-1</sub>, x<sub>t</sub>] + b<sub>f</sub>)',
       detailed: [
-        'W<sub>hf</sub> : Matrice de poids pour h<sub>t-1</sub> (hidden state précédent)',
-        'W<sub>xf</sub> : Matrice de poids pour x<sub>t</sub> (input actuel)',
+        'W<sub>f</sub> : Matrice de poids pour la Forget Gate',
+        '[h<sub>t-1</sub>, x<sub>t</sub>] : Concatenation du hidden state précédent et de l\'input actuel',
         'σ : Fonction sigmoid (produit des valeurs entre 0 et 1)',
         'b<sub>f</sub> : Biais (terme constant)',
         '0 : Oublier complètement',
@@ -32,10 +32,10 @@ function LSTMGatesSlide() {
       symbol: 'iₜ',
       color: '#95E1D3',
       purpose: 'Décide quelle nouvelle information stocker dans le Cell State. Détermine l\'importance des nouvelles données.',
-      formula: 'i<sub>t</sub> = σ(W<sub>hi</sub>h<sub>t-1</sub> + W<sub>xi</sub>x<sub>t</sub> + b<sub>i</sub>)',
+      formula: 'i<sub>t</sub> = σ(W<sub>i</sub> · [h<sub>t-1</sub>, x<sub>t</sub>] + b<sub>i</sub>)',
       detailed: [
-        'W<sub>hi</sub> : Matrice de poids pour h<sub>t-1</sub> (hidden state précédent)',
-        'W<sub>xi</sub> : Matrice de poids pour x<sub>t</sub> (input actuel)',
+        'W<sub>i</sub> : Matrice de poids pour l\'Input Gate',
+        '[h<sub>t-1</sub>, x<sub>t</sub>] : Concatenation du hidden state précédent et de l\'input actuel',
         'σ : Fonction sigmoid (produit des valeurs entre 0 et 1)',
         'b<sub>i</sub> : Biais (terme constant)',
         'Résultat : Valeur entre 0 (ne rien stocker) et 1 (tout stocker)'
@@ -51,12 +51,12 @@ function LSTMGatesSlide() {
       symbol: 'C̃ₜ',
       color: '#C7CEEA',
       purpose: 'Nouvelles valeurs candidates pour le Cell State. Génère les informations potentielles à ajouter à la mémoire.',
-      formula: 'C̃<sub>t</sub> = tanh(W<sub>c̃h</sub>h<sub>t-1</sub> + W<sub>c̃x</sub>x<sub>t</sub> + b<sub>c̃</sub>)',
+      formula: 'C̃<sub>t</sub> = tanh(W<sub>c</sub> · [h<sub>t-1</sub>, x<sub>t</sub>] + b<sub>c</sub>)',
       detailed: [
-        'W<sub>c̃h</sub> : Matrice de poids pour h<sub>t-1</sub> (hidden state précédent)',
-        'W<sub>c̃x</sub> : Matrice de poids pour x<sub>t</sub> (input actuel)',
+        'W<sub>c</sub> : Matrice de poids pour les Candidate Values',
+        '[h<sub>t-1</sub>, x<sub>t</sub>] : Concatenation du hidden state précédent et de l\'input actuel',
         'tanh : Fonction d\'activation (produit des valeurs entre -1 et 1)',
-        'b<sub>c̃</sub> : Biais (terme constant)',
+        'b<sub>c</sub> : Biais (terme constant)',
         'Résultat : Valeurs candidates entre -1 et 1, filtrées par l\'Input Gate'
       ],
       output: 'Valeurs candidates entre -1 et 1',
@@ -70,10 +70,10 @@ function LSTMGatesSlide() {
       symbol: 'oₜ',
       color: '#F38181',
       purpose: 'Décide quelle partie du Cell State utiliser pour la sortie. Un vecteur de valeurs entre 0 et 1.',
-      formula: 'o<sub>t</sub> = σ(W<sub>ho</sub>h<sub>t-1</sub> + W<sub>xo</sub>x<sub>t</sub> + b<sub>o</sub>)',
+      formula: 'o<sub>t</sub> = σ(W<sub>o</sub> · [h<sub>t-1</sub>, x<sub>t</sub>] + b<sub>o</sub>)',
       detailed: [
-        'W<sub>ho</sub> : Matrice de poids pour h<sub>t-1</sub>',
-        'W<sub>xo</sub> : Matrice de poids pour x<sub>t</sub>',
+        'W<sub>o</sub> : Matrice de poids pour l\'Output Gate',
+        '[h<sub>t-1</sub>, x<sub>t</sub>] : Concatenation du hidden state précédent et de l\'input actuel',
         'σ : Fonction sigmoid (produit des valeurs entre 0 et 1)',
         'b<sub>o</sub> : Biais (terme constant)',
         'Résultat : Un vecteur de valeurs entre 0 et 1 qui filtre le Cell State',
@@ -145,13 +145,38 @@ function LSTMGatesSlide() {
             <div className="gate-content">
               <div className="formula-section">
                 <h3>📐 Formule Mathématique :</h3>
-                <div className="formula-box" style={{ borderColor: currentGate.color }}>
+                <div className="formula-box" style={{ borderLeftColor: currentGate.color }}>
                   <p className="main-formula" dangerouslySetInnerHTML={{ __html: currentGate.formula }}></p>
                   <div className="formula-breakdown">
                     {currentGate.detailed.map((detail, index) => (
-                      <p key={index} className="formula-detail" dangerouslySetInnerHTML={{ __html: `• ${detail}` }}></p>
+                      detail && detail.trim() && (
+                        <p key={index} className="formula-detail" dangerouslySetInnerHTML={{ __html: `• ${detail}` }}></p>
+                      )
                     ))}
                   </div>
+                </div>
+              </div>
+
+              {currentGate.mathOperation && (
+                <div className="operation-section">
+                  <h3>⚙️ Opération Mathématique :</h3>
+                  <div className="operation-box" style={{ borderLeftColor: currentGate.color }}>
+                    <p className="operation-formula" dangerouslySetInnerHTML={{ __html: currentGate.mathOperation }}></p>
+                    {currentGate.explanation && (
+                      <p className="operation-explanation">{currentGate.explanation}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <div className="output-section">
+                <h3>📤 Sortie :</h3>
+                <div className="output-box" style={{ borderLeftColor: currentGate.color }}>
+                  <p><strong>Rôle :</strong> {currentGate.role}</p>
+                  <p><strong>Valeur :</strong> {currentGate.output}</p>
+                  {currentGate.example && (
+                    <p className="example-text"><strong>Exemple :</strong> {currentGate.example}</p>
+                  )}
                 </div>
               </div>
             </div>

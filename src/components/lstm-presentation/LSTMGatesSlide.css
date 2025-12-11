@@ -6,24 +6,26 @@
   max-width: 2000px;
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 50px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .gates-image-section {
-  flex: 0 0 900px;
-  position: sticky;
-  top: 20px;
+  flex: 0 0 auto;
+  position: relative;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .gates-image {
   width: 100%;
   height: auto;
-  max-height: 95vh;
+  max-height: 60vh;
   object-fit: contain;
   filter: brightness(1.2) contrast(1.1);
 }
@@ -34,7 +36,8 @@
   flex-direction: column;
   gap: 35px;
   min-width: 0;
-  max-width: 900px;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .gates-selector {
@@ -66,10 +69,11 @@
 }
 
 .gate-btn.active {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 1);
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
   transform: translateY(-3px);
   color: #1e293b;
+  border-width: 4px;
 }
 
 .gate-btn-color {
@@ -89,8 +93,10 @@
 
 .gate-header {
   padding-bottom: 25px;
-  border-bottom: 4px solid;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 35px;
+  padding-left: 20px;
+  border-left: 5px solid;
 }
 
 .gate-header h2 {
@@ -114,9 +120,9 @@
 .formula-section,
 .operation-section,
 .output-section {
-  padding: 28px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
 }
 
 .formula-section h3,
@@ -125,13 +131,16 @@
   font-size: 1.6em;
   color: #1e293b;
   margin-bottom: 20px;
+  font-weight: 700;
+  padding-left: 5px;
 }
 
 .formula-box {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  border: none;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 25px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left: 5px solid;
 }
 
 .main-formula {
@@ -140,18 +149,19 @@
   color: #1e293b;
   font-weight: 700;
   margin-bottom: 20px;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-  text-align: left;
-  white-space: nowrap;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  text-align: center;
+  white-space: normal;
   overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .formula-breakdown {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .formula-detail {
@@ -162,45 +172,64 @@
 }
 
 .operation-box {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   padding: 25px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left: 5px solid;
 }
 
 .operation-formula {
-  font-size: 1.5em;
+  font-size: 1.6em;
   font-family: 'Courier New', monospace;
   color: #1e293b;
   font-weight: 700;
   margin-bottom: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
   text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .operation-explanation {
   font-size: 1.2em;
   color: #475569;
   line-height: 1.8;
-  text-align: center;
+  text-align: left;
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
 }
 
 .output-box {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   padding: 25px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-left: 5px solid;
 }
 
 .output-box p {
-  font-size: 1.3em;
+  font-size: 1.2em;
   line-height: 1.8;
   color: #1e293b;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
 }
 
 .example-text {
   font-size: 1.15em;
   color: #475569;
   font-style: italic;
-  margin-top: 15px;
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  border-left: 3px solid;
 }
 
 .gates-summary {
@@ -307,23 +336,17 @@
 }
 
 @media (max-width: 1200px) {
-  .gates-container {
-    flex-direction: column;
-  }
-
   .gates-image-section {
-    flex: 1 1 100%;
-    position: relative;
-    top: 0;
+    max-width: 100%;
   }
 
   .gates-image {
     max-width: 100%;
-    max-height: 500px;
+    max-height: 50vh;
   }
 
   .gates-content-wrapper {
-    min-width: 100%;
+    max-width: 100%;
   }
 }
 
