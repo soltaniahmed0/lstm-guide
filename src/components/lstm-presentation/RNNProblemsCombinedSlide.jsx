@@ -57,7 +57,7 @@ function RNNProblemsCombinedSlide() {
                 <p className="description-text">
                   C'est l'inverse du vanishing gradient. Pendant l'entraînement, au lieu de devenir trop petits, les gradients deviennent énormes, parfois infinis.
                   <br /><br />
-                  <strong>Conséquence :</strong> Les poids du réseau font des "sauts" gigantesques et incontrôlés au lieu de s'ajuster progressivement → le réseau devient instable et n'apprend pas correctement.
+                  <strong>Conséquence :</strong> Les poids du réseau font des "sauts" incontrôlés au lieu de s'ajuster progressivement → le réseau devient instable et n'apprend pas correctement.
                 </p>
               </div>
             </div>

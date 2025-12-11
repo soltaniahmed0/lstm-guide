@@ -194,6 +194,66 @@ accuracy = (1 - mae/mean_price) * 100  # ~96%`,
           </div>
         </div>
       </div>
+
+      <div className="parameters-table">
+        <h3>📊 TOTAL DES PARAMÈTRES</h3>
+        <table className="parameters-table-content">
+          <thead>
+            <tr>
+              <th>Couche</th>
+              <th>Paramètres</th>
+              <th>Explication</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Couche <span className="param-number">1</span> (LSTM)</td>
+              <td><span className="param-number">10,400</span> paramètres</td>
+              <td>
+                <strong>Formule :</strong> 4 × units × (units + input_dim + 1)<br/>
+                4 × 50 × (50 + 1 + 1) = 4 × 50 × 52 = <span className="param-number">10,400</span><br/>
+                <em>4 = nombre de gates (f, i, C̃, o), units = 50, input_dim = 1</em>
+              </td>
+            </tr>
+            <tr>
+              <td>Couche <span className="param-number">2</span> (LSTM)</td>
+              <td><span className="param-number">20,400</span> paramètres</td>
+              <td>
+                <strong>Formule :</strong> 4 × units × (units + units + 1)<br/>
+                4 × 50 × (50 + 50 + 1) = 4 × 50 × 101 = <span className="param-number">20,400</span><br/>
+                <em>4 = nombre de gates, input_dim = 50 (sortie de la couche précédente)</em>
+              </td>
+            </tr>
+            <tr>
+              <td>Couche <span className="param-number">3</span> (LSTM)</td>
+              <td><span className="param-number">20,400</span> paramètres</td>
+              <td>
+                <strong>Formule :</strong> 4 × units × (units + units + 1)<br/>
+                4 × 50 × (50 + 50 + 1) = 4 × 50 × 101 = <span className="param-number">20,400</span><br/>
+                <em>Même calcul que la couche 2, reçoit 50 dimensions</em>
+              </td>
+            </tr>
+            <tr>
+              <td>Dense</td>
+              <td><span className="param-number">51</span> paramètres</td>
+              <td>
+                <strong>Formule :</strong> units × input_dim + units<br/>
+                1 × 50 + 1 = 50 + 1 = <span className="param-number">51</span><br/>
+                <em>weights (50) + bias (1) = 51 paramètres</em>
+              </td>
+            </tr>
+            <tr className="total-row">
+              <td><strong>TOTAL:</strong></td>
+              <td><strong><span className="param-number">51,251</span> paramètres</strong></td>
+              <td>
+                <strong>Formule :</strong> 10,400 + 20,400 + 20,400 + 51<br/>
+                = <span className="param-number">51,251</span> paramètres<br/>
+                <em>Somme de tous les paramètres de toutes les couches</em>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

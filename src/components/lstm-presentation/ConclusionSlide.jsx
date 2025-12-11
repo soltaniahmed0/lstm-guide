@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './ConclusionSlide.css'
 
 function ConclusionSlide() {
-  const [selectedSection, setSelectedSection] = useState('summary')
+  const [selectedSection, setSelectedSection] = useState('transformers')
 
   return (
     <div className="slide conclusion-slide">
@@ -10,13 +10,6 @@ function ConclusionSlide() {
       
       <div className="conclusion-container">
         <div className="section-selector">
-          <button
-            className={`section-btn ${selectedSection === 'summary' ? 'active' : ''}`}
-            onClick={() => setSelectedSection('summary')}
-          >
-            <span className="btn-icon">📋</span>
-            <span className="btn-text">Résumé</span>
-          </button>
           <button
             className={`section-btn ${selectedSection === 'transformers' ? 'active' : ''}`}
             onClick={() => setSelectedSection('transformers')}
@@ -32,53 +25,6 @@ function ConclusionSlide() {
             <span className="btn-text">Perspectives</span>
           </button>
         </div>
-
-        {selectedSection === 'summary' && (
-          <div className="summary-section">
-            <div className="section-header">
-              <h2>📋 Résumé de la Présentation</h2>
-              <p className="section-subtitle">Points clés abordés dans cette présentation</p>
-            </div>
-            <div className="summary-grid">
-              <div className="summary-card rnn-card">
-                <div className="card-header">
-                  <div className="card-icon">🔄</div>
-                  <h3>RNN</h3>
-                </div>
-                <ul>
-                  <li><span className="bullet">•</span> Réseaux récurrents pour séquences</li>
-                  <li><span className="bullet">•</span> Problème : Vanishing/Exploding Gradient</li>
-                  <li><span className="bullet">•</span> Limite : ~10 pas de temps</li>
-                  <li><span className="bullet">•</span> Applications : NLP, séries temporelles</li>
-                </ul>
-              </div>
-              <div className="summary-card lstm-card">
-                <div className="card-header">
-                  <div className="card-icon">🧠</div>
-                  <h3>LSTM</h3>
-                </div>
-                <ul>
-                  <li><span className="bullet">•</span> Solution au problème des RNN</li>
-                  <li><span className="bullet">•</span> 5 neurones : 3 gates + Cell State + Hidden State</li>
-                  <li><span className="bullet">•</span> Peut traiter des centaines de pas</li>
-                  <li><span className="bullet">•</span> Applications : Traduction, prédiction, NLP</li>
-                </ul>
-              </div>
-              <div className="summary-card case-card">
-                <div className="card-header">
-                  <div className="card-icon">💼</div>
-                  <h3>Étude de Cas</h3>
-                </div>
-                <ul>
-                  <li><span className="bullet">•</span> Prédiction du prix de l'or</li>
-                  <li><span className="bullet">•</span> Architecture : 3 couches LSTM</li>
-                  <li><span className="bullet">•</span> Résultat : 96% de précision</li>
-                  <li><span className="bullet">•</span> Démonstration pratique réussie</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
 
         {selectedSection === 'transformers' && (
           <div className="transformers-section">
