@@ -286,17 +286,18 @@ function LSTMArchitectureSlide() {
         // Or simply adjust offsets. 
         // For h connections (VHV), the vertical segment is the last one.
         // We can place it near the gate.
-        positionWeightOnConnection('conn-h-to-forget', 'weight-W-f', 0.9, -20, 0)
-        positionWeightOnConnection('conn-x-to-forget', 'weight-U-f', 0.9, 20, 0)
+        positionWeightOnConnection('conn-h-to-forget', 'weight-W-f', 0.9, -40, 0)
+        positionWeightOnConnection('conn-x-to-forget', 'weight-U-f', 0.9, 40, 0)
         
-        positionWeightOnConnection('conn-h-to-input', 'weight-W-i', 0.9, -20, 0)
-        positionWeightOnConnection('conn-x-to-input', 'weight-U-i', 0.9, 20, 0)
+        positionWeightOnConnection('conn-h-to-input', 'weight-W-i', 0.9, -40, 0)
+        positionWeightOnConnection('conn-x-to-input', 'weight-U-i', 0.9, 40, 0)
         
-        positionWeightOnConnection('conn-h-to-candidate', 'weight-W-c', 0.9, -20, 0)
-        positionWeightOnConnection('conn-x-to-candidate', 'weight-U-c', 0.9, 20, 0)
+        // Move candidate weights lower to avoid overlap with input weights
+        positionWeightOnConnection('conn-h-to-candidate', 'weight-W-c', 0.75, -40, 0)
+        positionWeightOnConnection('conn-x-to-candidate', 'weight-U-c', 0.75, 40, 0)
         
-        positionWeightOnConnection('conn-h-to-output', 'weight-W-o', 0.9, -20, 0)
-        positionWeightOnConnection('conn-x-to-output', 'weight-U-o', 0.9, 20, 0)
+        positionWeightOnConnection('conn-h-to-output', 'weight-W-o', 0.9, -40, 0)
+        positionWeightOnConnection('conn-x-to-output', 'weight-U-o', 0.9, 40, 0)
       }, 100)
     }, 200)
   }
@@ -901,7 +902,7 @@ function LSTMArchitectureSlide() {
           </div>
 
           <div className="activation activation-tanh" id="tanh-C" style={{left:'960px', top:'322px'}}></div>
-          <div className="operation operation-multiply" id="mult-o" style={{left:'960px', top:'420px'}}></div>
+          <div className="operation operation-multiply" id="mult-o" style={{left:'826px', top:'420px'}}></div>
 
           <div className="node node-hidden-out" id="h-t" style={{left:'826px', top:'560px'}}>
             <div style={{fontSize:'14px'}}>h<sub>t</sub></div>
