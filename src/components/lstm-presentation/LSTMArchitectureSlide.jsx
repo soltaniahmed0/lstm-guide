@@ -75,117 +75,82 @@ function LSTMArchitectureSlide() {
     }
   }
 
-  function drawConnection(id, from, to, marker = 'arrowhead') {
+  function drawOrthogonalConnection(id, from, to, marker = 'arrowhead', options = {}) {
     const svg = svgRef.current
     if (!svg) return null
 
     const fromPos = getElementCenter(from)
     const toPos = getElementCenter(to)
 
-    // Calculate perpendicular offset for double parallel lines
-    const dx = toPos.x - fromPos.x
-    const dy = toPos.y - fromPos.y
-    const length = Math.sqrt(dx * dx + dy * dy)
-    const offset = 2.5 // Distance between parallel lines
+    let type = 'HV'
+    let inflection = null
+    let startOffset = { x: 0, y: 0 }
+    let endOffset = { x: 0, y: 0 }
     
-    // Perpendicular unit vector (avoid division by zero)
-    const perpX = length > 0 ? -dy / length : 0
-    const perpY = length > 0 ? dx / length : 1
-
-    // First parallel line (left/top) - no arrowhead
-    const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    line1.setAttribute('id', `${id}-line1`)
-    line1.setAttribute('x1', fromPos.x + perpX * offset)
-    line1.setAttribute('y1', fromPos.y + perpY * offset)
-    line1.setAttribute('x2', toPos.x + perpX * offset)
-    line1.setAttribute('y2', toPos.y + perpY * offset)
-    line1.setAttribute('stroke', '#000000')
-    line1.setAttribute('stroke-width', '3')
-    line1.setAttribute('stroke-linecap', 'round')
-    line1.setAttribute('class', 'flow-line flow-line-parallel')
-    line1.setAttribute('opacity', '0')
-    // Explicitly remove any marker-end - only line2 has arrowhead
-    line1.removeAttribute('marker-end')
-    svg.appendChild(line1)
-
-    // Second parallel line (right/bottom)
-    const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    line2.setAttribute('id', id)
-    line2.setAttribute('x1', fromPos.x - perpX * offset)
-    line2.setAttribute('y1', fromPos.y - perpY * offset)
-    line2.setAttribute('x2', toPos.x - perpX * offset)
-    line2.setAttribute('y2', toPos.y - perpY * offset)
-    line2.setAttribute('stroke', '#000000')
-    line2.setAttribute('stroke-width', '3')
-    line2.setAttribute('stroke-linecap', 'round')
-    line2.setAttribute('class', 'flow-line flow-line-parallel')
-    line2.setAttribute('data-from', from)
-    line2.setAttribute('data-to', to)
-    if (marker && marker !== '') {
-      line2.setAttribute('marker-end', `url(#${marker})`)
+    if (typeof options === 'string') {
+      type = options
+    } else {
+      type = options.type || 'HV'
+      inflection = options.inflection
+      if (options.startOffset) {
+        startOffset = options.startOffset
+      }
+      if (options.endOffset) {
+        endOffset = options.endOffset
+      }
     }
-    line2.setAttribute('opacity', '0')
-    svg.appendChild(line2)
+
+    // Apply offsets
+    fromPos.x += startOffset.x || 0
+    fromPos.y += startOffset.y || 0
+    toPos.x += endOffset.x || 0
+    toPos.y += endOffset.y || 0
+
+    let points = []
+    points.push({ x: fromPos.x, y: fromPos.y })
+
+    if (type === 'HV') {
+      points.push({ x: toPos.x, y: fromPos.y })
+    } else if (type === 'VH') {
+      points.push({ x: fromPos.x, y: toPos.y })
+    } else if (type === 'VHV') {
+      const midY = inflection !== undefined ? inflection : (fromPos.y + toPos.y) / 2
+      points.push({ x: fromPos.x, y: midY })
+      points.push({ x: toPos.x, y: midY })
+    } else if (type === 'HVH') {
+      const midX = inflection !== undefined ? inflection : (fromPos.x + toPos.x) / 2
+      points.push({ x: midX, y: fromPos.y })
+      points.push({ x: midX, y: toPos.y })
+    }
     
-    return line2
+    points.push({ x: toPos.x, y: toPos.y })
+
+    // Generate simple path d attribute
+    let d = `M ${points[0].x} ${points[0].y}`
+    for (let i = 1; i < points.length; i++) {
+      d += ` L ${points[i].x} ${points[i].y}`
+    }
+
+    // Draw single line
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+    path.setAttribute('id', id)
+    path.setAttribute('d', d)
+    path.setAttribute('stroke', '#000000')
+    path.setAttribute('stroke-width', '3')
+    path.setAttribute('stroke-linecap', 'round')
+    path.setAttribute('fill', 'none')
+    path.setAttribute('class', 'flow-line')
+    path.setAttribute('data-from', from)
+    path.setAttribute('data-to', to)
+    if (marker && marker !== '') {
+      path.setAttribute('marker-end', `url(#${marker})`)
+    }
+    path.setAttribute('opacity', '0')
+    svg.appendChild(path)
+    
+    return path
   }
 
-  function drawCurvedConnection(id, from, to, marker = 'arrowhead', curvature = 0) {
-    const svg = svgRef.current
-    if (!svg) return null
-
-    const fromPos = getElementCenter(from)
-    const toPos = getElementCenter(to)
-
-    const midX = (fromPos.x + toPos.x) / 2
-    const midY = (fromPos.y + toPos.y) / 2
-    const controlY = midY + curvature
-
-    // Calculate perpendicular offset for double parallel lines
-    const dx = toPos.x - fromPos.x
-    const dy = toPos.y - fromPos.y
-    const length = Math.sqrt(dx * dx + dy * dy)
-    const offset = 2.5 // Distance between parallel lines
-    
-    // Perpendicular unit vector (avoid division by zero)
-    const perpX = length > 0 ? -dy / length : 0
-    const perpY = length > 0 ? dx / length : 1
-
-    // First parallel curved path (left/top) - no arrowhead
-    const d1 = `M ${fromPos.x + perpX * offset} ${fromPos.y + perpY * offset} Q ${midX + perpX * offset} ${controlY + perpY * offset} ${toPos.x + perpX * offset} ${toPos.y + perpY * offset}`
-    const path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    path1.setAttribute('id', `${id}-line1`)
-    path1.setAttribute('d', d1)
-    path1.setAttribute('stroke', '#000000')
-    path1.setAttribute('stroke-width', '3')
-    path1.setAttribute('stroke-linecap', 'round')
-    path1.setAttribute('fill', 'none')
-    path1.setAttribute('class', 'flow-line flow-line-parallel')
-    path1.setAttribute('opacity', '0')
-    // Explicitly remove any marker-end - only path2 has arrowhead
-    path1.removeAttribute('marker-end')
-    svg.appendChild(path1)
-
-    // Second parallel curved path (right/bottom)
-    const d2 = `M ${fromPos.x - perpX * offset} ${fromPos.y - perpY * offset} Q ${midX - perpX * offset} ${controlY - perpY * offset} ${toPos.x - perpX * offset} ${toPos.y - perpY * offset}`
-    const path2 = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    path2.setAttribute('id', id)
-    path2.setAttribute('d', d2)
-    path2.setAttribute('stroke', '#000000')
-    path2.setAttribute('stroke-width', '3')
-    path2.setAttribute('stroke-linecap', 'round')
-    path2.setAttribute('fill', 'none')
-    path2.setAttribute('class', 'flow-line flow-line-parallel')
-    path2.setAttribute('data-from', from)
-    path2.setAttribute('data-to', to)
-    if (marker && marker !== '') {
-      path2.setAttribute('marker-end', `url(#${marker})`)
-    }
-    path2.setAttribute('opacity', '0')
-    svg.appendChild(path2)
-    
-    return path2
-  }
 
   function showConnection(id) {
     const line = document.getElementById(id)
@@ -248,47 +213,21 @@ function LSTMArchitectureSlide() {
     const path = document.getElementById(connectionId)
     if (!path) return
 
-    let fromPos, toPos
-
-    // Try to get from data attributes first (most reliable)
-    const fromId = path.getAttribute('data-from')
-    const toId = path.getAttribute('data-to')
+    let targetPoint = { x: 0, y: 0 }
     
-    if (fromId && toId) {
-      fromPos = getElementCenter(fromId)
-      toPos = getElementCenter(toId)
-    } else if (path.getAttribute('x1') && path.getAttribute('x2')) {
-      // It's a line - use x1, y1, x2, y2
-      fromPos = {
-        x: parseFloat(path.getAttribute('x1')),
-        y: parseFloat(path.getAttribute('y1'))
-      }
-      toPos = {
-        x: parseFloat(path.getAttribute('x2')),
-        y: parseFloat(path.getAttribute('y2'))
-      }
-    } else if (path.getAttribute('d')) {
-      // It's a curved path - extract start and end points from the path
-      const d = path.getAttribute('d')
-      const match = d.match(/M\s+(\d+\.?\d*)\s+(\d+\.?\d*).*?(\d+\.?\d*)\s+(\d+\.?\d*)\s*$/)
-      if (match) {
-        fromPos = { x: parseFloat(match[1]), y: parseFloat(match[2]) }
-        toPos = { x: parseFloat(match[3]), y: parseFloat(match[4]) }
-      } else {
-        return // Can't determine positions
-      }
-    } else {
-      return // Unknown connection type
+    try {
+      const totalLength = path.getTotalLength()
+      const point = path.getPointAtLength(totalLength * offset)
+      targetPoint = { x: point.x, y: point.y }
+    } catch (e) {
+      // Fallback or ignore
+      return
     }
-
-    // Calculate position along the connection
-    const midX = fromPos.x + (toPos.x - fromPos.x) * offset
-    const midY = fromPos.y + (toPos.y - fromPos.y) * offset
 
     const weightEl = document.getElementById(weightElementId)
     if (weightEl) {
-      weightEl.style.left = (midX + offsetX) + 'px'
-      weightEl.style.top = (midY + offsetY) + 'px'
+      weightEl.style.left = (targetPoint.x + offsetX) + 'px'
+      weightEl.style.top = (targetPoint.y + offsetY) + 'px'
     }
   }
 
@@ -296,51 +235,68 @@ function LSTMArchitectureSlide() {
     clearConnections()
 
     setTimeout(() => {
-      // h_t-1 and X_t to gates
-      drawCurvedConnection('conn-h-to-forget', 'h-prev', 'sigmoid-f', 'arrowhead', -35)
-      drawCurvedConnection('conn-x-to-forget', 'X-t', 'sigmoid-f', 'arrowhead', 21)
-      drawCurvedConnection('conn-h-to-input', 'h-prev', 'sigmoid-i', 'arrowhead', 0)
-      drawCurvedConnection('conn-x-to-input', 'X-t', 'sigmoid-i', 'arrowhead', 21)
-      drawCurvedConnection('conn-h-to-candidate', 'h-prev', 'tanh-c', 'arrowhead', 35)
-      drawCurvedConnection('conn-x-to-candidate', 'X-t', 'tanh-c', 'arrowhead', 21)
-      drawCurvedConnection('conn-h-to-output', 'h-prev', 'sigmoid-o', 'arrowhead', 70)
-      drawCurvedConnection('conn-x-to-output', 'X-t', 'sigmoid-o', 'arrowhead', 70)
+        const inputBusY = 520
+        const nodeRadius = 25 // Approximate radius/half-width of nodes
+        
+        // h_t-1 and X_t to gates
+        // Use HV routing with startOffset to make arrows exit from the right side
+        // h_t-1 connections
+        drawOrthogonalConnection('conn-h-to-forget', 'h-prev', 'sigmoid-f', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: -15, y: 0 } })
+        drawOrthogonalConnection('conn-h-to-input', 'h-prev', 'sigmoid-i', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: -15, y: 0 } })
+        drawOrthogonalConnection('conn-h-to-candidate', 'h-prev', 'tanh-c', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: -15, y: 0 } })
+        drawOrthogonalConnection('conn-h-to-output', 'h-prev', 'sigmoid-o', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: -15, y: 0 } })
 
-      // Sigmoid/Tanh to gates
-      drawConnection('conn-sigmoid-f-to-gate', 'sigmoid-f', 'gate-f', 'arrowhead')
-      drawConnection('conn-sigmoid-i-to-gate', 'sigmoid-i', 'gate-i', 'arrowhead')
-      drawConnection('conn-sigmoid-o-to-gate', 'sigmoid-o', 'gate-o', 'arrowhead')
-      drawConnection('conn-tanh-c-to-gate', 'tanh-c', 'gate-c', 'arrowhead')
+        // X_t connections
+        drawOrthogonalConnection('conn-x-to-forget', 'X-t', 'sigmoid-f', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: 15, y: 0 } })
+        drawOrthogonalConnection('conn-x-to-input', 'X-t', 'sigmoid-i', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: 15, y: 0 } })
+        drawOrthogonalConnection('conn-x-to-candidate', 'X-t', 'tanh-c', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: 15, y: 0 } })
+        drawOrthogonalConnection('conn-x-to-output', 'X-t', 'sigmoid-o', 'arrowhead', { type: 'HV', startOffset: { x: nodeRadius, y: 0 }, endOffset: { x: 15, y: 0 } })
+
+        // Sigmoid/Tanh to gates
+      drawOrthogonalConnection('conn-sigmoid-f-to-gate', 'sigmoid-f', 'gate-f', 'arrowhead', 'VH')
+      drawOrthogonalConnection('conn-sigmoid-i-to-gate', 'sigmoid-i', 'gate-i', 'arrowhead', 'VH')
+      drawOrthogonalConnection('conn-sigmoid-o-to-gate', 'sigmoid-o', 'gate-o', 'arrowhead', 'VH')
+      drawOrthogonalConnection('conn-tanh-c-to-gate', 'tanh-c', 'gate-c', 'arrowhead', 'VH')
 
       // Forget gate flow
-      drawCurvedConnection('conn-gate-f-to-mult', 'gate-f', 'mult-f', 'arrowhead', -70)
-      drawConnection('conn-Cprev-to-mult-f', 'C-prev', 'mult-f', 'arrowhead')
+      drawOrthogonalConnection('conn-gate-f-to-mult', 'gate-f', 'mult-f', 'arrowhead', 'HV')
+      drawOrthogonalConnection('conn-Cprev-to-mult-f', 'C-prev', 'mult-f', 'arrowhead', 'HV')
 
       // Input gate flow
-      drawCurvedConnection('conn-gate-i-to-mult-i', 'gate-i', 'mult-i', 'arrowhead', -56)
-      drawCurvedConnection('conn-gate-c-to-mult-i', 'gate-c', 'mult-i', 'arrowhead', -56)
+      drawOrthogonalConnection('conn-gate-i-to-mult-i', 'gate-i', 'mult-i', 'arrowhead', 'HV')
+      drawOrthogonalConnection('conn-gate-c-to-mult-i', 'gate-c', 'mult-i', 'arrowhead', 'HV')
 
       // Add operation
-      drawConnection('conn-mult-f-to-add', 'mult-f', 'add-C', 'arrowhead')
-      drawCurvedConnection('conn-mult-i-to-add', 'mult-i', 'add-C', 'arrowhead', 70)
+      drawOrthogonalConnection('conn-mult-f-to-add', 'mult-f', 'add-C', 'arrowhead', 'HV')
+      drawOrthogonalConnection('conn-mult-i-to-add', 'mult-i', 'add-C', 'arrowhead', 'VH')
 
       // Output flow
-      drawConnection('conn-add-to-Ct', 'add-C', 'C-t', 'arrowhead')
-      drawConnection('conn-Ct-to-tanh', 'C-t', 'tanh-C', 'arrowhead')
-      drawCurvedConnection('conn-tanh-C-to-mult-o', 'tanh-C', 'mult-o', 'arrowhead', 49)
-      drawCurvedConnection('conn-gate-o-to-mult-o', 'gate-o', 'mult-o', 'arrowhead', 70)
-      drawConnection('conn-mult-o-to-ht', 'mult-o', 'h-t', 'arrowhead')
+      drawOrthogonalConnection('conn-add-to-Ct', 'add-C', 'C-t', 'arrowhead', 'HV')
+      // Ct to tanh to output
+      drawOrthogonalConnection('conn-Ct-to-tanh', 'C-t', 'tanh-C', '', { type: 'HV', startOffset: { x: 0, y: 15 } })
+      drawOrthogonalConnection('conn-tanh-C-to-mult-o', 'tanh-C', 'mult-o', 'arrowhead', 'VH')
+      drawOrthogonalConnection('conn-gate-o-to-mult-o', 'gate-o', 'mult-o', 'arrowhead', 'VH')
+      drawOrthogonalConnection('conn-mult-o-to-ht', 'mult-o', 'h-t', 'arrowhead', 'VH')
 
       // Position weights
       setTimeout(() => {
-        positionWeightOnConnection('conn-h-to-forget', 'weight-W-f', 0.4, -21, 0)
-        positionWeightOnConnection('conn-x-to-forget', 'weight-U-f', 0.4, 21, 0)
-        positionWeightOnConnection('conn-h-to-input', 'weight-W-i', 0.4, -21, 0)
-        positionWeightOnConnection('conn-x-to-input', 'weight-U-i', 0.4, 21, 0)
-        positionWeightOnConnection('conn-h-to-candidate', 'weight-W-c', 0.4, -21, 0)
-        positionWeightOnConnection('conn-x-to-candidate', 'weight-U-c', 0.4, 21, 0)
-        positionWeightOnConnection('conn-h-to-output', 'weight-W-o', 0.4, -21, 0)
-        positionWeightOnConnection('conn-x-to-output', 'weight-U-o', 0.4, 21, 0)
+        // Place W_f, W_i, etc (h-prev) on the left vertical segment
+        // The vertical segment is at end of path. Path length ~ 140px vertical + horizontal part.
+        // We want it high up on the vertical segment.
+        // Or simply adjust offsets. 
+        // For h connections (VHV), the vertical segment is the last one.
+        // We can place it near the gate.
+        positionWeightOnConnection('conn-h-to-forget', 'weight-W-f', 0.9, -20, 0)
+        positionWeightOnConnection('conn-x-to-forget', 'weight-U-f', 0.9, 20, 0)
+        
+        positionWeightOnConnection('conn-h-to-input', 'weight-W-i', 0.9, -20, 0)
+        positionWeightOnConnection('conn-x-to-input', 'weight-U-i', 0.9, 20, 0)
+        
+        positionWeightOnConnection('conn-h-to-candidate', 'weight-W-c', 0.9, -20, 0)
+        positionWeightOnConnection('conn-x-to-candidate', 'weight-U-c', 0.9, 20, 0)
+        
+        positionWeightOnConnection('conn-h-to-output', 'weight-W-o', 0.9, -20, 0)
+        positionWeightOnConnection('conn-x-to-output', 'weight-U-o', 0.9, 20, 0)
       }, 100)
     }, 200)
   }
@@ -878,7 +834,7 @@ function LSTMArchitectureSlide() {
             <div className="value">{values.h_prev.toFixed(3)}</div>
           </div>
 
-          <div className="node node-input" id="X-t" style={{left:'472px', top:'560px'}}>
+          <div className="node node-input" id="X-t" style={{left:'35px', top:'680px'}}>
             <div style={{fontSize:'14px'}}>X<sub>t</sub></div>
             <div className="value">{values.X_t.toFixed(3)}</div>
           </div>
@@ -944,8 +900,8 @@ function LSTMArchitectureSlide() {
             <div className="value">{values.C_t !== null ? values.C_t.toFixed(3) : '0.000'}</div>
           </div>
 
-          <div className="activation activation-tanh" id="tanh-C" style={{left:'826px', top:'322px'}}></div>
-          <div className="operation operation-multiply" id="mult-o" style={{left:'805px', top:'420px'}}></div>
+          <div className="activation activation-tanh" id="tanh-C" style={{left:'960px', top:'322px'}}></div>
+          <div className="operation operation-multiply" id="mult-o" style={{left:'960px', top:'420px'}}></div>
 
           <div className="node node-hidden-out" id="h-t" style={{left:'826px', top:'560px'}}>
             <div style={{fontSize:'14px'}}>h<sub>t</sub></div>

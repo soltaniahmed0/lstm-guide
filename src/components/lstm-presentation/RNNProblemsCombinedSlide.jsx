@@ -53,11 +53,13 @@ function RNNProblemsCombinedSlide() {
               <img src={explodingImage} alt="Exploding Gradient" className="problem-diagram" />
             </div>
             <div className="text-section">
-              <div className="problem-description-box exploding">
+              <div className="problem-description-box">
                 <p className="description-text">
-                  C'est l'inverse du vanishing gradient. Pendant l'entraînement, au lieu de devenir trop petits, les gradients deviennent énormes, parfois infinis.
+                  Pendant l'entraînement, les gradients servent à ajuster les poids du réseau.
                   <br /><br />
-                  <strong>Conséquence :</strong> Les poids du réseau font des "sauts" incontrôlés au lieu de s'ajuster progressivement → le réseau devient instable et n'apprend pas correctement.
+                  <strong>Le problème :</strong> dans certains cas, en remontant vers les premières couches, ces gradients grossissent énormément (ils "explosent").
+                  <br /><br />
+                  <strong>Conséquence :</strong> les mises à jour des poids deviennent trop grandes → l'entraînement devient instable et la loss peut diverger.
                 </p>
               </div>
             </div>

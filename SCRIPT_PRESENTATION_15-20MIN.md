@@ -286,5 +286,6 @@ Si vous devez absolument tenir 15 minutes :
 ---
 
 **Bonne présentation ! 🎯**
-
+≠\;Rappel** : Le timing est indicatif. Adaptez selon votre rythme et les réactions de l'audience.
+≠
 **Rappel** : Le timing est indicatif. Adaptez selon votre rythme et les réactions de l'audience.
