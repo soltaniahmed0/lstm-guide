@@ -286,18 +286,18 @@ function LSTMArchitectureSlide() {
         // Or simply adjust offsets. 
         // For h connections (VHV), the vertical segment is the last one.
         // We can place it near the gate.
-        positionWeightOnConnection('conn-h-to-forget', 'weight-W-f', 0.9, -40, 0)
-        positionWeightOnConnection('conn-x-to-forget', 'weight-U-f', 0.9, 40, 0)
+        positionWeightOnConnection('conn-h-to-forget', 'weight-W-f', 0.9, -22, -6)
+        positionWeightOnConnection('conn-x-to-forget', 'weight-U-f', 0.9, 22, 6)
         
-        positionWeightOnConnection('conn-h-to-input', 'weight-W-i', 0.9, -40, 0)
-        positionWeightOnConnection('conn-x-to-input', 'weight-U-i', 0.9, 40, 0)
+        positionWeightOnConnection('conn-h-to-input', 'weight-W-i', 0.9, -22, -6)
+        positionWeightOnConnection('conn-x-to-input', 'weight-U-i', 0.9, 22, 6)
         
         // Move candidate weights lower to avoid overlap with input weights
-        positionWeightOnConnection('conn-h-to-candidate', 'weight-W-c', 0.75, -40, 0)
-        positionWeightOnConnection('conn-x-to-candidate', 'weight-U-c', 0.75, 40, 0)
+        positionWeightOnConnection('conn-h-to-candidate', 'weight-W-c', 0.75, -22, -6)
+        positionWeightOnConnection('conn-x-to-candidate', 'weight-U-c', 0.75, 22, 6)
         
-        positionWeightOnConnection('conn-h-to-output', 'weight-W-o', 0.9, -40, 0)
-        positionWeightOnConnection('conn-x-to-output', 'weight-U-o', 0.9, 40, 0)
+        positionWeightOnConnection('conn-h-to-output', 'weight-W-o', 0.9, -22, -6)
+        positionWeightOnConnection('conn-x-to-output', 'weight-U-o', 0.9, 22, 6)
       }, 100)
     }, 200)
   }

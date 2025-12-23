@@ -595,7 +595,7 @@ path[marker-end] {
 .weight-label {
   position: absolute;
   background: linear-gradient(135deg, #fff 0%, #f0f9ff 100%);
-  padding: 7px 10px;
+  padding: 4px 8px;
   border-radius: 7px;
   font-size: 10px;
   font-weight: bold;
@@ -605,8 +605,8 @@ path[marker-end] {
   z-index: 30;
   font-family: 'Courier New', monospace;
   text-align: center;
-  min-width: 38px;
-  transform: translate(-50%, -50%) scale(2);
+  min-width: 32px;
+  transform: translate(-50%, -50%) scale(1.4);
   opacity: 0;
   transition: all 0.4s ease;
   white-space: nowrap;
@@ -615,7 +615,7 @@ path[marker-end] {
 
 .weight-label.active {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(2.2);
+  transform: translate(-50%, -50%) scale(1.54);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6), 0 0 0 3px rgba(59, 130, 246, 0.2);
   animation: weightPulse 2s ease-in-out infinite;
 }
